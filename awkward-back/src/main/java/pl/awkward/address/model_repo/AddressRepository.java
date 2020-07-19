@@ -1,4 +1,4 @@
-package pl.awkward.address;
+package pl.awkward.address.model_repo;
 
 import pl.awkward.shared.BaseRepository;
 
