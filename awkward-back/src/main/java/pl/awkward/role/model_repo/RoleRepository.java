@@ -1,4 +1,4 @@
-package pl.awkward.role;
+package pl.awkward.role.model_repo;
 
 import pl.awkward.shared.BaseRepository;
 
