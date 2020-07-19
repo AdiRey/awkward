@@ -1,0 +1,84 @@
+/.idea/
+# compiled output
+/awkward-front/dist
+/awkward-front/tmp
+/awkward-front/out-tsc
+# Only exists if Bazel was run
+/awkward-front/bazel-out
+
+# dependencies
+/awkward-front/node_modules
+
+# profiling files
+/awkward-front/chrome-profiler-events*.json
+/awkward-front/speed-measure-plugin*.json
+
+# IDEs and editors
+/awkward-front/.idea
+/awkward-front/.project
+/awkward-front/.classpath
+/awkward-front/.c9/
+/awkward-front/*.launch
+/awkward-front/.settings/
+/awkward-front/*.sublime-workspace
+
+# IDE - VSCode
+/awkward-front/.vscode/*
+!/awkward-front/.vscode/settings.json
+!/awkward-front/.vscode/tasks.json
+!/awkward-front/.vscode/launch.json
+!/awkward-front/.vscode/extensions.json
+/awkward-front/.history/*
+
+# misc
+/awkward-front/sass-cache
+/awkward-front/connect.lock
+/awkward-front/coverage
+/awkward-front/libpeerconnection.log
+/awkward-front/npm-debug.log
+/awkward-front/yarn-error.log
+/awkward-front/testem.log
+/awkward-front/typings
+
+# System Files
+/awkward-front/.DS_Store
+/awkward-front/Thumbs.db
+
+
+################################################################
+#BACK
+/awkward-back/HELP.md
+/awkward-back/.gradle
+/awkward-back/build/
+!/awkward-back/gradle/wrapper/gradle-wrapper.jar
+!/awkward-back/**/src/main/**/build/
+!/awkward-back/**/src/test/**/build/
+
+### STS ###
+/awkward-back/.apt_generated
+/awkward-back/.classpath
+/awkward-back/.factorypath
+/awkward-back/.project
+/awkward-back/.settings
+/awkward-back/.springBeans
+/awkward-back/.sts4-cache
+
+### IntelliJ IDEA ###
+/awkward-back/.idea
+/awkward-back/*.iws
+/awkward-back/*.iml
+/awkward-back/*.ipr
+/awkward-back/out/
+!/awkward-back/**/src/main/**/out/
+!/awkward-back/**/src/test/**/out/
+
+### NetBeans ###
+/awkward-back/nbproject/private/
+/awkward-back/nbbuild/
+/awkward-back/dist/
+/awkward-back/nbdist/
+/awkward-back/.nb-gradle/
+
+### VS Code ###
+/awkward-back/.vscode/
+
