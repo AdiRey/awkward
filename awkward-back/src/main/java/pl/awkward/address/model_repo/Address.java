@@ -1,4 +1,4 @@
-package pl.awkward.address;
+package pl.awkward.address.model_repo;
 
 import lombok.Data;
 import pl.awkward.shared.BaseEntity;
