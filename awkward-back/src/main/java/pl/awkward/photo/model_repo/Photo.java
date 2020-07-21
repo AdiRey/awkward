@@ -16,7 +16,8 @@ public class Photo implements BaseEntity {
     private String path;
     private LocalDateTime addDate;
     @Column(columnDefinition = "boolean default false")
-    private Boolean isActive;
-    private Long userId;
+    private Boolean archive;
+    @Column(columnDefinition = "boolean default true")
     private Boolean active;
+    private Long userId;
 }
