@@ -7,6 +7,6 @@ import pl.awkward.shared.BaseRepository;
 import java.util.Optional;
 
 public interface PhotoRepository extends BaseRepository<Photo> {
-    Page<Photo> findAllByUserIdAndIsActiveOrderByAddDateDesc(Long userId, Boolean isActive, Pageable pageable);
+    Page<Photo> findAllByUserIdAndArchiveOrderByAddDateDesc(Long userId, Boolean archive, Pageable pageable);
     Optional<Photo> findByPath(String path);
 }
