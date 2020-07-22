@@ -88,3 +88,27 @@ INSERT INTO photo(path, add_date, archive, user_id) VALUES
 ('user_images/2/1b9ebcf62a1d4d6cadc898b62fe76ebf.png', '2020-07-15 12:28:31.536395000', 0, 2),
 ('user_images/3/105aadeff6bd4a13a0207485b9f2df00.png','2020-07-15 12:28:46.960154000', 0, 3),
 ('user_images/5/49cecfba5a454981bead2e391c12d14e.png','2020-07-15 12:28:49.520284000', 0, 5);
+
+/*                  ########## USER_INTERESTS ##########                 */
+
+INSERT INTO user_interest(user_id, interest_id) VALUES
+(1, 3),
+(1, 11),
+(2, 5),
+(3, 6),
+(4, 2),
+(7, 12),
+(7, 10),
+(6, 1);
+
+/*                  ########## USER_ADDRESSES ##########                 */
+
+INSERT INTO user_address(user_id, address_id) VALUES
+(1, 3),
+(1, 11),
+(2, 5),
+(3, 6),
+(4, 2),
+(7, 12),
+(7, 10),
+(6, 1);
