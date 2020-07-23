@@ -1,4 +1,5 @@
-package pl.awkward.profiles;
+package pl.awkward.configuration.profiles;
+
 
 import org.springframework.context.annotation.Profile;
 
@@ -9,6 +10,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-@Profile("prod")
-public @interface ProdProfile {
+@Profile("dev")
+public @interface DevProfile {
 }
