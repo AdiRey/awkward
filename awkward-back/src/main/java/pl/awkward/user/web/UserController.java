@@ -9,6 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.awkward.gender.Gender;
 import pl.awkward.gender.GenderRepository;
+import pl.awkward.liked.dtos.LikedCreateDto;
+import pl.awkward.liked.model_repo.Liked;
+import pl.awkward.liked.web.LikedService;
 import pl.awkward.photo.dtos.PhotoDto;
 import pl.awkward.photo.model_repo.Photo;
 import pl.awkward.photo.web.PhotoService;
@@ -41,6 +44,8 @@ public class UserController extends BaseCrudController<User> {
     private final UniversityRepository universityRepository;
     private final BaseConverter<Photo, PhotoDto> photoConverter;
     private final PasswordEncoder passwordEncoder;
+    private final BaseConverter<Liked, LikedCreateDto> likedCreateConverter;
+    private final LikedService likedService;
 
     public UserController(final BaseRepository<User> userRepository,
                           final BaseConverter<User, UserDto> userConverter,
@@ -53,7 +58,9 @@ public class UserController extends BaseCrudController<User> {
                           final GenderRepository genderRepository,
                           final UniversityRepository universityRepository,
                           final BaseConverter<Photo, PhotoDto> photoConverter,
-                          final PasswordEncoder passwordEncoder) {
+                          final PasswordEncoder passwordEncoder,
+                          final BaseConverter<Liked, LikedCreateDto> likedCreateConverter,
+                          final LikedService likedService) {
         super(userRepository);
         this.userConverter = userConverter;
         this.userCreateConverter = userCreateConverter;
@@ -66,6 +73,8 @@ public class UserController extends BaseCrudController<User> {
         this.universityRepository = universityRepository;
         this.photoConverter = photoConverter;
         this.passwordEncoder = passwordEncoder;
+        this.likedCreateConverter = likedCreateConverter;
+        this.likedService = likedService;
     }
 
     @GetMapping("")
@@ -159,10 +168,22 @@ public class UserController extends BaseCrudController<User> {
     }
 
     @GetMapping("/{id}/photos/{filename}")
-    public ResponseEntity<PhotoDto> getOnePhoto(@PathVariable Long id, @PathVariable String filename) {
+    public ResponseEntity<PhotoDto> getOnePhoto(@PathVariable final Long id, @PathVariable final String filename) {
         Optional<Photo> optionalPhoto = this.photoService.getOnePhoto(id, filename);
         return optionalPhoto
                 .map(p -> ResponseEntity.ok(this.photoConverter.toDto().apply(p)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    //liked
+
+    @PostMapping("/{id}/liked")
+    public ResponseEntity<Void> createLike(@PathVariable final Long id, @RequestBody @Valid final LikedCreateDto dto) {
+        Liked liked = this.likedCreateConverter.toEntity().apply(dto);
+        liked.setUserId(id);
+        final Liked saved = this.likedService.save(liked);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}")
+                .buildAndExpand(saved.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 }
