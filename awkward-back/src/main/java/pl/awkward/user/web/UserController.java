@@ -182,6 +182,8 @@ public class UserController extends BaseCrudController<User> {
         Liked liked = this.likedCreateConverter.toEntity().apply(dto);
         liked.setUserId(id);
         final Liked saved = this.likedService.save(liked);
+        if (this.likedService.canBeCouple(liked.getSecondUserId(), id))
+            ;
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}")
                 .buildAndExpand(saved.getId()).toUri();
         return ResponseEntity.created(location).build();

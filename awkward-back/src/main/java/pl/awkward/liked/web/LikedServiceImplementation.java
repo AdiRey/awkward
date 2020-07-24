@@ -20,4 +20,9 @@ public class LikedServiceImplementation implements LikedService{
         liked.setDate(LocalDateTime.now());
         return this.likedRepository.save(liked);
     }
+
+    @Override
+    public boolean canBeCouple(Long firstId, Long secondId) {
+        return this.likedRepository.findByUserIdAndSecondUserId(firstId, secondId).isPresent();
+    }
 }
