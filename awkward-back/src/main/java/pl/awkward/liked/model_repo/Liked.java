@@ -12,14 +12,15 @@ public class Liked implements BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private Long userId;
-    @Column(nullable = false)
+    @Column(columnDefinition = "boolean default true")
     private Byte status;
     @Column(nullable = false)
     private LocalDateTime date;
     @Column(nullable = false)
-    private Long secondUserId;
-    @Column(columnDefinition = "boolean default true")
     private Boolean active;
+
+    @Column(nullable = false)
+    private Long userId;
+    @Column(nullable = false)
+    private Long secondUserId;
 }
