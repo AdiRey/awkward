@@ -1,10 +1,12 @@
 package pl.awkward.user.web;
 
 import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.awkward.gender.Gender;
@@ -182,8 +184,19 @@ public class UserController extends BaseCrudController<User> {
         Liked liked = this.likedCreateConverter.toEntity().apply(dto);
         liked.setUserId(id);
         final Liked saved = this.likedService.save(liked);
-        if (this.likedService.canBeCouple(liked.getSecondUserId(), id))
-            ;
+        if (this.likedService.canBeCouple(liked.getSecondUserId(), id)) {
+            RestTemplate restTemplate = new RestTemplate();
+            MultiValueMap<String, Long> map = new LinkedMultiValueMap<>(2);
+            map.add("userIdFirst", id);
+            map.add("userIdSecond", liked.getSecondUserId());
+            HttpEntity<MultiValueMap<String, Long>> httpEntity = new HttpEntity<>(map, new HttpHeaders());
+            restTemplate.exchange(
+                    "localhost:8080/api/pairs",
+                    HttpMethod.POST,
+                    httpEntity,
+                    ResponseEntity.class
+            );
+        }
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}")
                 .buildAndExpand(saved.getId()).toUri();
         return ResponseEntity.created(location).build();
