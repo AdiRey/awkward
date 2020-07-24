@@ -13,8 +13,9 @@ public class University implements BaseEntity {
     private Long id;
     @Column(nullable = false, length = 100)
     private String name;
-    @Column(nullable = false)
-    private Long addressId;
     @Column(columnDefinition = "boolean default true")
     private Boolean active;
+
+    @Column(nullable = false)
+    private Long addressId;
 }

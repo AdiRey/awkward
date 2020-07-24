@@ -20,5 +20,8 @@ public class Photo implements BaseEntity {
     private Boolean archive;
     @Column(columnDefinition = "boolean default true")
     private Boolean active;
+
+    private Long addressId;
+    @Column(nullable = false)
     private Long userId;
 }
