@@ -8,7 +8,7 @@ public class BusinessCardDto {
     private String phoneNumber;
     private String facebookUrl;
     private String instUrl;
-    private String exactAddress;
+    private String snapName;
     private Long userId;
     private Boolean active;
 }

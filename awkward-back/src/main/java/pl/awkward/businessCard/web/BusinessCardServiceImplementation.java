@@ -26,7 +26,7 @@ public class BusinessCardServiceImplementation implements BusinessCardService {
         businessCard.setPhoneNumber(updateBusinessCard.getPhoneNumber());
         businessCard.setFacebookUrl(updateBusinessCard.getFacebookUrl());
         businessCard.setInstUrl(updateBusinessCard.getInstUrl());
-        businessCard.setExactAddress(businessCard.getExactAddress());
+        businessCard.setSnapName(businessCard.getSnapName());
         return true;
     }
 }

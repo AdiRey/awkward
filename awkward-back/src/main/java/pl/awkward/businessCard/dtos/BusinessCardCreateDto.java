@@ -11,8 +11,8 @@ public class BusinessCardCreateDto {
     private String phoneNumber;
     private String facebookUrl;
     private String instUrl;
-    @Size(max = 100)
-    private String exactAddress;
+    @Size(max = 50)
+    private String snapName;
     @NotNull
     private Long userId;
 }

@@ -3,15 +3,20 @@ package pl.awkward.user.web;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.awkward.gender.Gender;
+import pl.awkward.gender.GenderRepository;
 import pl.awkward.photo.dtos.PhotoDto;
 import pl.awkward.photo.model_repo.Photo;
 import pl.awkward.photo.web.PhotoService;
 import pl.awkward.shared.BaseConverter;
 import pl.awkward.shared.BaseCrudController;
 import pl.awkward.shared.BaseRepository;
+import pl.awkward.university.model_repo.University;
+import pl.awkward.university.model_repo.UniversityRepository;
 import pl.awkward.user.dtos.*;
 import pl.awkward.user.model_repo.User;
 
@@ -32,7 +37,10 @@ public class UserController extends BaseCrudController<User> {
     private final BaseConverter<User, UserRoleDto> userRoleConverter;
     private final UserService userService;
     private final PhotoService photoService;
+    private final GenderRepository genderRepository;
+    private final UniversityRepository universityRepository;
     private final BaseConverter<Photo, PhotoDto> photoConverter;
+    private final PasswordEncoder passwordEncoder;
 
     public UserController(final BaseRepository<User> userRepository,
                           final BaseConverter<User, UserDto> userConverter,
@@ -42,7 +50,10 @@ public class UserController extends BaseCrudController<User> {
                           final BaseConverter<User, UserRoleDto> userRoleConverter,
                           final UserService userService,
                           final PhotoService photoService,
-                          final BaseConverter<Photo, PhotoDto> photoConverter) {
+                          final GenderRepository genderRepository,
+                          final UniversityRepository universityRepository,
+                          final BaseConverter<Photo, PhotoDto> photoConverter,
+                          final PasswordEncoder passwordEncoder) {
         super(userRepository);
         this.userConverter = userConverter;
         this.userCreateConverter = userCreateConverter;
@@ -51,7 +62,10 @@ public class UserController extends BaseCrudController<User> {
         this.userRoleConverter = userRoleConverter;
         this.userService = userService;
         this.photoService = photoService;
+        this.genderRepository = genderRepository;
+        this.universityRepository = universityRepository;
         this.photoConverter = photoConverter;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("")
@@ -76,7 +90,15 @@ public class UserController extends BaseCrudController<User> {
     @PostMapping("")
     public ResponseEntity<Void> create(@RequestBody @Valid UserCreateDto dto) {
         this.userService.acceptableEmailAndLogin(dto.getEmail(), dto.getLogin());
+
+        Optional<Gender> optionalGender = this.genderRepository.findById(dto.getGenderId());
+        Optional<University> optionalUniversity = this.universityRepository.findById(dto.getUniversityId());
+        if (optionalGender.isEmpty() || optionalUniversity.isEmpty())
+            throw new IllegalArgumentException("University or gender doesn't exist.");
+
         dto.setAge(Period.between(dto.getDateOfBirth(), LocalDate.now()).getYears());
+        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+
         ResponseEntity<Void> voidResponseEntity = super.create(dto, this.userCreateConverter.toEntity());
         try {
             String[] split = Objects.requireNonNull(voidResponseEntity.getHeaders().getLocation()).getPath().split("/");

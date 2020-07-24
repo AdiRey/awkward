@@ -15,8 +15,8 @@ public class BusinessCard implements BaseEntity {
     private String phoneNumber;
     private String facebookUrl;
     private String instUrl;
-    @Column(length = 100)
-    private String exactAddress;
+    @Column(length = 50)
+    private String snapName;
     @Column(nullable = false)
     private Long userId;
     @Column(columnDefinition = "boolean default true")

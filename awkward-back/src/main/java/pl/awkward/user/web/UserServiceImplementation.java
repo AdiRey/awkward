@@ -7,6 +7,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.awkward.exceptions.DuplicateException;
+import pl.awkward.gender.Gender;
+import pl.awkward.university.model_repo.University;
 import pl.awkward.user.model_repo.User;
 import pl.awkward.user.model_repo.UserRepository;
 
@@ -39,6 +41,7 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
                 }
         );
     }
+
 
     @Override
     @Transactional

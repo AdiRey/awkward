@@ -17,7 +17,7 @@ public class BusinessCardConverter extends BaseConverter<BusinessCard, BusinessC
             convertIfNotNull(businessCard::setPhoneNumber, dto::getPhoneNumber);
             convertIfNotNull(businessCard::setFacebookUrl, dto::getFacebookUrl);
             convertIfNotNull(businessCard::setInstUrl, dto::getInstUrl);
-            convertIfNotNull(businessCard::setExactAddress, dto::getExactAddress);
+            convertIfNotNull(businessCard::setSnapName, dto::getSnapName);
             convertIfNotNull(businessCard::setUserId, dto::getUserId);
             convertIfNotNull(businessCard::setActive, dto::getActive);
             return businessCard;
@@ -32,7 +32,7 @@ public class BusinessCardConverter extends BaseConverter<BusinessCard, BusinessC
             convertIfNotNull(dto::setPhoneNumber, businessCard::getPhoneNumber);
             convertIfNotNull(dto::setFacebookUrl, businessCard::getFacebookUrl);
             convertIfNotNull(dto::setInstUrl, businessCard::getInstUrl);
-            convertIfNotNull(dto::setExactAddress, businessCard::getExactAddress);
+            convertIfNotNull(dto::setSnapName, businessCard::getSnapName);
             convertIfNotNull(dto::setUserId, businessCard::getUserId);
             convertIfNotNull(dto::setActive, businessCard::getActive);
             return dto;
