@@ -13,6 +13,10 @@ import pl.awkward.user.model_repo.User;
 import pl.awkward.user.model_repo.UserRepository;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Period;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -87,5 +91,18 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
         final File file = new File(PATH_TO_USER_DIR + id);
         if (!file.mkdir())
             throw new IllegalArgumentException("There is a problem, contact admin.");
+    }
+
+    @Override
+    @Transactional
+    public void refreshUsersAge() {
+        List<User> all = this.userRepository.findAll();
+        all
+                .parallelStream()
+                .forEach(u -> {
+                    final int years = Period.between(u.getDateOfBirth(), LocalDate.now()).getYears();
+                    if (years != u.getAge())
+                        u.setAge(Period.between(u.getDateOfBirth(), LocalDate.now()).getYears());
+                });
     }
 }
