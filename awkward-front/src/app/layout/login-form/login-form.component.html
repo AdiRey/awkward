@@ -1,0 +1,26 @@
+<div class="flexbox-column container-login">
+  <div class="quotes">
+    <p class="quote">Zacznij ...</p>
+    <p class="quote">Poznawać,</p>
+    <p class="quote">rozmawiac,</p>
+    <p class="quote">randkować,</p>
+    <p class="quote">zaprzyjaźniać</p>
+  </div>
+  <form class="flexbox-column form-flex" [formGroup]="profileForm">
+    <label class="form-flex-item">
+      <input formControlName="login" type="text" placeholder="Adres email lub login">
+    </label>
+    <label class="form-flex-item">
+      <input formControlName="password" type="password" placeholder="Hasło">
+    </label>
+    <button type="submit" [disabled]="!profileForm.valid" class="form-flex-item button">Zaloguj się</button>
+    <a routerLink="/register" class="form-flex-item" style="align-self: flex-end">ODZYSKAJ HASŁO</a>
+  </form>
+  <div>
+    <a>Nie masz konta?</a><br>
+    <button>Zarejestruj się</button>
+  </div>
+
+  Login: {{name}}
+  Password: {{pass}}
+</div>
