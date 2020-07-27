@@ -7,14 +7,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.awkward.exceptions.DuplicateException;
-import pl.awkward.gender.Gender;
-import pl.awkward.university.model_repo.University;
 import pl.awkward.user.model_repo.User;
 import pl.awkward.user.model_repo.UserRepository;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
 import java.util.Optional;
