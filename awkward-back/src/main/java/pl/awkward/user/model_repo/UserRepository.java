@@ -16,7 +16,7 @@ public interface UserRepository extends BaseRepository <User> {
                     "AND u.active IS true",
             countQuery = "SELECT COUNT(*) FROM user u " +
                     "WHERE (LOWER(u.name) LIKE CONCAT('%',LOWER(:name),'%') OR LOWER(u.surname) LIKE CONCAT('%',LOWER(:surname),'%'))" +
-                    "AND u.active IS true",
+                    "AND u.active IS true", //it is optional, use it otherwise change 'u.*' to '*' in the main query
             nativeQuery = true
     )
     Page<User> findAllByNameOrSurnameContainsAndActiveIsTrue(@Param("name") String name, @Param("surname") String surname, Pageable pageable);
