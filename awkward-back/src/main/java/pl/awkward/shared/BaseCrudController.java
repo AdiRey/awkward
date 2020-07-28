@@ -24,7 +24,7 @@ public abstract class BaseCrudController<E extends BaseEntity> {
                                               final Function<E, T> converter) {
         Sort.Direction sortDir = direction.equals("DESC")? Sort.Direction.DESC : Sort.Direction.ASC;
         Sort sort = Sort.by(new Sort.Order(sortDir, column));
-        Page<E> entityPage = this.repository.findAll(PageRequest.of(page, size, sort));
+        Page<E> entityPage = this.repository.findAllByActiveIsTrue(PageRequest.of(page, size, sort));
         return ResponseEntity.ok(entityPage.map(converter));
     }
 
