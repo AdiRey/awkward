@@ -30,7 +30,7 @@ public abstract class BaseCrudController<E extends BaseEntity> {
 
 
     protected <T> ResponseEntity<T> getOne(final Long id, Function<E, T> converter) {
-        Optional<E> optional = this.repository.findById(id);
+        Optional<E> optional = this.repository.findByIdAndActiveIsTrue(id);
         return optional
                 .map(e -> ResponseEntity.ok(converter.apply(e)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
