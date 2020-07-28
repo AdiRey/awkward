@@ -17,7 +17,7 @@ public class Liked implements BaseEntity {
     @Column(nullable = false)
     private LocalDateTime date;
     @Column(nullable = false)
-    private Boolean active;
+    private Boolean active= true;
 
     @Column(nullable = false)
     private Long userId;

@@ -20,14 +20,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserServiceImplementation implements pl.awkward.user.web.UserService {
     private final UserRepository userRepository;
-    private static final String PATH_TO_USER_DIR = "user_images/";
+    private static final String PATH_TO_USER_DIR = "awkward-back/user_images/";
 
     @Override
     public Page<User> getAllWithFilter(int page, int size, String column, String direction, String filter) {
         Sort.Direction sortDir = direction.equals("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Sort sort = Sort.by(new Sort.Order(sortDir, column));
         return this.userRepository
-                .findAllByNameContainingIgnoreCaseOrSurnameContainingIgnoreCase(filter, filter, PageRequest.of(page, size, sort));
+                .findAllByNameOrSurnameContainsAndActiveIsTrue(
+                        filter,
+                        filter,
+                        PageRequest.of(page, size, sort)
+                );
     }
 
     @Override
@@ -86,8 +90,7 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
     @Override
     public void createFolderViaId(final Long id) {
         final File file = new File(PATH_TO_USER_DIR + id);
-        if (!file.mkdir())
-            throw new IllegalArgumentException("There is a problem, contact admin.");
+        file.mkdir();
     }
 
     @Override

@@ -1,5 +1,7 @@
 package pl.awkward.liked.web;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pl.awkward.liked.model_repo.Liked;
 import pl.awkward.liked.model_repo.LikedRepository;
@@ -24,5 +26,10 @@ public class LikedServiceImplementation implements LikedService{
     @Override
     public boolean canBeCouple(Long firstId, Long secondId) {
         return this.likedRepository.findByUserIdAndSecondUserId(firstId, secondId).isPresent();
+    }
+
+    @Override
+    public Page<Liked> getAllPagination(Long userId, int page, int size, boolean isActive) {
+        return this.likedRepository.findAllByUserIdAndActive(userId, isActive, PageRequest.of(page, size));
     }
 }
