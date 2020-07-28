@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ import java.util.UUID;
 public class PhotoServiceImplementation implements PhotoService {
 
     private final PhotoRepository photoRepository;
-    private static final String PATH_PATTERN = "user_images/$1/$2";
+    private static final String PATH_PATTERN = "awkward-back/user_images/$1/$2";
 
     public PhotoServiceImplementation(PhotoRepository photoRepository) {
         this.photoRepository = photoRepository;
@@ -42,7 +43,7 @@ public class PhotoServiceImplementation implements PhotoService {
 
             final String final_path = PATH_PATTERN.replace("$1", String.valueOf(userId))
                     .replace("$2", UUID.randomUUID().toString().replace("-",""))
-                    + "." +file.getContentType().substring(6);
+                    + "." + Objects.requireNonNull(file.getContentType()).substring(6);
 
             Files.copy(inputStream, Paths.get(final_path), StandardCopyOption.REPLACE_EXISTING);
             photo.setPath(final_path);

@@ -28,7 +28,7 @@ public final class User implements BaseEntity {
     @Column(nullable = false)
     private String password;
     @Column(columnDefinition = "boolean default true")
-    private Boolean active;
+    private Boolean active = true;
 
     @Column(nullable = false)
     private Long genderId;

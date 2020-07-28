@@ -10,10 +10,6 @@ import java.time.LocalDateTime;
 public class LikedCreateDto {
     @NotNull
     private Byte status;
-    @Null
-    private LocalDateTime date;
-    @NotNull
-    private Long userId;
     @NotNull
     private Long secondUserId;
 }

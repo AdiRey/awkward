@@ -1,29 +1,30 @@
 package pl.awkward.user.web;
 
 import org.springframework.data.domain.Page;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.awkward.liked.dtos.LikedCreateDto;
+import pl.awkward.liked.dtos.LikedDto;
 import pl.awkward.liked.model_repo.Liked;
 import pl.awkward.liked.web.LikedService;
 import pl.awkward.photo.dtos.PhotoDto;
 import pl.awkward.photo.model_repo.Photo;
 import pl.awkward.photo.web.PhotoService;
-import pl.awkward.shared.BaseConverter;
-import pl.awkward.shared.BaseCrudController;
-import pl.awkward.shared.BaseRepository;
+import pl.awkward.shared.*;
 import pl.awkward.user.dtos.*;
 import pl.awkward.user.model_repo.User;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.Objects;
 import java.util.Optional;
@@ -40,6 +41,7 @@ public class UserController extends BaseCrudController<User> {
     private final PhotoService photoService;
     private final BaseConverter<Photo, PhotoDto> photoConverter;
     private final PasswordEncoder passwordEncoder;
+    private final BaseConverter<Liked, LikedDto> likedConverter;
     private final BaseConverter<Liked, LikedCreateDto> likedCreateConverter;
     private final LikedService likedService;
 
@@ -53,6 +55,7 @@ public class UserController extends BaseCrudController<User> {
                           final PhotoService photoService,
                           final BaseConverter<Photo, PhotoDto> photoConverter,
                           final PasswordEncoder passwordEncoder,
+                          final BaseConverter<Liked, LikedDto> likedConverter,
                           final BaseConverter<Liked, LikedCreateDto> likedCreateConverter,
                           final LikedService likedService) {
         super(userRepository);
@@ -65,6 +68,7 @@ public class UserController extends BaseCrudController<User> {
         this.photoService = photoService;
         this.photoConverter = photoConverter;
         this.passwordEncoder = passwordEncoder;
+        this.likedConverter = likedConverter;
         this.likedCreateConverter = likedCreateConverter;
         this.likedService = likedService;
     }
@@ -90,8 +94,6 @@ public class UserController extends BaseCrudController<User> {
 
     @PostMapping("")
     public ResponseEntity<Void> create(@RequestBody @Valid UserCreateDto dto) {
-        this.userService.acceptableEmailAndLogin(dto.getEmail(), dto.getLogin());
-
         dto.setAge(Period.between(dto.getDateOfBirth(), LocalDate.now()).getYears());
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
 
@@ -119,6 +121,7 @@ public class UserController extends BaseCrudController<User> {
 
     @PatchMapping("/{id}/password")
     public ResponseEntity<Void> updatePassword(@PathVariable final Long id, @RequestBody @Valid final UserPasswordDto dto) {
+        dto.setPassword(this.passwordEncoder.encode(dto.getPassword()));
         if (this.userService.updatePassword(id, this.userPasswordConverter.toEntity().apply(dto)))
             return ResponseEntity.noContent().build();
         return ResponseEntity.notFound().build();
@@ -168,22 +171,39 @@ public class UserController extends BaseCrudController<User> {
     public ResponseEntity<Void> createLike(@PathVariable final Long id, @RequestBody @Valid final LikedCreateDto dto) {
         Liked liked = this.likedCreateConverter.toEntity().apply(dto);
         liked.setUserId(id);
+        liked.setDate(LocalDateTime.now());
         final Liked saved = this.likedService.save(liked);
+
         if (this.likedService.canBeCouple(liked.getSecondUserId(), id)) {
             RestTemplate restTemplate = new RestTemplate();
-            MultiValueMap<String, Long> map = new LinkedMultiValueMap<>(2);
-            map.add("userIdFirst", id);
-            map.add("userIdSecond", liked.getSecondUserId());
-            HttpEntity<MultiValueMap<String, Long>> httpEntity = new HttpEntity<>(map, new HttpHeaders());
-            restTemplate.exchange(
-                    "localhost:8080/api/pairs",
-                    HttpMethod.POST,
+            JsonBuilder<String, Long> jsonBuilder = new JsonBuilder<>();
+
+            jsonBuilder.put("userIdFirst", id);
+            jsonBuilder.put("userIdSecond", liked.getSecondUserId());
+
+            HttpHeaders httpHeaders = new HttpHeaders();
+            httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<String> httpEntity = new HttpEntity<>(jsonBuilder.getJson(), httpHeaders);
+            System.out.println(jsonBuilder.getJson());
+
+            restTemplate.postForObject(
+                    ServletUriComponentsBuilder.fromCurrentContextPath().toUriString() + ApiList.PAIR_API.getPath(),
                     httpEntity,
-                    ResponseEntity.class
+                    Object.class
             );
         }
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}")
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(saved.getId()).toUri();
         return ResponseEntity.created(location).build();
+    }
+
+    @GetMapping("/{id}/liked")
+    public ResponseEntity<Page<LikedDto>> getAllLikes(@PathVariable Long id,
+                                                      @RequestParam(defaultValue = "0") final int page,
+                                                      @RequestParam(defaultValue = "20") final int size,
+                                                      @RequestParam(defaultValue = "true") final boolean active) {
+        Page<Liked> pageLikes = this.likedService.getAllPagination(id, page, size, active);
+        return ResponseEntity.ok(pageLikes.map(likedConverter.toDto()));
     }
 }
