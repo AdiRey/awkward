@@ -33,7 +33,7 @@ public class PhotoController extends BaseCrudController<Photo> {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PhotoDto> getOne(@PathVariable(name = "id") final Long id) {
+    public ResponseEntity<PhotoDto> getOne(@PathVariable final Long id) {
         return super.getOne(id, this.photoConverter.toDto());
     }
 

@@ -55,14 +55,6 @@ public class PhotoServiceImplementation implements PhotoService {
     }
 
     @Override
-    public Optional<Photo> getOnePhoto(final Long userId, final String filename) {
-        return this.photoRepository.findByPath(
-                PATH_PATTERN.replace("$1", String.valueOf(userId))
-                        .replace("$2", filename)
-        );
-    }
-
-    @Override
     public boolean updateActive(final Long photoId, final Boolean archive) {
         Optional<Photo> optionalPhoto = this.photoRepository.findById(photoId);
         if (optionalPhoto.isEmpty())

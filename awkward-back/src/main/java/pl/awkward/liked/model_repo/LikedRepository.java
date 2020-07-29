@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface LikedRepository extends BaseRepository<Liked> {
     Optional<Liked> findByUserIdAndSecondUserId(Long userId, Long secondUserId);
-    Page<Liked> findAllByUserIdAndActive(Long userId, boolean active, Pageable pageable);
+    Page<Liked> findAllByUserIdAndActiveOrderByDateDesc(Long userId, boolean active, Pageable pageable);
 }

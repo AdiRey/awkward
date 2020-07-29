@@ -1,17 +1,14 @@
 package pl.awkward.shared;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import pl.awkward.exceptions.DuplicateException;
 
 import java.net.URI;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -40,14 +37,10 @@ public abstract class BaseCrudController<E extends BaseEntity> {
     }
 
     protected <T> ResponseEntity<Void> create(final T t, Function<T, E> converter) {
-        try {
-            E saved = this.repository.save(converter.apply(t));
-            URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                    .buildAndExpand(saved.getId()).toUri();
-            return ResponseEntity.created(location).build();
-        } catch (DataIntegrityViolationException ex) {
-            throw new DuplicateException(Objects.requireNonNull(ex.getRootCause()).getMessage());
-        }
+        E saved = this.repository.save(converter.apply(t));
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(saved.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     protected ResponseEntity<Void> update(final boolean status) {

@@ -4,21 +4,23 @@ import com.google.common.base.Strings;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
+import pl.awkward.configuration.profiles.ProdProfile;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.security.KeyPair;
 
+@ProdProfile
 @Component
-public class JwtCreateFilter extends OncePerRequestFilter {
+public class JwtCreateFilter extends UsernamePasswordAuthenticationFilter {
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         String authorization = request.getHeader("Authorization");
         if (Strings.isNullOrEmpty(authorization) || !authorization.startsWith("Bearer ")) {
             KeyPair keyPair = Keys.keyPairFor(SignatureAlgorithm.RS256);
@@ -29,6 +31,6 @@ public class JwtCreateFilter extends OncePerRequestFilter {
                     .compact();
             response.addHeader("Authorization", "Bearer " + jws);
         }
-        filterChain.doFilter(request, response);
+        return new UsernamePasswordAuthenticationToken(null, null, null);
     }
 }

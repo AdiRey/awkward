@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pl.awkward.exceptions.DuplicateException;
+import pl.awkward.exceptions.OperationNotAllowedException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @RestControllerAdvice
 public class RestControllerExceptions {
@@ -41,6 +43,16 @@ public class RestControllerExceptions {
     @ExceptionHandler({PropertyReferenceException.class, IllegalArgumentException.class,
             NumberFormatException.class, DataIntegrityViolationException.class})
     public String handlePropertyException(RuntimeException ex) {
+        if (ex instanceof DataIntegrityViolationException) {
+            DataIntegrityViolationException dExp = (DataIntegrityViolationException) ex;
+            return Objects.requireNonNull(dExp.getRootCause()).getMessage();
+        }
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    @ExceptionHandler(OperationNotAllowedException.class)
+    public String handleOperationNotAllowedException(OperationNotAllowedException ex) {
         return ex.getMessage();
     }
 

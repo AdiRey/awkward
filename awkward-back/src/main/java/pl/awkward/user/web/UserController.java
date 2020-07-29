@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.awkward.exceptions.DuplicateException;
+import pl.awkward.exceptions.OperationNotAllowedException;
 import pl.awkward.liked.dtos.LikedCreateDto;
 import pl.awkward.liked.dtos.LikedDto;
 import pl.awkward.liked.model_repo.Liked;
@@ -27,7 +29,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.Objects;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/users")
@@ -114,7 +115,6 @@ public class UserController extends BaseCrudController<User> {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody @Valid final UserUpdateDto dto) {
-        this.userService.acceptableEmailAndLogin(dto.getEmail(), dto.getLogin());
         boolean status = this.userService.update(id, this.userUpdateConverter.toEntity().apply(dto));
         return super.update(status);
     }
@@ -157,24 +157,21 @@ public class UserController extends BaseCrudController<User> {
         return ResponseEntity.created(location).contentType(MediaType.parseMediaType(content)).build();
     }
 
-    @GetMapping("/{id}/photos/{filename}")
-    public ResponseEntity<PhotoDto> getOnePhoto(@PathVariable final Long id, @PathVariable final String filename) {
-        Optional<Photo> optionalPhoto = this.photoService.getOnePhoto(id, filename);
-        return optionalPhoto
-                .map(p -> ResponseEntity.ok(this.photoConverter.toDto().apply(p)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
     //liked
 
-    @PostMapping("/{id}/liked")
+    @PostMapping("/{id}/liked") // TODO: it is possible to like someone who's been already deleted, but: does it matter?
     public ResponseEntity<Void> createLike(@PathVariable final Long id, @RequestBody @Valid final LikedCreateDto dto) {
+        if(id.equals(dto.getSecondUserId()))
+            throw new OperationNotAllowedException("Nie możesz dać sam sobie lajka.");
+        else if (this.likedService.checkFirstIdAndSecondIdExist(id, dto.getSecondUserId()))
+            throw new DuplicateException("Już dałeś tej osobie lajka!");
         Liked liked = this.likedCreateConverter.toEntity().apply(dto);
         liked.setUserId(id);
         liked.setDate(LocalDateTime.now());
         final Liked saved = this.likedService.save(liked);
 
-        if (this.likedService.canBeCouple(liked.getSecondUserId(), id)) {
+        // Can be couple?
+        if (this.likedService.checkFirstIdAndSecondIdExist(liked.getSecondUserId(), id)) {
             RestTemplate restTemplate = new RestTemplate();
             JsonBuilder<String, Long> jsonBuilder = new JsonBuilder<>();
 
@@ -185,7 +182,6 @@ public class UserController extends BaseCrudController<User> {
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
             HttpEntity<String> httpEntity = new HttpEntity<>(jsonBuilder.getJson(), httpHeaders);
-            System.out.println(jsonBuilder.getJson());
 
             restTemplate.postForObject(
                     ServletUriComponentsBuilder.fromCurrentContextPath().toUriString() + ApiList.PAIR_API.getPath(),

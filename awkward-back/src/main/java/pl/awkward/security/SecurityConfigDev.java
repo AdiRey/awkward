@@ -9,14 +9,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.awkward.configuration.profiles.DevProfile;
-import pl.awkward.security.jwt.JwtCreateFilter;
 
 @DevProfile
 @Configuration
 @RequiredArgsConstructor
 public class SecurityConfigDev extends WebSecurityConfigurerAdapter {
 
-    private final JwtCreateFilter createFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

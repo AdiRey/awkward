@@ -23,23 +23,23 @@ public final class JsonBuilder <T, U> {
 
     public void put(T key, U object) {
         this.map.put(key, object);
-        cache = false;
+        this.cache = false;
     }
 
     public String getJson() {
-        if (!cache && !this.map.isEmpty()) {
+        if (!this.cache && !this.map.isEmpty()) {
             this.builder.setLength(0);
-            builder.append("{\n");
+            this.builder.append("{\n");
 
             this.map.forEach(
-                    (key, obj) -> builder.append("\t\"").append(key)
+                    (key, obj) -> this.builder.append("\t\"").append(key)
                             .append("\" : ")
                             .append("\"").append(obj).append("\",\n")
             );
-            builder.deleteCharAt(builder.length() - 2);
-            builder.append("}");
-            cache = true;
+            this.builder.deleteCharAt(this.builder.length() - 2);
+            this.builder.append("}");
+            this.cache = true;
         }
-        return builder.toString();
+        return this.builder.toString();
     }
 }

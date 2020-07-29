@@ -24,12 +24,12 @@ public class LikedServiceImplementation implements LikedService{
     }
 
     @Override
-    public boolean canBeCouple(Long firstId, Long secondId) {
+    public boolean checkFirstIdAndSecondIdExist(Long firstId, Long secondId) {
         return this.likedRepository.findByUserIdAndSecondUserId(firstId, secondId).isPresent();
     }
 
     @Override
     public Page<Liked> getAllPagination(Long userId, int page, int size, boolean isActive) {
-        return this.likedRepository.findAllByUserIdAndActive(userId, isActive, PageRequest.of(page, size));
+        return this.likedRepository.findAllByUserIdAndActiveOrderByDateDesc(userId, isActive, PageRequest.of(page, size));
     }
 }

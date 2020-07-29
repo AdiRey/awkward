@@ -35,20 +35,6 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
     }
 
     @Override
-    public void acceptableEmailAndLogin(final String email, final String login) {
-        Optional<User> user = this.userRepository.findFirstByEmailOrLogin(email, login);
-        user.ifPresent(
-                u -> {
-                    if (email.equals(u.getEmail()))
-                        throw new DuplicateException("User with that email already exists.");
-                    else
-                        throw new DuplicateException("User with that login already exists");
-                }
-        );
-    }
-
-
-    @Override
     @Transactional
     public boolean update(final Long id, final User updateUser) {
         Optional<User> optionalUser = this.userRepository.findById(id);

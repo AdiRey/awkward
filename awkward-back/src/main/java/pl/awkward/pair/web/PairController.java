@@ -46,7 +46,7 @@ public class PairController extends BaseCrudController<Pair> {
 
     @PostMapping("")
     public ResponseEntity<Void> create(@RequestBody @Valid PairCreateDto dto) {
-//        this.pairService.acceptableIds(dto.getUserIdFirst(), dto.getUserIdSecond());
+        this.pairService.acceptableIds(dto.getUserIdFirst(), dto.getUserIdSecond());
         return super.create(dto, this.pairCreateConverter.toEntity());
     }
 
