@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello chat!</title>
+    <script type="text/javascript" src="js/stomp.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+</head>
+<body>
+    <h1 style="font-style: italic">Let's try it! WSS...</h1> <br>
+    <div>
+        <label>
+            Write your id:
+            <input id="your-id" type="number"> <br>
+            <button onclick="setId()">Confirm</button>
+        </label> <br><br>
+
+        <label>
+            Write the id you want to chat with:
+            <input id="their-id" type="number"> <br>
+            <button onclick="writeToSpecifiedUserId()">Confirm</button>
+        </label> <br><br>
+
+        <label>
+            <button onclick="connectToChat()">Start WebSocket connection!</button>
+        </label> <br><br>
+
+        <label>
+            Your messages:
+            <input id="typedMessage" type="text">
+        </label> <br>
+
+        <label>
+            <button onclick="sendMsg()">Send</button>
+        </label> <br>
+
+        <br>
+        <p id="messageField"></p>
+    </div>
+</body>
+</html>
