@@ -28,12 +28,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<User> optionalUser = this.userRepository.findFirstByEmailOrLogin(username, username);
 
         if (optionalUser.isEmpty())
-            return null;
+            throw new UsernameNotFoundException("User not found");
 
         User user = optionalUser.get();
 
         return new org.springframework.security.core.userdetails.User(
-                user.getLogin(),
+                String.valueOf(user.getId()),
                 user.getPassword(),
                 getAuthorities(user.getRoleId())
         );

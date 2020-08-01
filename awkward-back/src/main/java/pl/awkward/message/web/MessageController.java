@@ -32,12 +32,13 @@ public class MessageController {
     public void sendTo(@DestinationVariable final Long toUserId, final MessageCreateDto dto) {
         System.out.println("message: " + dto + "; to: " + toUserId);
 
-/*        Optional<Pair> optionalPair = this.pairRepository.findByIdAndActiveIsTrue(toUserId);
+        /*Optional<Pair> optionalPair = this.pairRepository.findByIdAndActiveIsTrue(toUserId);
         if (optionalPair.isEmpty())
             throw new IllegalArgumentException("This pair doesn't exists.");*/
 
         Message message = this.messageCreateConverter.toEntity().apply(dto);
         message.setAddTime(LocalDateTime.now());
+//        message.setPairId(optionalPair.get().getId());
         message.setPairId(toUserId);
 
         this.simpMessagingTemplate
