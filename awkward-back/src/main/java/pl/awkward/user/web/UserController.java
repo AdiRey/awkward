@@ -33,6 +33,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping(path = "/api/users")
 public class UserController extends BaseCrudController<User> {
+    private final BaseConverter<User, UserShowDto> userShowConverter;
     private final BaseConverter<User, UserDto> userConverter;
     private final BaseConverter<User, UserCreateDto> userCreateConverter;
     private final BaseConverter<User, UserUpdateDto> userUpdateConverter;
@@ -46,7 +47,8 @@ public class UserController extends BaseCrudController<User> {
     private final BaseConverter<Liked, LikedCreateDto> likedCreateConverter;
     private final LikedService likedService;
 
-    public UserController(final BaseRepository<User> userRepository,
+    public UserController(final BaseConverter<User, UserShowDto> userShowConverter,
+                          final BaseRepository<User> userRepository,
                           final BaseConverter<User, UserDto> userConverter,
                           final BaseConverter<User, UserCreateDto> userCreateConverter,
                           final BaseConverter<User, UserUpdateDto> userUpdateConverter,
@@ -60,6 +62,7 @@ public class UserController extends BaseCrudController<User> {
                           final BaseConverter<Liked, LikedCreateDto> likedCreateConverter,
                           final LikedService likedService) {
         super(userRepository);
+        this.userShowConverter = userShowConverter;
         this.userConverter = userConverter;
         this.userCreateConverter = userCreateConverter;
         this.userUpdateConverter = userUpdateConverter;
@@ -74,7 +77,7 @@ public class UserController extends BaseCrudController<User> {
         this.likedService = likedService;
     }
 
-    @GetMapping("")
+    @GetMapping("/admin")
     public ResponseEntity<Page<UserDto>> getAll(@RequestParam(defaultValue = "0") final int page,
                                                 @RequestParam(defaultValue = "20") final int size,
                                                 @RequestParam(defaultValue = "id") final String column,
@@ -85,6 +88,20 @@ public class UserController extends BaseCrudController<User> {
         return ResponseEntity.ok(
                 this.userService.getAllWithFilter(page, size, column, direction, filter)
                         .map(this.userConverter.toDto())
+        );
+    }
+
+    @GetMapping("")
+    public ResponseEntity<Page<UserShowDto>> getAllShow(@RequestParam(defaultValue = "0") final int page,
+                                                @RequestParam(defaultValue = "20") final int size,
+                                                @RequestParam(defaultValue = "id") final String column,
+                                                @RequestParam(defaultValue = "ASC") final String direction,
+                                                @RequestParam(defaultValue = "") final String filter) {
+        if (filter.equals(""))
+            return super.getAll(page, size, column, direction, this.userShowConverter.toDto());
+        return ResponseEntity.ok(
+                this.userService.getAllWithFilter(page, size, column, direction, filter)
+                        .map(this.userShowConverter.toDto())
         );
     }
 
