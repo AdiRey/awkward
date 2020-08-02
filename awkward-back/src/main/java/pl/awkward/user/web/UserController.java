@@ -5,6 +5,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -25,6 +27,7 @@ import pl.awkward.user.model_repo.User;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -89,7 +92,8 @@ public class UserController extends BaseCrudController<User> {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getOne(@PathVariable final Long id) {
+    @PreAuthorize("true")
+    public ResponseEntity<UserDto> getOne(@P("id") @PathVariable final Long id) {
         return super.getOne(id, this.userConverter.toDto());
     }
 

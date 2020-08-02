@@ -28,7 +28,7 @@ public class KeyPairContainer {
     private JwtKeys jwtKeys;
 
 
-    @Scheduled(cron = "0 0 0 * * 1")
+    @Scheduled(cron = "0 0 */6 * * *")
     public void refreshKeys() {
         this.lastKeyPair = this.currentKeyPair;
         this.currentKeyPair = Keys.keyPairFor(ALG);

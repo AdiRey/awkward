@@ -33,7 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = optionalUser.get();
 
         return new org.springframework.security.core.userdetails.User(
-                String.valueOf(user.getId()),
+                user.getId() +"-" + user.getLogin(),
                 user.getPassword(),
                 getAuthorities(user.getRoleId())
         );
@@ -41,7 +41,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     List<GrantedAuthority> getAuthorities(final Long id) {
         List<GrantedAuthority> list = new ArrayList<>();
-        list.add(new SimpleGrantedAuthority("TEST123"));
+        list.add(new SimpleGrantedAuthority(String.valueOf(id)));
         return list;
     }
 }

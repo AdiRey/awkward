@@ -1,6 +1,5 @@
 package pl.awkward.security.jwt;
 
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,22 +10,21 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.awkward.configuration.profiles.DevProfile;
 import pl.awkward.exceptions.WrongJsonFormatException;
-import pl.awkward.jwtKey.KeyPairContainer;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 @DevProfile
 @RequiredArgsConstructor
 public class JwtCreateFilter extends UsernamePasswordAuthenticationFilter {
+    private final static String LOGIN = "login";
+    private final static String PASSWORD = "password";
 
-    private final KeyPairContainer keyPairContainer;
+    private final JwtManageComponent jwtManageComponent;
 
     @Override
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
@@ -40,8 +38,8 @@ public class JwtCreateFilter extends UsernamePasswordAuthenticationFilter {
             String collect = request.getReader().lines().collect(Collectors.joining());
 
             JSONObject jsonObject = new JSONObject(collect);
-            String login = jsonObject.getString("login");
-            String password = jsonObject.getString("password");
+            String login = jsonObject.getString(LOGIN);
+            String password = jsonObject.getString(PASSWORD);
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     login, password
             );
@@ -62,16 +60,9 @@ public class JwtCreateFilter extends UsernamePasswordAuthenticationFilter {
                                             Authentication authResult)
             throws IOException, ServletException {
 
-        String token = Jwts
-                .builder()
-                .setSubject(authResult.getName())
-                .setIssuer("AdiRey")
-                .setAudience("MeetMe users")
-                .setIssuedAt(Date.valueOf(LocalDate.now()))
-                .setExpiration(Date.valueOf(LocalDate.now().plusDays(10)))
-                .signWith(this.keyPairContainer.getCurrentKeyPair().getPrivate())
-                .compact();
-        response.addHeader("Authorization", "Bearer " + token);
+        String[] values = authResult.getName().split("-");
+        String token = this.jwtManageComponent.createJwt(Long.parseLong(values[0]), values[1], authResult.getAuthorities());
+        this.jwtManageComponent.addAuthorizationHeaderToResponse(response, token);
         chain.doFilter(request, response);
     }
 
@@ -80,6 +71,7 @@ public class JwtCreateFilter extends UsernamePasswordAuthenticationFilter {
                                               HttpServletResponse response,
                                               AuthenticationException failed)
             throws IOException, ServletException {
+        System.out.println("TEST");
         super.unsuccessfulAuthentication(request, response, failed);
     }
 }
