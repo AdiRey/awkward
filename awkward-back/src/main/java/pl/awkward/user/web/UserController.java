@@ -5,6 +5,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -92,8 +93,8 @@ public class UserController extends BaseCrudController<User> {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("true")
-    public ResponseEntity<UserDto> getOne(@P("id") @PathVariable final Long id) {
+    @PostAuthorize("authentication.principal.equals(#id)")
+    public ResponseEntity<UserDto> getOne(@PathVariable final Long id) {
         return super.getOne(id, this.userConverter.toDto());
     }
 
