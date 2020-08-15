@@ -1,4 +1,4 @@
-package pl.awkward.security.jwt;
+package pl.awkward.security.filter;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -7,6 +7,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
+import pl.awkward.security.jwt.JwtManageComponent;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -41,7 +42,6 @@ public class JwtVerifyUserFilter extends OncePerRequestFilter {
         if (this.jwtManageComponent.isParseCurrentKey(token)) {
             claimsJws = this.jwtManageComponent.parseClaimsCurrentKey(token);
             LocalDate refreshDate = this.jwtManageComponent.getRefreshDate(claimsJws);
-            System.out.println(refreshDate);
             if (refreshDate.isBefore(LocalDate.now()))
                 token = this.jwtManageComponent.createJwt(
                         this.jwtManageComponent.getId(claimsJws),

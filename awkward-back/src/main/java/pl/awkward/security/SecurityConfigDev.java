@@ -12,9 +12,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.awkward.configuration.profiles.DevProfile;
-import pl.awkward.security.jwt.JwtCreateFilter;
+import pl.awkward.security.filter.JwtCreateFilter;
 import pl.awkward.security.jwt.JwtManageComponent;
-import pl.awkward.security.jwt.JwtVerifyUserFilter;
+import pl.awkward.security.filter.JwtVerifyUserFilter;
 
 @DevProfile
 @Configuration

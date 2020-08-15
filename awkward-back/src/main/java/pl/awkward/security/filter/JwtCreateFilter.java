@@ -1,4 +1,4 @@
-package pl.awkward.security.jwt;
+package pl.awkward.security.filter;
 
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
@@ -10,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.awkward.configuration.profiles.DevProfile;
 import pl.awkward.exceptions.WrongJsonFormatException;
+import pl.awkward.security.jwt.JwtManageComponent;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

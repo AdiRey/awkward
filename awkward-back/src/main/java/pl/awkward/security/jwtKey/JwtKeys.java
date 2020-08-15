@@ -1,4 +1,4 @@
-package pl.awkward.jwtKey;
+package pl.awkward.security.jwtKey;
 
 import lombok.Data;
 
