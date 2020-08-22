@@ -1,0 +1,63 @@
+<div class="container-fluid d-flex flex-column text-center justify-content-around min-vh-100">
+  <div class="mt-2">
+    <p class="quote">Zacznij ...</p>
+    <p class="quote">Poznawać,</p>
+    <p class="quote">rozmawiac,</p>
+    <p class="quote">randkować,</p>
+    <p class="quote">zaprzyjaźniać</p>
+  </div>
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+    <div class="form-label-group text-left">
+      <input
+        id="inputLogin"
+        class="form-control"
+        [class.border-danger-shadow]="isMarkedAsInvalid('login')"
+        type="text"
+        placeholder="Email lub login"
+        formControlName="login"
+      >
+      <label for="inputLogin">Email lub login</label>
+    </div>
+
+   <div class="form-label-group text-left">
+     <input
+       id="inputPassword"
+       class="form-control"
+       [class.border-danger-shadow]="isMarkedAsInvalid('password')"
+       type="password"
+       placeholder="Hasło"
+       formControlName="password"
+     >
+     <label for="inputPassword">Hasło</label>
+   </div>
+
+    <button
+      class="btn btn-outline-primary w-75 mb-3"
+      type="submit">
+        Zaloguj się
+    </button>
+
+    <button
+      class="btn btn-outline-primary w-75 mb-4"
+      type="button"
+      routerLink="/login-fb">
+        <span class="fab fa-facebook"></span> Zaloguj się FB
+    </button>
+
+    <h6 class="font-italic">Zapomniałeś hasła?</h6>
+    <a routerLink="/recover-password">Odzyskaj hasło</a>
+  </form>
+  <div>
+    <h5>Nie masz konta?</h5>
+    <button
+      class="btn btn-primary"
+      type="button"
+      routerLink="/register">
+        Zarejestruj się
+    </button>
+  </div>
+  <div>
+    Masz pytania? <a routerLink="/contact-us">Skontaktuj sie z nami</a>
+  </div>
+</div>

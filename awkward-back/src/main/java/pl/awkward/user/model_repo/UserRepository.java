@@ -20,4 +20,10 @@ public interface UserRepository extends BaseRepository <User> {
             nativeQuery = true
     )
     Page<User> findAllByNameOrSurnameContainsAndActiveIsTrue(@Param("name") String name, @Param("surname") String surname, Pageable pageable);
+
+    @Query(
+            value = "SELECT COUNT(*) FROM User",
+            nativeQuery = true
+    )
+    Integer getCount();
 }

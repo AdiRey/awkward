@@ -1,5 +1,6 @@
 package pl.awkward.user.web;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -32,6 +33,8 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/api/users")
+@CrossOrigin
+@Slf4j
 public class UserController extends BaseCrudController<User> {
     private final BaseConverter<User, UserDto> userConverter;
     private final BaseConverter<User, UserCreateDto> userCreateConverter;
@@ -72,6 +75,14 @@ public class UserController extends BaseCrudController<User> {
         this.likedConverter = likedConverter;
         this.likedCreateConverter = likedCreateConverter;
         this.likedService = likedService;
+    }
+
+    @GetMapping("/amount")
+    public ResponseEntity<Integer> amount() {
+        log.info("START");
+        Integer value = this.userService.getAmountOfUsers();
+        log.info("Amount: " + value);
+        return ResponseEntity.ok(value);
     }
 
     @GetMapping("")

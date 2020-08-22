@@ -1,27 +1,9 @@
-.nav-bar {
-  background-color: rgba(100,100,100,0.3);
-  align-items: center;
-  min-height: 2rem;
-  justify-content: space-between;
+a.navbar-brand {
+  padding: 0!important;
+  margin: 0!important;
 }
 
-#logo {
-  cursor: pointer;
-}
-
-
-.search-place {
-  min-width: 20rem;
-  border-radius: 5px;
-}
-
-.choices li {
-  list-style: none;
-  display: inline-block;
-  padding: 0 10px;
-  cursor: pointer;
-}
-
-.choices li:hover {
-  background-color: rgba(100,100,100,0.7);
+.logo {
+  width: 45px;
+  height: 45px;
 }
