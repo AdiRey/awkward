@@ -171,3 +171,7 @@ form {
 .border-danger-shadow:focus {
   box-shadow: 0 0 0 0.2rem rgba(256, 0, 0, 0.8);
 }
+
+a {
+  text-decoration: none;
+}
