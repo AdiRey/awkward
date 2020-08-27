@@ -28,12 +28,12 @@ public class CustomUserDetailsService implements UserDetailsService {
         Optional<User> optionalUser = this.userRepository.findFirstByEmailOrLogin(username, username);
 
         if (optionalUser.isEmpty())
-            return null;
+            throw new UsernameNotFoundException("User not found");
 
         User user = optionalUser.get();
 
         return new org.springframework.security.core.userdetails.User(
-                user.getLogin(),
+                user.getId() +"-" + user.getLogin(),
                 user.getPassword(),
                 getAuthorities(user.getRoleId())
         );
@@ -41,7 +41,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     List<GrantedAuthority> getAuthorities(final Long id) {
         List<GrantedAuthority> list = new ArrayList<>();
-        list.add(new SimpleGrantedAuthority("TEST123"));
+        list.add(new SimpleGrantedAuthority(String.valueOf(id)));
         return list;
     }
 }
