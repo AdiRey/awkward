@@ -68,7 +68,7 @@ INSERT INTO university(name, address_id) VALUES
 
 /*                  ########## USERS ##########                 */
 
-INSERT INTO user(EMAIL, LOGIN, NAME, SURNAME, DATE_OF_BIRTH, AGE, DESCRIPTION, PASSWORD, GENDER_ID, ROLE_ID, UNIVERSITY_ID, active)
+INSERT INTO user(EMAIL, USERNAME, NAME, SURNAME, DATE_OF_BIRTH, AGE, DESCRIPTION, PASSWORD, GENDER_ID, ROLE_ID, UNIVERSITY_ID, active)
 VALUES
 ('kadrian13@o2.pl', 'AdiRey', 'Adrian', 'Kowal', '1999/01/06', 22, 'Pogramuje w Javie od dawna.', 'TODO123', 1, 1, 1, true),
 ('kassa1@gmail.com', 'AdiRey3', 'Adrian1', 'Kowal5', '1999/01/04', 21, 'Pogramuje w C# od dawna', 'TODO123', 1, 2, 1, true),
@@ -91,7 +91,7 @@ INSERT INTO photo(path, add_date, archive, user_id) VALUES
 
 /*                  ########## USER_INTERESTS ##########                 */
 
-INSERT INTO user_interest(user_id, interest_id) VALUES
+/*INSERT INTO user_interest(user_id, interest_id) VALUES
 (1, 3),
 (1, 11),
 (2, 5),
@@ -99,7 +99,7 @@ INSERT INTO user_interest(user_id, interest_id) VALUES
 (4, 2),
 (7, 12),
 (7, 10),
-(6, 1);
+(6, 1);*/
 
 /*                  ########## USER_ADDRESSES ##########                 */
 

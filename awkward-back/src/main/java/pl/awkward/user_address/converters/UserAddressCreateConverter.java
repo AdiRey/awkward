@@ -13,7 +13,7 @@ public class UserAddressCreateConverter extends BaseConverter<UserAddress, UserA
     public Function<UserAddressCreateDto, UserAddress> toEntity() {
         return dto -> {
             UserAddress userAddress = new UserAddress();
-            convertIfNotNull(userAddress::setUserId, dto::getUserId);
+//            convertIfNotNull(userAddress::setUserId, dto::getUserId);
             convertIfNotNull(userAddress::setAddressId, dto::getAddressId);
             return userAddress;
         };
@@ -23,7 +23,7 @@ public class UserAddressCreateConverter extends BaseConverter<UserAddress, UserA
     public Function<UserAddress, UserAddressCreateDto> toDto() {
         return userAddress -> {
             UserAddressCreateDto dto = new UserAddressCreateDto();
-            convertIfNotNull(dto::setUserId, userAddress::getUserId);
+//            convertIfNotNull(dto::setUserId, userAddress::getUserId);
             convertIfNotNull(dto::setAddressId, userAddress::getAddressId);
             return dto;
         };

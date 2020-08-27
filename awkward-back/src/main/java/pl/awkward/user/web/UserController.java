@@ -7,6 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,6 +49,7 @@ public class UserController extends BaseCrudController<User> {
     private final BaseConverter<Liked, LikedDto> likedConverter;
     private final BaseConverter<Liked, LikedCreateDto> likedCreateConverter;
     private final LikedService likedService;
+    private final BaseConverter<User, UserShowDto> userShowConverter;
 
     public UserController(final BaseRepository<User> userRepository,
                           final BaseConverter<User, UserDto> userConverter,
@@ -61,7 +63,8 @@ public class UserController extends BaseCrudController<User> {
                           final PasswordEncoder passwordEncoder,
                           final BaseConverter<Liked, LikedDto> likedConverter,
                           final BaseConverter<Liked, LikedCreateDto> likedCreateConverter,
-                          final LikedService likedService) {
+                          final LikedService likedService,
+                          final BaseConverter<User, UserShowDto> userShowConverter) {
         super(userRepository);
         this.userConverter = userConverter;
         this.userCreateConverter = userCreateConverter;
@@ -75,6 +78,7 @@ public class UserController extends BaseCrudController<User> {
         this.likedConverter = likedConverter;
         this.likedCreateConverter = likedCreateConverter;
         this.likedService = likedService;
+        this.userShowConverter = userShowConverter;
     }
 
     @GetMapping("/amount")
@@ -100,8 +104,9 @@ public class UserController extends BaseCrudController<User> {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getOne(@PathVariable final Long id) {
-        return super.getOne(id, this.userConverter.toDto());
+    @Transactional
+    public ResponseEntity<UserShowDto> getOne(@PathVariable final Long id) {
+        return super.getOne(id, this.userShowConverter.toDto());
     }
 
     @PostMapping("")
@@ -177,17 +182,17 @@ public class UserController extends BaseCrudController<User> {
         else if (this.likedService.checkFirstIdAndSecondIdExist(id, dto.getSecondUserId()))
             throw new DuplicateException("Już dałeś tej osobie lajka!");
         Liked liked = this.likedCreateConverter.toEntity().apply(dto);
-        liked.setUserId(id);
+//        liked.setUserId(id);
         liked.setDate(LocalDateTime.now());
         final Liked saved = this.likedService.save(liked);
 
         // Can be couple?
-        if (this.likedService.checkFirstIdAndSecondIdExist(liked.getSecondUserId(), id)) {
+//        if (this.likedService.checkFirstIdAndSecondIdExist(liked.getSecondUserId(), id)) {
             RestTemplate restTemplate = new RestTemplate();
             JsonBuilder<String, Long> jsonBuilder = new JsonBuilder<>();
 
             jsonBuilder.put("userIdFirst", id);
-            jsonBuilder.put("userIdSecond", liked.getSecondUserId());
+//            jsonBuilder.put("userIdSecond", liked.getSecondUserId());
 
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -199,7 +204,7 @@ public class UserController extends BaseCrudController<User> {
                     httpEntity,
                     Object.class
             );
-        }
+//        }
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(saved.getId()).toUri();
         return ResponseEntity.created(location).build();

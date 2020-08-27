@@ -14,7 +14,7 @@ public class UserAddressConverter extends BaseConverter<UserAddress, UserAddress
         return dto -> {
             UserAddress userAddress = new UserAddress();
             convertIfNotNull(userAddress::setId, dto::getId);
-            convertIfNotNull(userAddress::setUserId, dto::getUserId);
+//            convertIfNotNull(userAddress::setUserId, dto::getUserId);
             convertIfNotNull(userAddress::setAddressId, dto::getAddressId);
             convertIfNotNull(userAddress::setActive, dto::getActive);
             return userAddress;
@@ -26,7 +26,7 @@ public class UserAddressConverter extends BaseConverter<UserAddress, UserAddress
         return userAddress -> {
             UserAddressDto dto = new UserAddressDto();
             convertIfNotNull(dto::setId, userAddress::getId);
-            convertIfNotNull(dto::setUserId, userAddress::getUserId);
+//            convertIfNotNull(dto::setUserId, userAddress::getUserId);
             convertIfNotNull(dto::setAddressId, userAddress::getAddressId);
             convertIfNotNull(dto::setActive, userAddress::getActive);
             return dto;

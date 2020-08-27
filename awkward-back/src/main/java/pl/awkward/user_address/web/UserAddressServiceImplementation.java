@@ -32,7 +32,7 @@ public class UserAddressServiceImplementation implements UserAddressService {
         if (optionalUserAddress.isEmpty())
             return false;
         UserAddress userAddress = optionalUserAddress.get();
-        userAddress.setUserId(updateUserAddress.getUserId());
+//        userAddress.setUserId(updateUserAddress.getUserId());
         userAddress.setAddressId(updateUserAddress.getAddressId());
         return true;
     }

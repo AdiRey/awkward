@@ -7,6 +7,6 @@ import pl.awkward.shared.BaseRepository;
 import java.util.Optional;
 
 public interface LikedRepository extends BaseRepository<Liked> {
-    Optional<Liked> findByUserIdAndSecondUserId(Long userId, Long secondUserId);
-    Page<Liked> findAllByUserIdAndActiveOrderByDateDesc(Long userId, boolean active, Pageable pageable);
+//    Optional<Liked> findByUserIdAndSecondUserId(Long userId, Long secondUserId);
+//    Page<Liked> findAllByUserIdAndActiveOrderByDateDesc(Long userId, boolean active, Pageable pageable);
 }

@@ -17,8 +17,8 @@ public class LikedConverter extends BaseConverter<Liked, LikedDto> {
             convertIfNotNull(liked::setStatus, dto::getStatus);
             convertIfNotNull(liked::setDate, dto::getDate);
             convertIfNotNull(liked::setActive, dto::getActive);
-            convertIfNotNull(liked::setUserId, dto::getUserId);
-            convertIfNotNull(liked::setSecondUserId, dto::getSecondUserId);
+//            convertIfNotNull(liked::setUserId, dto::getUserId);
+//            convertIfNotNull(liked::setSecondUserId, dto::getSecondUserId);
             return liked;
         };
     }
@@ -31,8 +31,8 @@ public class LikedConverter extends BaseConverter<Liked, LikedDto> {
             convertIfNotNull(dto::setStatus, liked::getStatus);
             convertIfNotNull(dto::setDate, liked::getDate);
             convertIfNotNull(dto::setActive, liked::getActive);
-            convertIfNotNull(dto::setUserId, liked::getUserId);
-            convertIfNotNull(dto::setSecondUserId, liked::getSecondUserId);
+//            convertIfNotNull(dto::setUserId, liked::getUserId);
+//            convertIfNotNull(dto::setSecondUserId, liked::getSecondUserId);
             return dto;
         };
     }

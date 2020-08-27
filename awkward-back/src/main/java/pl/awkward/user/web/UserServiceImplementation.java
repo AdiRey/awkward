@@ -47,12 +47,12 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
             return false;
         User user = optionalUser.get();
         user.setEmail(updateUser.getEmail());
-        user.setLogin(updateUser.getLogin());
+//        user.setLogin(updateUser.getLogin());
         user.setName(updateUser.getName());
         user.setSurname(updateUser.getSurname());
         user.setDateOfBirth(updateUser.getDateOfBirth());
         user.setDescription(updateUser.getDescription());
-        user.setUniversityId(updateUser.getUniversityId());
+//        user.setUniversityId(updateUser.getUniversityId());
         return true;
     }
 
@@ -72,7 +72,7 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
     public boolean updateRoleId(Long id, User userRole) {
         Optional<User> userById = this.userRepository.findById(id);
         if (userById.isPresent()) {
-            userById.get().setRoleId(userRole.getRoleId());
+//            userById.get().setRoleId(userRole.getRoleId());
             return true;
         }
         return false;

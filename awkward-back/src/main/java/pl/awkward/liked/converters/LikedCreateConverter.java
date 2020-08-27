@@ -14,7 +14,7 @@ public class LikedCreateConverter extends BaseConverter<Liked, LikedCreateDto> {
         return dto -> {
             Liked liked = new Liked();
             convertIfNotNull(liked::setStatus, dto::getStatus);
-            convertIfNotNull(liked::setSecondUserId, dto::getSecondUserId);
+//            convertIfNotNull(liked::setSecondUserId, dto::getSecondUserId);
             return liked;
         };
     }
@@ -24,7 +24,7 @@ public class LikedCreateConverter extends BaseConverter<Liked, LikedCreateDto> {
         return liked -> {
             LikedCreateDto dto = new LikedCreateDto();
             convertIfNotNull(dto::setStatus, liked::getStatus);
-            convertIfNotNull(dto::setSecondUserId, liked::getSecondUserId);
+//            convertIfNotNull(dto::setSecondUserId, liked::getSecondUserId);
             return dto;
         };
     }

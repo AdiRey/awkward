@@ -13,7 +13,7 @@ public class UserRoleConverter extends BaseConverter<User, UserRoleDto> {
     public Function<UserRoleDto, User> toEntity() {
         return dto -> {
             User user = new User();
-            convertIfNotNull(user::setRoleId, dto::getRoleId);
+//            convertIfNotNull(user::setRoleId, dto::getRoleId);
             return user;
         };
     }
@@ -22,7 +22,7 @@ public class UserRoleConverter extends BaseConverter<User, UserRoleDto> {
     public Function<User, UserRoleDto> toDto() {
         return user -> {
             UserRoleDto dto = new UserRoleDto();
-            convertIfNotNull(dto::setRoleId, user::getRoleId);
+//            convertIfNotNull(dto::setRoleId, user::getRoleId);
             return dto;
         };
     }

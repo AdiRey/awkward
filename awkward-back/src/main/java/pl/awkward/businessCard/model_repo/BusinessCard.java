@@ -2,6 +2,7 @@ package pl.awkward.businessCard.model_repo;
 
 import lombok.Data;
 import pl.awkward.shared.BaseEntity;
+import pl.awkward.user.model_repo.User;
 
 import javax.persistence.*;
 
@@ -17,8 +18,11 @@ public class BusinessCard implements BaseEntity {
     private String instUrl;
     @Column(length = 50)
     private String snapName;
-    @Column(nullable = false)
-    private Long userId;
+//    @Column(nullable = false)
+//    private Long userId;
     @Column(columnDefinition = "boolean default true")
     private Boolean active;
+
+    @OneToOne
+    private User user;
 }

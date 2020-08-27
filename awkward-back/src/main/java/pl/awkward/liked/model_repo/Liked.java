@@ -2,6 +2,7 @@ package pl.awkward.liked.model_repo;
 
 import lombok.Data;
 import pl.awkward.shared.BaseEntity;
+import pl.awkward.user.model_repo.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -19,8 +20,17 @@ public class Liked implements BaseEntity {
     @Column(nullable = false)
     private Boolean active= true;
 
-    @Column(nullable = false)
-    private Long userId;
-    @Column(nullable = false)
-    private Long secondUserId;
+//    @Column(nullable = false)
+//    private Long userId;
+//    @Column(nullable = false)
+//    private Long secondUserId;
+
+    @ManyToOne
+    private User firstUser;
+    @ManyToOne
+    private User secondUser;
+
+
+    private Byte firstStatus;
+    private Byte secondStatus;
 }

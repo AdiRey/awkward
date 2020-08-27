@@ -48,7 +48,7 @@ public class SecurityConfigDev extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+/*        http
                 .csrf().disable()
                 .cors().and()
                 .sessionManagement()
@@ -60,7 +60,13 @@ public class SecurityConfigDev extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.POST, "/login").permitAll()
                     .antMatchers(HttpMethod.POST, "/api/users").permitAll()
                     .antMatchers(HttpMethod.GET, "/api/users/8").permitAll()
-                    .anyRequest().authenticated();
+                    .anyRequest().authenticated();*/
+        http
+                .csrf().disable()
+                .cors().disable()
+                .authorizeRequests()
+                .anyRequest()
+                .permitAll();
     }
 
     @Bean

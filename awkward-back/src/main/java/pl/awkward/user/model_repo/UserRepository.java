@@ -9,7 +9,7 @@ import pl.awkward.shared.BaseRepository;
 import java.util.Optional;
 
 public interface UserRepository extends BaseRepository <User> {
-    Optional<User> findFirstByEmailOrLogin(String email, String login);
+    Optional<User> findFirstByEmailOrUsername(String email, String username);
     @Query(
             value = "SELECT u.* FROM user u " +
                     "WHERE (LOWER(u.name) LIKE CONCAT('%',LOWER(:name),'%') OR LOWER(u.surname) LIKE CONCAT('%',LOWER(:surname),'%'))" +

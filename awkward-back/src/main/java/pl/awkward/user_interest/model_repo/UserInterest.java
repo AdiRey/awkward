@@ -7,6 +7,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
+@Table(name = "XD")
 public class UserInterest implements BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

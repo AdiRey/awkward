@@ -2,6 +2,7 @@ package pl.awkward.photo.model_repo;
 
 import lombok.Data;
 import pl.awkward.shared.BaseEntity;
+import pl.awkward.user.model_repo.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,7 +22,8 @@ public class Photo implements BaseEntity {
     @Column(columnDefinition = "boolean default true")
     private Boolean active;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     private Long addressId;
-    @Column(nullable = false)
-    private Long userId;
 }

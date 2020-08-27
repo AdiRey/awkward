@@ -18,7 +18,7 @@ public class PhotoConverter extends BaseConverter<Photo, PhotoDto> {
             convertIfNotNull(photo::setAddDate, dto::getAddDate);
             convertIfNotNull(photo::setArchive, dto::getArchive);
             convertIfNotNull(photo::setActive, dto::getActive);
-            convertIfNotNull(photo::setUserId, dto::getUserId);
+//            convertIfNotNull(photo::setUserId, dto::getUserId);
             return photo;
         };
     }

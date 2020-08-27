@@ -17,7 +17,7 @@ public class BusinessCardCreateConverter extends BaseConverter<BusinessCard, Bus
             convertIfNotNull(businessCard::setFacebookUrl, dto::getFacebookUrl);
             convertIfNotNull(businessCard::setInstUrl, dto::getInstUrl);
             convertIfNotNull(businessCard::setSnapName, dto::getSnapName);
-            convertIfNotNull(businessCard::setUserId, dto::getUserId);
+//            convertIfNotNull(businessCard::setUserId, dto::getUserId);
             return businessCard;
         };
     }
@@ -30,7 +30,7 @@ public class BusinessCardCreateConverter extends BaseConverter<BusinessCard, Bus
             convertIfNotNull(dto::setFacebookUrl, businessCard::getFacebookUrl);
             convertIfNotNull(dto::setInstUrl, businessCard::getInstUrl);
             convertIfNotNull(dto::setSnapName, businessCard::getSnapName);
-            convertIfNotNull(dto::setUserId, businessCard::getUserId);
+//            convertIfNotNull(dto::setUserId, businessCard::getUserId);
             return dto;
         };
     }

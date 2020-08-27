@@ -25,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> optionalUser = this.userRepository.findFirstByEmailOrLogin(username, username);
+        Optional<User> optionalUser = this.userRepository.findFirstByEmailOrUsername(username, username);
 
         if (optionalUser.isEmpty())
             throw new UsernameNotFoundException("User not found");
@@ -33,9 +33,9 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = optionalUser.get();
 
         return new org.springframework.security.core.userdetails.User(
-                user.getId() +"-" + user.getLogin(),
+                user.getId() +"-" + user.getUsername(),
                 user.getPassword(),
-                getAuthorities(user.getRoleId())
+                getAuthorities(user.getRole().getId())
         );
     }
 
