@@ -1,13 +1,11 @@
 package pl.awkward.user.web;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -28,7 +26,6 @@ import pl.awkward.user.model_repo.User;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
@@ -36,8 +33,9 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/api/users")
+@CrossOrigin
+@Slf4j
 public class UserController extends BaseCrudController<User> {
-    private final BaseConverter<User, UserShowDto> userShowConverter;
     private final BaseConverter<User, UserDto> userConverter;
     private final BaseConverter<User, UserCreateDto> userCreateConverter;
     private final BaseConverter<User, UserUpdateDto> userUpdateConverter;
@@ -51,8 +49,7 @@ public class UserController extends BaseCrudController<User> {
     private final BaseConverter<Liked, LikedCreateDto> likedCreateConverter;
     private final LikedService likedService;
 
-    public UserController(final BaseConverter<User, UserShowDto> userShowConverter,
-                          final BaseRepository<User> userRepository,
+    public UserController(final BaseRepository<User> userRepository,
                           final BaseConverter<User, UserDto> userConverter,
                           final BaseConverter<User, UserCreateDto> userCreateConverter,
                           final BaseConverter<User, UserUpdateDto> userUpdateConverter,
@@ -66,7 +63,6 @@ public class UserController extends BaseCrudController<User> {
                           final BaseConverter<Liked, LikedCreateDto> likedCreateConverter,
                           final LikedService likedService) {
         super(userRepository);
-        this.userShowConverter = userShowConverter;
         this.userConverter = userConverter;
         this.userCreateConverter = userCreateConverter;
         this.userUpdateConverter = userUpdateConverter;
@@ -81,7 +77,15 @@ public class UserController extends BaseCrudController<User> {
         this.likedService = likedService;
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/amount")
+    public ResponseEntity<Integer> amount() {
+        log.info("START");
+        Integer value = this.userService.getAmountOfUsers();
+        log.info("Amount: " + value);
+        return ResponseEntity.ok(value);
+    }
+
+    @GetMapping("")
     public ResponseEntity<Page<UserDto>> getAll(@RequestParam(defaultValue = "0") final int page,
                                                 @RequestParam(defaultValue = "20") final int size,
                                                 @RequestParam(defaultValue = "id") final String column,
@@ -95,22 +99,7 @@ public class UserController extends BaseCrudController<User> {
         );
     }
 
-    @GetMapping("")
-    public ResponseEntity<Page<UserShowDto>> getAllShow(@RequestParam(defaultValue = "0") final int page,
-                                                @RequestParam(defaultValue = "20") final int size,
-                                                @RequestParam(defaultValue = "id") final String column,
-                                                @RequestParam(defaultValue = "ASC") final String direction,
-                                                @RequestParam(defaultValue = "") final String filter) {
-        if (filter.equals(""))
-            return super.getAll(page, size, column, direction, this.userShowConverter.toDto());
-        return ResponseEntity.ok(
-                this.userService.getAllWithFilter(page, size, column, direction, filter)
-                        .map(this.userShowConverter.toDto())
-        );
-    }
-
     @GetMapping("/{id}")
-    @PostAuthorize("authentication.principal.equals(#id)")
     public ResponseEntity<UserDto> getOne(@PathVariable final Long id) {
         return super.getOne(id, this.userConverter.toDto());
     }

@@ -1,0 +1,20 @@
+<div id="img-container" class="d-flex flex-column justify-content-between p-0">
+
+  <a routerLink="/" class="w-25 m-5" id="logo">
+    <img class="img-fluid" src="assets/logo.png" width="350px" alt="LOGO">
+  </a>
+
+  <div *ngIf="amount" class="align-self-end mt-auto mb-5 pb-2 mr-4">
+    <p class="join-us">Dołącz do {{ amount }} użytkowników!</p>
+  </div>
+
+  <footer class="container-fluid">
+    <div class="w-100 m-0 p-0 pt-2 d-flex justify-content-around">
+      <a routerLink="/statute">Regulamin</a>
+      <a routerLink="/privacy-policy">Polityka prywatnośći</a>
+      <a routerLink="/cookies-policy">Polityka plików cookies</a>
+      <span class="text-white">&copy; AdiRey</span>
+    </div>
+  </footer>
+
+</div>

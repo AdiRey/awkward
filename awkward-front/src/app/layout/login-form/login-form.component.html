@@ -1,3 +1,66 @@
+<div class="container-fluid p-0">
+  <div class="row">
+    <div class="col-md-5 login-form text-center">
+      <div class="my-5">
+        <p class="quote">Zacznij ...</p>
+        <p class="quote">Poznawać,</p>
+        <p class="quote">rozmawiac,</p>
+        <p class="quote">randkować,</p>
+        <p class="quote">zaprzyjaźniać</p>
+      </div>
+      <form [formGroup]="profileForm">
+        <label for="inputLogin" class=""></label>
+        <input id="inputLogin" type="email" placeholder="Email">
+        <br>
+
+        <label for="inputPassword"></label>
+        <input id="inputPassword" type="password" placeholder="Password">
+        <br>
+
+        <button class="btn btn-primary" type="submit">Zaloguj się</button>
+        <a routerLink="#">Odzyskaj hasło</a>
+      </form>
+      <div>
+        <h5>Nie masz konta?</h5>
+        <button>Zarejestruj się</button>
+      </div>
+    </div>
+    <div class="col-md-7" [ngStyle]="{background: 'url(/assets/img/tlo2.jpg) no-repeat center', backgroundSize: 'cover'}"></div>
+  </div>
+</div>
+
+<!--<div class="container-fluid cont">
+  <div class="row text-center cont">
+    <div class="col-md-6 login-form cont shadow">
+        <div class="my-5">
+          <p class="quote">Zacznij ...</p>
+          <p class="quote">Poznawać,</p>
+          <p class="quote">rozmawiac,</p>
+          <p class="quote">randkować,</p>
+          <p class="quote">zaprzyjaźniać</p>
+        </div>
+        <form [formGroup]="profileForm" class="align-content-center">
+          <label for="inputLogin" class="text-justify">Email address or login:</label>
+          <input id="inputLogin" formControlName="login" type="text" class="form-control mb-3 w-50">
+
+          <label for="inputPassword">Password:</label>
+          <input id="inputPassword" formControlName="password" type="password" class="form-control w-50">
+
+          <button type="submit" class="btn btn-outline-primary my-5">Zaloguj się</button>
+
+          <a routerLink="/register" class="mt-5 col-12">ODZYSKAJ HASŁO</a>
+        </form>
+        <div>
+          <a>Nie masz konta?</a><br>
+          <button class="btn btn-outline-dark">Zarejestruj się</button>
+        </div>
+    </div>
+    <div class="col-md-6 cont" [ngStyle]="{background: 'url(/assets/img/tlo.png) no-repeat center', backgroundSize: 'cover'}">
+    </div>
+  </div>
+</div>-->
+
+<!--
 <div class="flexbox-column container-login">
   <div class="quotes">
     <p class="quote">Zacznij ...</p>
@@ -24,3 +87,4 @@
   Login: {{name}}
   Password: {{pass}}
 </div>
+-->

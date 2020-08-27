@@ -15,4 +15,6 @@ public interface UserService {
     void createFolderViaId(Long id);
 
     void refreshUsersAge();
+
+    Integer getAmountOfUsers();
 }

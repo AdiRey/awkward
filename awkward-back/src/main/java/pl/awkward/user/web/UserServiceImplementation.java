@@ -23,6 +23,11 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
     private static final String PATH_TO_USER_DIR = "awkward-back/user_images/";
 
     @Override
+    public Integer getAmountOfUsers() {
+        return this.userRepository.getCount();
+    }
+
+    @Override
     public Page<User> getAllWithFilter(int page, int size, String column, String direction, String filter) {
         Sort.Direction sortDir = direction.equals("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Sort sort = Sort.by(new Sort.Order(sortDir, column));
