@@ -11,6 +11,7 @@ import { LayoutLoginPageComponent } from './layout-login-page/layout-login-page.
 import { LoginPageFormComponent } from './layout-login-page/login-page-form/login-page-form.component';
 import { ImageFormComponent } from './layout-login-page/image-form/image-form.component';
 import { HttpClientModule } from '@angular/common/http';
+import { LayoutRegisterPageComponent } from './layout-register-page/layout-register-page.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     LoginFormComponent,
     LayoutLoginPageComponent,
     LoginPageFormComponent,
-    ImageFormComponent
+    ImageFormComponent,
+    LayoutRegisterPageComponent
   ],
   imports: [
     BrowserModule,
