@@ -1,41 +1,42 @@
 package pl.awkward.address.converters;
 
 import org.springframework.stereotype.Service;
-import pl.awkward.address.dtos.AddressCreateUpdateDto;
+import pl.awkward.address.dtos.AddressShowDto;
 import pl.awkward.address.model_repo.Address;
 import pl.awkward.shared.BaseConverter;
 
 import java.util.function.Function;
 
 @Service
-public class AddressCreateUpdateConverter extends BaseConverter<Address, AddressCreateUpdateDto> {
+public class AddressShowConverter extends BaseConverter<Address, AddressShowDto> {
+
     @Override
-    public Function<AddressCreateUpdateDto, Address> toEntity() {
+    public Function<AddressShowDto, Address> toEntity() {
         return dto -> {
             if (dto == null)
                 return null;
 
             Address address = new Address();
 
+            address.setId(dto.getId());
             address.setCountry(dto.getCountry());
             address.setCity(dto.getCity());
-            address.setAddDate(dto.getAddDate());
 
             return address;
         };
     }
 
     @Override
-    public Function<Address, AddressCreateUpdateDto> toDto() {
+    public Function<Address, AddressShowDto> toDto() {
         return address -> {
             if (address == null)
                 return null;
 
-            AddressCreateUpdateDto dto = new AddressCreateUpdateDto();
+            AddressShowDto dto = new AddressShowDto();
 
+            dto.setId(address.getId());
             dto.setCountry(address.getCountry());
             dto.setCity(address.getCity());
-            dto.setAddDate(address.getAddDate());
 
             return dto;
         };

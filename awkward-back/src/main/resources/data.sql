@@ -1,18 +1,18 @@
 /*                  ########## ADDRESSES ##########                 */
 
-INSERT INTO address(city, country) VALUES
-('Polska', 'Rzeszów'),
-('Polska', 'Jarosław'),
-('Polska', 'Tarnobrzeg'),
-('Polska', 'Przemyśl'),
-('Polska', 'Warszawa'),
-('Polska', 'Poznań'),
-('Polska', 'Tarnów'),
-('Polska', 'Łańcut'),
-('Polska', 'Dębica'),
-('Polska', 'Kraków'),
-('Niemcy', 'Berlin'),
-('Polska', 'Wrocław');
+INSERT INTO address(city, country, add_date) VALUES
+('Polska', 'Rzeszów', '2020-07-15 12:27:50.637901000'),
+('Polska', 'Jarosław', '2020-07-15 12:28:50.637901000'),
+('Polska', 'Tarnobrzeg', '2020-07-15 12:29:50.637901000'),
+('Polska', 'Przemyśl', '2020-07-15 12:30:50.637901000'),
+('Polska', 'Warszawa', '2020-07-15 12:31:50.637901000'),
+('Polska', 'Poznań', '2020-07-15 12:32:50.637901000'),
+('Polska', 'Tarnów', '2020-07-15 12:33:50.637901000'),
+('Polska', 'Łańcut', '2020-07-15 12:34:50.637901000'),
+('Polska', 'Dębica', '2020-07-15 12:35:50.637901000'),
+('Polska', 'Kraków', '2020-07-15 12:36:50.637901000'),
+('Niemcy', 'Berlin', '2020-07-15 12:37:50.637901000'),
+('Polska', 'Wrocław', '2020-07-15 12:38:50.637901000');
 
 
 
