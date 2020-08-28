@@ -30,6 +30,9 @@ public class Liked implements BaseEntity {
     @ManyToOne
     private User secondUser;
 
+    @Column(nullable = true) // @Column(nullable = false)
+    private LocalDateTime addDate;
+
 
     private Byte firstStatus;
     private Byte secondStatus;

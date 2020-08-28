@@ -26,4 +26,5 @@ public class Photo implements BaseEntity {
     private User user;
 
     private Long addressId;
+
 }

@@ -5,6 +5,7 @@ import pl.awkward.shared.BaseEntity;
 import pl.awkward.user.model_repo.User;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -21,4 +22,6 @@ public class Interest implements BaseEntity {
 
     @ManyToMany
     private List<User> users;
+    @Column(nullable = true) // @Column(nullable = false)
+    private LocalDateTime addDate;
 }

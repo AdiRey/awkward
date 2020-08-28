@@ -5,6 +5,7 @@ import pl.awkward.shared.BaseEntity;
 import pl.awkward.user.model_repo.User;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -25,4 +26,7 @@ public class BusinessCard implements BaseEntity {
 
     @OneToOne
     private User user;
+
+    @Column(nullable = true) // @Column(nullable = false)
+    private LocalDateTime addDate;
 }

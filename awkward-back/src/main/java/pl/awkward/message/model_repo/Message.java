@@ -25,4 +25,7 @@ public class Message implements BaseEntity {
     private Boolean active = true;
     @Column(nullable = false)
     private Boolean activeReceiver = true;
+
+    @Column(nullable = true) // @Column(nullable = false)
+    private LocalDateTime addDate;
 }

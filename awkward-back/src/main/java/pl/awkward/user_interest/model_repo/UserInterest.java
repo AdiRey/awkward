@@ -4,6 +4,7 @@ import lombok.Data;
 import pl.awkward.shared.BaseEntity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -18,4 +19,7 @@ public class UserInterest implements BaseEntity {
     private Long interestId;
     @Column(columnDefinition = "boolean default true")
     private Boolean active;
+
+    @Column(nullable = true) // @Column(nullable = false)
+    private LocalDateTime addDate;
 }

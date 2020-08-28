@@ -4,6 +4,7 @@ import lombok.Data;
 import pl.awkward.shared.BaseEntity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -17,4 +18,6 @@ public class Address implements BaseEntity {
     private String city;
     @Column(columnDefinition = "boolean default true")
     private Boolean active;
+    @Column(nullable = true) // @Column(nullable = false)
+    private LocalDateTime addDate;
 }
