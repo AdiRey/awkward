@@ -46,7 +46,7 @@ public class UniversityController extends BaseCrudController<University> {
 
     @GetMapping("/{id}")
     public ResponseEntity<UniversityDto> getOne(@PathVariable final Long id) {
-        return super.getOne(id, this.universityConverter.toDto());
+        return super.getOneByActiveTrue(id, this.universityConverter.toDto());
     }
 
     @PostMapping("")

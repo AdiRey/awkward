@@ -41,7 +41,7 @@ public class RoleController extends BaseCrudController<Role> {
 
     @GetMapping("/{id}")
     public ResponseEntity<RoleDto> getOne(@PathVariable final Long id) {
-        return super.getOne(id, roleConverter.toDto());
+        return super.getOneByActiveTrue(id, roleConverter.toDto());
     }
 
     @PostMapping("")

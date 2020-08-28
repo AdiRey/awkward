@@ -27,7 +27,6 @@ import pl.awkward.shared.*;
 import pl.awkward.university.model_repo.UniversityRepository;
 import pl.awkward.user.dtos.*;
 import pl.awkward.user.model_repo.User;
-import pl.awkward.user.model_repo.UserRepository;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -127,13 +126,13 @@ public class UserController extends BaseCrudController<User> {
 
     @GetMapping("/{id}") // TODO genderDto to change,
     public ResponseEntity<UserShowDto> getOne(@PathVariable final Long id) {
-        return super.getOne(id, this.userShowConverter.toDto());
+        return super.getOneByActiveTrue(id, this.userShowConverter.toDto());
     }
 
     @GetMapping("/{id}/admin")
     @Transactional(isolation = Isolation.READ_UNCOMMITTED, readOnly = true)
     public ResponseEntity<UserDto> getOneAdminPanel(@PathVariable final Long id) {
-        return super.getOne(id, this.userConverter.toDto());
+        return super.getOneByActiveTrue(id, this.userConverter.toDto());
     }
 
     @GetMapping("")

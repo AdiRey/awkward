@@ -43,9 +43,9 @@ public class AddressController extends BaseCrudController<Address> {
                                                    @RequestParam(defaultValue = "ASC") final String direction,
                                                    @RequestParam(defaultValue = "") final String filter) {
         if (filter.equals(""))
-            return super.getAll(page, size, column, direction, this.addressShowConverter.toDto());
+            return super.getAllByActiveTrue(page, size, column, direction, this.addressShowConverter.toDto());
         return ResponseEntity
-                .ok(this.addressService.getAllWithFilter(page, size, column, direction, filter)
+                .ok(this.addressService.getAllWithFilterAndActiveTrue(page, size, column, direction, filter)
                         .map(this.addressShowConverter.toDto())
                 );
     }
@@ -66,7 +66,7 @@ public class AddressController extends BaseCrudController<Address> {
 
     @GetMapping("/{id}")
     public ResponseEntity<AddressShowDto> getOne(@PathVariable final Long id) {
-        return super.getOne(id, this.addressShowConverter.toDto());
+        return super.getOneByActiveTrue(id, this.addressShowConverter.toDto());
     }
 
     @GetMapping("/{id}/admin")

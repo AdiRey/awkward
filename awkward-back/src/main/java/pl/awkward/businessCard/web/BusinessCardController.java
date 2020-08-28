@@ -44,7 +44,7 @@ public class BusinessCardController extends BaseCrudController<BusinessCard> {
 
     @GetMapping("/{id}")
     public ResponseEntity<BusinessCardDto> getOne(@PathVariable(name = "id") final Long id) {
-        return super.getOne(id, businessCardConverter.toDto());
+        return super.getOneByActiveTrue(id, businessCardConverter.toDto());
     }
 
     @PostMapping("")

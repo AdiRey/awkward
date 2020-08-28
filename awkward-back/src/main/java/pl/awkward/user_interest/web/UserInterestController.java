@@ -41,7 +41,7 @@ public class UserInterestController extends BaseCrudController<UserInterest> {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserInterestDto> getOne(@PathVariable(name = "id") final Long id) {
-        return super.getOne(id, uiConverter.toDto());
+        return super.getOneByActiveTrue(id, uiConverter.toDto());
     }
 
     @PostMapping("")

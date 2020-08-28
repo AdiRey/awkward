@@ -18,20 +18,38 @@ public abstract class BaseCrudController<E extends BaseEntity> {
 
     private final BaseRepository<E> repository;
 
-    protected <T> ResponseEntity<Page<T>> getAll(final int page,
-                                                 final int size,
-                                                 final String column,
-                                                 final String direction,
-                                                 final Function<E, T> converter) {
+    protected <T> ResponseEntity<Page<T>> getAllByActiveTrue(final int page,
+                                                     final int size,
+                                                     final String column,
+                                                     final String direction,
+                                                     final Function<E, T> converter) {
         Sort.Direction sortDir = direction.equals("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Sort sort = Sort.by(new Sort.Order(sortDir, column));
         Page<E> entityPage = this.repository.findAllByActiveIsTrue(PageRequest.of(page, size, sort));
         return ResponseEntity.ok(entityPage.map(converter));
     }
 
+    protected <T> ResponseEntity<Page<T>> getAll(final int page,
+                                                     final int size,
+                                                     final String column,
+                                                     final String direction,
+                                                     final Function<E, T> converter) {
+        Sort.Direction sortDir = direction.equals("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort sort = Sort.by(new Sort.Order(sortDir, column));
+        Page<E> entityPage = this.repository.findAll(PageRequest.of(page, size, sort));
+        return ResponseEntity.ok(entityPage.map(converter));
+    }
+
+
+    protected <T> ResponseEntity<T> getOneByActiveTrue(final Long id, Function<E, T> converter) {
+        Optional<E> optional = this.repository.findByIdAndActiveIsTrue(id);
+        return optional
+                .map(e -> ResponseEntity.ok(converter.apply(e)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
     protected <T> ResponseEntity<T> getOne(final Long id, Function<E, T> converter) {
-        Optional<E> optional = this.repository.findByIdAndActiveIsTrue(id);
+        Optional<E> optional = this.repository.findById(id);
         return optional
                 .map(e -> ResponseEntity.ok(converter.apply(e)))
                 .orElseGet(() -> ResponseEntity.notFound().build());

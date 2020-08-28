@@ -41,7 +41,7 @@ public class PairController extends BaseCrudController<Pair> {
 
     @GetMapping("/{id}")
     public ResponseEntity<PairDto> getOne(@PathVariable final Long id) {
-        return super.getOne(id, this.pairConverter.toDto());
+        return super.getOneByActiveTrue(id, this.pairConverter.toDto());
     }
 
     @PostMapping("")
