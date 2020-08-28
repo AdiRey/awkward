@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import pl.awkward.exceptions.DuplicateException;
 import pl.awkward.user.model_repo.User;
@@ -19,8 +20,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImplementation implements pl.awkward.user.web.UserService {
-    private final UserRepository userRepository;
+
     private static final String PATH_TO_USER_DIR = "awkward-back/user_images/";
+
+    private final UserRepository userRepository;
 
     @Override
     public Integer getAmountOfUsers() {
@@ -40,19 +43,27 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
     }
 
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public boolean update(final Long id, final User updateUser) {
         Optional<User> optionalUser = this.userRepository.findById(id);
         if (optionalUser.isEmpty())
             return false;
+
         User user = optionalUser.get();
+
         user.setEmail(updateUser.getEmail());
-//        user.setLogin(updateUser.getLogin());
+        user.setUsername(updateUser.getUsername());
+
         user.setName(updateUser.getName());
         user.setSurname(updateUser.getSurname());
+
         user.setDateOfBirth(updateUser.getDateOfBirth());
+        user.setAge(updateUser.getAge()); //TODO ?
         user.setDescription(updateUser.getDescription());
-//        user.setUniversityId(updateUser.getUniversityId());
+
+        user.setGender(updateUser.getGender());
+        user.setUniversity(updateUser.getUniversity());
+
         return true;
     }
 

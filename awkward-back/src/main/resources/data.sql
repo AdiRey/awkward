@@ -48,7 +48,7 @@ INSERT INTO role(name, status) VALUES
 ('OWNER', 0),
 ('ADMIN', 1),
 ('MODERATOR', 2),
-('USER', 3);
+('USER', 100);
 
 
 

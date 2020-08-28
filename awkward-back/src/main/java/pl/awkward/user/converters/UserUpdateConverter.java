@@ -1,6 +1,8 @@
 package pl.awkward.user.converters;
 
 import org.springframework.stereotype.Service;
+import pl.awkward.gender.Gender;
+import pl.awkward.gender.GenderRepository;
 import pl.awkward.shared.BaseConverter;
 import pl.awkward.user.dtos.UserUpdateDto;
 import pl.awkward.user.model_repo.User;
@@ -9,18 +11,28 @@ import java.util.function.Function;
 
 @Service
 public class UserUpdateConverter extends BaseConverter<User, UserUpdateDto> {
+
     @Override
     public Function<UserUpdateDto, User> toEntity() {
         return dto -> {
-            User user = new User();
-            convertIfNotNull(user::setEmail, dto::getEmail);
-//            convertIfNotNull(user::setLogin, dto::getLogin);
-            convertIfNotNull(user::setName, dto::getName);
-            convertIfNotNull(user::setSurname, dto::getSurname);
-            convertIfNotNull(user::setDateOfBirth, dto::getDateOfBirth);
-            convertIfNotNull(user::setDescription, dto::getDescription);
+            if (dto == null)
+                return null;
 
-//            convertIfNotNull(user::setUniversityId, dto::getUniversityId);
+            User user = new User();
+
+            user.setEmail(dto.getEmail());
+            user.setUsername(dto.getUsername());
+
+            user.setName(dto.getName());
+            user.setSurname(dto.getSurname());
+
+            user.setDateOfBirth(dto.getDateOfBirth());
+            user.setDescription(dto.getDescription());
+
+            user.setAge(dto.getAge());
+            user.setGender(dto.getGender());
+            user.setUniversity(dto.getUniversity());
+
             return user;
         };
     }
@@ -28,15 +40,27 @@ public class UserUpdateConverter extends BaseConverter<User, UserUpdateDto> {
     @Override
     public Function<User, UserUpdateDto> toDto() {
         return user -> {
-            UserUpdateDto dto = new UserUpdateDto();
-            convertIfNotNull(dto::setEmail, user::getEmail);
-//            convertIfNotNull(dto::setLogin, user::getLogin);
-            convertIfNotNull(dto::setName, user::getName);
-            convertIfNotNull(dto::setSurname, user::getSurname);
-            convertIfNotNull(dto::setDateOfBirth, user::getDateOfBirth);
-            convertIfNotNull(dto::setDescription, user::getDescription);
+            if (user == null)
+                return null;
 
-//            convertIfNotNull(dto::setUniversityId, user::getUniversityId);
+            UserUpdateDto dto = new UserUpdateDto();
+
+            dto.setEmail(user.getEmail());
+            dto.setUsername(user.getUsername());
+
+            dto.setName(user.getName());
+            dto.setSurname(user.getSurname());
+
+            dto.setDateOfBirth(user.getDateOfBirth());
+            dto.setDescription(user.getDescription());
+
+            dto.setAge(user.getAge());
+            dto.setGender(user.getGender());
+            dto.setUniversity(user.getUniversity());
+
+            dto.setGenderId(user.getGender().getId());
+            dto.setUniversityId(user.getUniversity().getId());
+
             return dto;
         };
     }

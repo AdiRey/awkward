@@ -12,6 +12,8 @@ public class BusinessCardConverter extends BaseConverter<BusinessCard, BusinessC
     @Override
     public Function<BusinessCardDto, BusinessCard> toEntity() {
         return dto -> {
+            if (dto == null)
+                return null;
             BusinessCard businessCard = new BusinessCard();
             convertIfNotNull(businessCard::setId, dto::getId);
             convertIfNotNull(businessCard::setPhoneNumber, dto::getPhoneNumber);
@@ -27,6 +29,8 @@ public class BusinessCardConverter extends BaseConverter<BusinessCard, BusinessC
     @Override
     public Function<BusinessCard, BusinessCardDto> toDto() {
         return businessCard -> {
+            if (businessCard == null)
+                return null;
             BusinessCardDto dto = new BusinessCardDto();
             convertIfNotNull(dto::setId, businessCard::getId);
             convertIfNotNull(dto::setPhoneNumber, businessCard::getPhoneNumber);

@@ -17,6 +17,7 @@ import pl.awkward.user_address.model_repo.UserAddress;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -29,22 +30,29 @@ public final class User implements BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @Column(unique = true, nullable = false, length = 20)
     private String username;
+
     @Column(unique = true, nullable = false, length = 150)
     private String email;
 
+
     @Column(nullable = false, length = 50)
     private String name;
+
     @Column(nullable = false, length = 70)
     private String surname;
 
+
     @Column(nullable = false)
     private LocalDate dateOfBirth;
-    @Column(nullable = true)
-    private LocalDate addDate;
-    @Column(nullable = true)
-    private LocalDate deleteDate;
+
+    @Column(nullable = true) // @Column(nullable = false)
+    private LocalDateTime addDate;
+
+    private LocalDateTime deleteDate;
+
 
     @Column(nullable = false)
     private Integer age;
@@ -55,46 +63,60 @@ public final class User implements BaseEntity {
     @Column(nullable = false)
     private String password;
 
+
     @Column(columnDefinition = "boolean default true")
     @Generated(GenerationTime.INSERT)
     private Boolean active;
 
     @Column(name = "active_now", columnDefinition = "boolean default false")
+    @Generated(GenerationTime.INSERT)
     private Boolean activeNow;
 
+
     /* ### RELATIONS ### */
+
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Gender gender;
 
+
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     private Role role;
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     private University university;
+
 
     @OneToMany(mappedBy = "user",
             fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Photo> photos;
 
+
     @OneToMany(mappedBy = "user",
-            fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+            fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @OrderBy("number asc")
     private List<UserAddress> userAddresses;
 
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_interest",
-            joinColumns = {@JoinColumn(name = "idUser", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "interestId", referencedColumnName = "id")})
+            joinColumns = {@JoinColumn(name = "id_user", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "id_interest", referencedColumnName = "id")},
+            indexes = {@Index(name = "user_interest_index", unique = true, columnList = "id_user,id_interest")})
     @Fetch(FetchMode.SELECT)
     private List<Interest> interests;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true)
+
+    @OneToOne(mappedBy = "user",
+            fetch = FetchType.LAZY, orphanRemoval = true)
     private BusinessCard card;
+
 
     @OneToMany(mappedBy = "firstUser",
             fetch = FetchType.LAZY)
     private List<Liked> firstLikes;
+
 
     @OneToMany(mappedBy = "secondUser",
             fetch = FetchType.LAZY)

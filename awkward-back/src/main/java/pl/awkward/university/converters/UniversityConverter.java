@@ -12,6 +12,8 @@ public class UniversityConverter extends BaseConverter<University, UniversityDto
     @Override
     public Function<UniversityDto, University> toEntity() {
         return dto -> {
+            if (dto == null)
+                return null;
             University university = new University();
             convertIfNotNull(university::setId, dto::getId);
             convertIfNotNull(university::setName, dto::getName);
@@ -24,6 +26,8 @@ public class UniversityConverter extends BaseConverter<University, UniversityDto
     @Override
     public Function<University, UniversityDto> toDto() {
         return university -> {
+            if (university == null)
+                return null;
             UniversityDto dto = new UniversityDto();
             convertIfNotNull(dto::setId, university::getId);
             convertIfNotNull(dto::setName, university::getName);

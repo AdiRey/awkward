@@ -14,6 +14,7 @@ import pl.awkward.exceptions.OperationNotAllowedException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 @RestControllerAdvice
@@ -53,6 +54,12 @@ public class RestControllerExceptions {
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
     @ExceptionHandler(OperationNotAllowedException.class)
     public String handleOperationNotAllowedException(OperationNotAllowedException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    @ExceptionHandler(NoSuchElementException.class)
+    public String handleNoSuchElementException(NoSuchElementException ex) {
         return ex.getMessage();
     }
 

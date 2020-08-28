@@ -3,7 +3,6 @@ package pl.awkward.user.converters;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.awkward.gender.GenderConverter;
-import pl.awkward.interest.converters.InterestConverter;
 import pl.awkward.role.converters.RoleConverter;
 import pl.awkward.shared.BaseConverter;
 import pl.awkward.university.converters.UniversityConverter;
@@ -23,11 +22,13 @@ public class UserShowConverter extends BaseConverter<User, UserShowDto> {
     private final GenderConverter genderConverter;
     private final UniversityConverter universityConverter;
     private final UserAddressConverter userAddressConverter;
-    private final InterestConverter interestConverter;
 
     @Override
     public Function<UserShowDto, User> toEntity() {
         return dto -> {
+            if (dto == null)
+                return null;
+
             User user = new User();
 
             user.setId(dto.getId());
@@ -47,12 +48,6 @@ public class UserShowConverter extends BaseConverter<User, UserShowDto> {
                             .map(this.userAddressConverter.toEntity())
                             .collect(Collectors.toCollection(ArrayList::new))
             );
-            user.setInterests(
-                    dto.getInterests()
-                            .stream()
-                            .map(this.interestConverter.toEntity())
-                            .collect(Collectors.toCollection(ArrayList::new))
-            );
 
             return user;
         };
@@ -61,6 +56,9 @@ public class UserShowConverter extends BaseConverter<User, UserShowDto> {
     @Override
     public Function<User, UserShowDto> toDto() {
         return user -> {
+            if (user == null)
+                return null;
+
             UserShowDto dto = new UserShowDto();
 
             dto.setId(user.getId());
@@ -78,12 +76,6 @@ public class UserShowConverter extends BaseConverter<User, UserShowDto> {
                     user.getUserAddresses()
                             .stream()
                             .map(this.userAddressConverter.toDto())
-                            .collect(Collectors.toCollection(ArrayList::new))
-            );
-            dto.setInterests(
-                    user.getInterests()
-                            .stream()
-                            .map(this.interestConverter.toDto())
                             .collect(Collectors.toCollection(ArrayList::new))
             );
 

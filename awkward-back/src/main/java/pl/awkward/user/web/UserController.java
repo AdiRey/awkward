@@ -1,12 +1,12 @@
 package pl.awkward.user.web;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.awkward.exceptions.DuplicateException;
 import pl.awkward.exceptions.OperationNotAllowedException;
+import pl.awkward.gender.GenderRepository;
 import pl.awkward.liked.dtos.LikedCreateDto;
 import pl.awkward.liked.dtos.LikedDto;
 import pl.awkward.liked.model_repo.Liked;
@@ -21,7 +22,9 @@ import pl.awkward.liked.web.LikedService;
 import pl.awkward.photo.dtos.PhotoDto;
 import pl.awkward.photo.model_repo.Photo;
 import pl.awkward.photo.web.PhotoService;
+import pl.awkward.role.model_repo.RoleRepository;
 import pl.awkward.shared.*;
+import pl.awkward.university.model_repo.UniversityRepository;
 import pl.awkward.user.dtos.*;
 import pl.awkward.user.model_repo.User;
 
@@ -35,8 +38,10 @@ import java.util.Objects;
 @RestController
 @RequestMapping(path = "/api/users")
 @CrossOrigin
-@Slf4j
 public class UserController extends BaseCrudController<User> {
+
+    private final static String USER = "USER";
+
     private final BaseConverter<User, UserDto> userConverter;
     private final BaseConverter<User, UserCreateDto> userCreateConverter;
     private final BaseConverter<User, UserUpdateDto> userUpdateConverter;
@@ -50,6 +55,9 @@ public class UserController extends BaseCrudController<User> {
     private final BaseConverter<Liked, LikedCreateDto> likedCreateConverter;
     private final LikedService likedService;
     private final BaseConverter<User, UserShowDto> userShowConverter;
+    private final RoleRepository roleRepository;
+    private final GenderRepository genderRepository;
+    private final UniversityRepository universityRepository;
 
     public UserController(final BaseRepository<User> userRepository,
                           final BaseConverter<User, UserDto> userConverter,
@@ -64,7 +72,10 @@ public class UserController extends BaseCrudController<User> {
                           final BaseConverter<Liked, LikedDto> likedConverter,
                           final BaseConverter<Liked, LikedCreateDto> likedCreateConverter,
                           final LikedService likedService,
-                          final BaseConverter<User, UserShowDto> userShowConverter) {
+                          final BaseConverter<User, UserShowDto> userShowConverter,
+                          final RoleRepository roleRepository,
+                          final UniversityRepository universityRepository,
+                          final GenderRepository genderRepository) {
         super(userRepository);
         this.userConverter = userConverter;
         this.userCreateConverter = userCreateConverter;
@@ -79,42 +90,24 @@ public class UserController extends BaseCrudController<User> {
         this.likedCreateConverter = likedCreateConverter;
         this.likedService = likedService;
         this.userShowConverter = userShowConverter;
+        this.roleRepository = roleRepository;
+        this.genderRepository = genderRepository;
+        this.universityRepository = universityRepository;
     }
 
-    @GetMapping("/amount")
-    public ResponseEntity<Integer> amount() {
-        log.info("START");
-        Integer value = this.userService.getAmountOfUsers();
-        log.info("Amount: " + value);
-        return ResponseEntity.ok(value);
-    }
-
-    @GetMapping("")
-    public ResponseEntity<Page<UserDto>> getAll(@RequestParam(defaultValue = "0") final int page,
-                                                @RequestParam(defaultValue = "20") final int size,
-                                                @RequestParam(defaultValue = "id") final String column,
-                                                @RequestParam(defaultValue = "ASC") final String direction,
-                                                @RequestParam(defaultValue = "") final String filter) {
-        if (filter.equals(""))
-            return super.getAll(page, size, column, direction, this.userConverter.toDto());
-        return ResponseEntity.ok(
-                this.userService.getAllWithFilter(page, size, column, direction, filter)
-                        .map(this.userConverter.toDto())
-        );
-    }
-
-    @GetMapping("/{id}")
-    @Transactional
-    public ResponseEntity<UserShowDto> getOne(@PathVariable final Long id) {
-        return super.getOne(id, this.userShowConverter.toDto());
-    }
+    /*DONE*/
 
     @PostMapping("")
     public ResponseEntity<Void> create(@RequestBody @Valid UserCreateDto dto) {
+
         dto.setAge(Period.between(dto.getDateOfBirth(), LocalDate.now()).getYears());
-        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+        dto.setAddDate(LocalDateTime.now());
+        dto.setPassword(this.passwordEncoder.encode(dto.getPassword()));
+        dto.setGender(this.genderRepository.findById(dto.getGenderId()).get());
+        dto.setRole(this.roleRepository.findByName(USER).get());
 
         ResponseEntity<Void> voidResponseEntity = super.create(dto, this.userCreateConverter.toEntity());
+
         try {
             String[] split = Objects.requireNonNull(voidResponseEntity.getHeaders().getLocation()).getPath().split("/");
             this.userService.createFolderViaId(Long.parseLong(split[3]));
@@ -124,15 +117,54 @@ public class UserController extends BaseCrudController<User> {
         return voidResponseEntity;
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable final Long id) {
-        return super.delete(id);
+    @GetMapping("/amount")
+    public ResponseEntity<Integer> amount() {
+        return ResponseEntity.ok(this.userService.getAmountOfUsers());
+    }
+
+    @GetMapping("/{id}") // TODO genderDto to change,
+    public ResponseEntity<UserShowDto> getOne(@PathVariable final Long id) {
+        return super.getOne(id, this.userShowConverter.toDto());
+    }
+
+    @GetMapping("/{id}/admin")
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED, readOnly = true)
+    public ResponseEntity<UserDto> getOneAdminPanel(@PathVariable final Long id) {
+        return super.getOne(id, this.userConverter.toDto());
+    }
+
+    @GetMapping("")
+    public ResponseEntity<Page<UserShowDto>> getAll(@RequestParam(defaultValue = "0") final int page,
+                                                @RequestParam(defaultValue = "20") final int size,
+                                                @RequestParam(defaultValue = "id") final String column,
+                                                @RequestParam(defaultValue = "ASC") final String direction,
+                                                @RequestParam(defaultValue = "") final String filter) {
+        if (filter.equals(""))
+            return super.getAll(page, size, column, direction, this.userShowConverter.toDto());
+        return ResponseEntity.ok(
+                this.userService.getAllWithFilter(page, size, column, direction, filter)
+                        .map(this.userShowConverter.toDto())
+        );
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody @Valid final UserUpdateDto dto) {
+        dto.setAge(Period.between(dto.getDateOfBirth(), LocalDate.now()).getYears());
+        dto.setGender(this.genderRepository.findById(dto.getGenderId()).get());
+        dto.setUniversity(this.universityRepository.findById(dto.getUniversityId()).get());
+
         boolean status = this.userService.update(id, this.userUpdateConverter.toEntity().apply(dto));
         return super.update(status);
+    }
+
+
+
+    /*NOT DONE*/
+
+
+    @DeleteMapping("/{id}") // TODO in base entity, add deleteDate
+    public ResponseEntity<Void> delete(@PathVariable final Long id) {
+        return super.delete(id);
     }
 
     @PatchMapping("/{id}/password")
