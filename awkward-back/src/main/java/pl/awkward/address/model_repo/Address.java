@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @Entity(name = "address")
 @Table(name = "address",
         uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"country", "city"})
+            @UniqueConstraint(columnNames = {"country", "city"})
         },
-            indexes = {
-                @Index(columnList = "country,city")
-            })
+        indexes = {
+            @Index(columnList = "country,city")
+        })
 @Data
 public class Address implements BaseEntity {
 
