@@ -149,6 +149,7 @@ public class UserController extends BaseCrudController<User> {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody @Valid final UserUpdateDto dto) {
+
         dto.setAge(Period.between(dto.getDateOfBirth(), LocalDate.now()).getYears());
         dto.setGender(this.genderRepository.findById(dto.getGenderId()).get());
         dto.setUniversity(this.universityRepository.findById(dto.getUniversityId()).get());
@@ -157,32 +158,35 @@ public class UserController extends BaseCrudController<User> {
         return super.update(status);
     }
 
-
-
-    /*NOT DONE*/
-
-
-    @DeleteMapping("/{id}") // TODO in base entity, add deleteDate
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable final Long id) {
         return super.delete(id);
     }
 
     @PatchMapping("/{id}/password")
     public ResponseEntity<Void> updatePassword(@PathVariable final Long id, @RequestBody @Valid final UserPasswordDto dto) {
+
         dto.setPassword(this.passwordEncoder.encode(dto.getPassword()));
+
         if (this.userService.updatePassword(id, this.userPasswordConverter.toEntity().apply(dto)))
             return ResponseEntity.noContent().build();
-        return ResponseEntity.notFound().build();
+        else
+            return ResponseEntity.notFound().build();
     }
 
     @PatchMapping("/{id}/role")
     public ResponseEntity<Void> updateRole(@PathVariable final Long id, @RequestBody @Valid final UserRoleDto dto) {
-        if (this.userService.updateRoleId(id, this.userRoleConverter.toEntity().apply(dto)))
+
+        dto.setRole(this.roleRepository.findById(dto.getRoleId()).get());
+
+        if (this.userService.updateRole(id, this.userRoleConverter.toEntity().apply(dto)))
             return ResponseEntity.noContent().build();
         return ResponseEntity.notFound().build();
     }
 
+
     //photos
+
 
     @GetMapping("/{id}/photos")
     public ResponseEntity<Page<PhotoDto>> getAllPhotos(@PathVariable final Long id,
@@ -195,17 +199,21 @@ public class UserController extends BaseCrudController<User> {
 
     @PostMapping("/{id}/photos")
     public ResponseEntity<Void> createPhoto(@PathVariable final Long id,
-                                            @RequestParam("imageFile") final MultipartFile imageFile) {
+                                            @RequestParam("imageFile") final MultipartFile imageFile,
+                                            @RequestParam("position") final Integer position) {
         final String content = imageFile.getContentType();
         if (content == null || (!content.equals("image/jpg") && !content.equals("image/png") && !content.equals("image/jpeg")))
             throw new IllegalArgumentException("Unrecognized image format.");
-        final Photo photo = this.photoService.save(id, imageFile);
+        final Photo photo = this.photoService.save(id, position, imageFile);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{fileName}")
                 .buildAndExpand(photo.getPath().split("/")[2]).toUri();
         return ResponseEntity.created(location).contentType(MediaType.parseMediaType(content)).build();
     }
 
     //liked
+
+
+    /*NOT DONE*/
 
     @PostMapping("/{id}/liked") // TODO: it is possible to like someone who's been already deleted, but: does it matter?
     public ResponseEntity<Void> createLike(@PathVariable final Long id, @RequestBody @Valid final LikedCreateDto dto) {

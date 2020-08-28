@@ -7,7 +7,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import pl.awkward.exceptions.DuplicateException;
 import pl.awkward.user.model_repo.User;
 import pl.awkward.user.model_repo.UserRepository;
 
@@ -68,7 +67,7 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
     }
 
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public boolean updatePassword(final Long id, User user) {
         Optional<User> userById = this.userRepository.findById(id);
         if (userById.isPresent()) {
@@ -79,11 +78,11 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
     }
 
     @Override
-    @Transactional
-    public boolean updateRoleId(Long id, User userRole) {
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
+    public boolean updateRole(Long id, User userRole) {
         Optional<User> userById = this.userRepository.findById(id);
         if (userById.isPresent()) {
-//            userById.get().setRoleId(userRole.getRoleId());
+            userById.get().setRole(userRole.getRole());
             return true;
         }
         return false;

@@ -35,7 +35,7 @@ public class PhotoServiceImplementation implements PhotoService {
     }
 
     @Override
-    public Photo save(Long userId, MultipartFile file) {
+    public Photo save(Long userId, Integer position, MultipartFile file) {
         Photo photo = new Photo();
 //        photo.setUserId(userId);
         photo.setAddDate(LocalDateTime.now());

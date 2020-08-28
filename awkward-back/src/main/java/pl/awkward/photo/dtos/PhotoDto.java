@@ -1,15 +1,25 @@
 package pl.awkward.photo.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import pl.awkward.address.model_repo.Address;
 
 import java.time.LocalDateTime;
 
 @Data
 public class PhotoDto {
+
     private Long id;
     private String path;
-    private LocalDateTime addDate;
+
+    private Integer position;
+
     private Boolean archive;
-    private Boolean active;
-    private Long userId;
+
+    private LocalDateTime addDate;
+
+    private Long addressId;
+
+    @JsonIgnore
+    private Address address;
 }

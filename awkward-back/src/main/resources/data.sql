@@ -82,12 +82,12 @@ VALUES
 
 /*                  ########## PHOTOS ##########                 */
 
-INSERT INTO photo(path, add_date, archive, user_id) VALUES
-('user_images/1/52d5f9102c1a45afb882b71f4f0e5949.png', '2020-07-15 12:27:50.637901000', 0, 1),
-('user_images/1/9a17438195074be19752ed2883191581.png', '2020-07-15 12:28:15.694505000', 0, 1),
-('user_images/2/1b9ebcf62a1d4d6cadc898b62fe76ebf.png', '2020-07-15 12:28:31.536395000', 0, 2),
-('user_images/3/105aadeff6bd4a13a0207485b9f2df00.png','2020-07-15 12:28:46.960154000', 0, 3),
-('user_images/5/49cecfba5a454981bead2e391c12d14e.png','2020-07-15 12:28:49.520284000', 0, 5);
+INSERT INTO photo(path, position, add_date, archive, user_id) VALUES
+('user_images/1/52d5f9102c1a45afb882b71f4f0e5949.png', 1, '2020-07-15 12:27:50.637901000', 0, 1),
+('user_images/1/9a17438195074be19752ed2883191581.png', 2, '2020-07-15 12:28:15.694505000', 0, 1),
+('user_images/2/1b9ebcf62a1d4d6cadc898b62fe76ebf.png', 1, '2020-07-15 12:28:31.536395000', 0, 2),
+('user_images/3/105aadeff6bd4a13a0207485b9f2df00.png', 1, '2020-07-15 12:28:46.960154000', 0, 3),
+('user_images/5/49cecfba5a454981bead2e391c12d14e.png', 1, '2020-07-15 12:28:49.520284000', 0, 5);
 
 /*                  ########## USER_INTERESTS ##########                 */
 

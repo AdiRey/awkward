@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -55,6 +56,7 @@ public abstract class BaseCrudController<E extends BaseEntity> {
             E e = optional.get();
             if (!e.getActive())
                 return ResponseEntity.notFound().build();
+            e.setDeleteDate(LocalDateTime.now());
             e.setActive(false);
             return ResponseEntity.noContent().build();
         }

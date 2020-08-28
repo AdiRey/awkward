@@ -2,7 +2,6 @@ package pl.awkward.user.dtos;
 
 import lombok.Data;
 import pl.awkward.businessCard.dtos.BusinessCardDto;
-import pl.awkward.businessCard.model_repo.BusinessCard;
 import pl.awkward.gender.GenderDto;
 import pl.awkward.role.dtos.RoleDto;
 import pl.awkward.university.dtos.UniversityDto;

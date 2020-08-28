@@ -10,7 +10,7 @@ public interface UserService {
 
     boolean updatePassword(Long id, User userPass);
 
-    boolean updateRoleId(Long id, User userRole);
+    boolean updateRole(Long id, User userRole);
 
     void createFolderViaId(Long id);
 

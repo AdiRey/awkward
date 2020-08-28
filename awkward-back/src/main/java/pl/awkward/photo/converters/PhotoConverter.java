@@ -12,13 +12,18 @@ public class PhotoConverter extends BaseConverter<Photo, PhotoDto> {
     @Override
     public Function<PhotoDto, Photo> toEntity() {
         return dto -> {
+            if (dto == null)
+                return null;
+
             Photo photo = new Photo();
-            convertIfNotNull(photo::setId, dto::getId);
-            convertIfNotNull(photo::setPath, dto::getPath);
-            convertIfNotNull(photo::setAddDate, dto::getAddDate);
-            convertIfNotNull(photo::setArchive, dto::getArchive);
-            convertIfNotNull(photo::setActive, dto::getActive);
-//            convertIfNotNull(photo::setUserId, dto::getUserId);
+
+            photo.setId(dto.getId());
+            photo.setPath(dto.getPath());
+            photo.setPosition(dto.getPosition());
+            photo.setArchive(dto.getArchive());
+            photo.setAddDate(dto.getAddDate());
+            photo.setAddress(dto.getAddress());
+
             return photo;
         };
     }
@@ -26,13 +31,20 @@ public class PhotoConverter extends BaseConverter<Photo, PhotoDto> {
     @Override
     public Function<Photo, PhotoDto> toDto() {
         return photo -> {
+            if (photo == null)
+                return null;
+
             PhotoDto dto = new PhotoDto();
-            convertIfNotNull(dto::setId, photo::getId);
-            convertIfNotNull(dto::setPath, photo::getPath);
-            convertIfNotNull(dto::setAddDate, dto::getAddDate);
-            convertIfNotNull(dto::setArchive, photo::getArchive);
-            convertIfNotNull(dto::setActive, photo::getActive);
-            convertIfNotNull(dto::setUserId, photo::getId);
+
+            dto.setId(photo.getId());
+            dto.setPath(photo.getPath());
+            dto.setPosition(photo.getPosition());
+            dto.setArchive(photo.getArchive());
+            dto.setAddDate(photo.getAddDate());
+            dto.setAddress(photo.getAddress());
+
+            dto.setAddressId(photo.getAddress().getId());
+
             return dto;
         };
     }
