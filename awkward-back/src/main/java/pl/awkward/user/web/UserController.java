@@ -27,6 +27,7 @@ import pl.awkward.shared.*;
 import pl.awkward.university.model_repo.UniversityRepository;
 import pl.awkward.user.dtos.*;
 import pl.awkward.user.model_repo.User;
+import pl.awkward.user.model_repo.UserRepository;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -58,6 +59,7 @@ public class UserController extends BaseCrudController<User> {
     private final RoleRepository roleRepository;
     private final GenderRepository genderRepository;
     private final UniversityRepository universityRepository;
+    private final BaseRepository<User> userRepository;
 
     public UserController(final BaseRepository<User> userRepository,
                           final BaseConverter<User, UserDto> userConverter,
@@ -77,6 +79,7 @@ public class UserController extends BaseCrudController<User> {
                           final UniversityRepository universityRepository,
                           final GenderRepository genderRepository) {
         super(userRepository);
+        this.userRepository = userRepository;
         this.userConverter = userConverter;
         this.userCreateConverter = userCreateConverter;
         this.userUpdateConverter = userUpdateConverter;
@@ -201,10 +204,12 @@ public class UserController extends BaseCrudController<User> {
     public ResponseEntity<Void> createPhoto(@PathVariable final Long id,
                                             @RequestParam("imageFile") final MultipartFile imageFile,
                                             @RequestParam("position") final Integer position) {
+
+
         final String content = imageFile.getContentType();
         if (content == null || (!content.equals("image/jpg") && !content.equals("image/png") && !content.equals("image/jpeg")))
             throw new IllegalArgumentException("Unrecognized image format.");
-        final Photo photo = this.photoService.save(id, position, imageFile);
+        final Photo photo = this.photoService.save(this.userRepository.findById(id).get(), position, imageFile);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{fileName}")
                 .buildAndExpand(photo.getPath().split("/")[2]).toUri();
         return ResponseEntity.created(location).contentType(MediaType.parseMediaType(content)).build();
