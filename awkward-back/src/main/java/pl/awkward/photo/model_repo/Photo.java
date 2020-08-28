@@ -27,4 +27,6 @@ public class Photo implements BaseEntity {
 
     private Long addressId;
 
+    private LocalDateTime deleteDate;
+
 }

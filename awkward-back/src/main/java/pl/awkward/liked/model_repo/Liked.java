@@ -32,6 +32,7 @@ public class Liked implements BaseEntity {
 
     @Column(nullable = true) // @Column(nullable = false)
     private LocalDateTime addDate;
+    private LocalDateTime deleteDate;
 
 
     private Byte firstStatus;

@@ -28,4 +28,5 @@ public class Message implements BaseEntity {
 
     @Column(nullable = true) // @Column(nullable = false)
     private LocalDateTime addDate;
+    private LocalDateTime deleteDate;
 }

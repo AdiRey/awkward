@@ -20,4 +20,5 @@ public class Role implements BaseEntity {
     private Boolean active;
     @Column(nullable = true) // @Column(nullable = false)
     private LocalDateTime addDate;
+    private LocalDateTime deleteDate;
 }

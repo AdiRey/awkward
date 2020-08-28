@@ -23,6 +23,7 @@ public class UserAddress implements BaseEntity {
 
     @Column(nullable = true) // @Column(nullable = false)
     private LocalDateTime addDate;
+    private LocalDateTime deleteDate;
 
     @ManyToOne
     private User user;

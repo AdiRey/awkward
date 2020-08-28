@@ -24,4 +24,5 @@ public class Interest implements BaseEntity {
     private List<User> users;
     @Column(nullable = true) // @Column(nullable = false)
     private LocalDateTime addDate;
+    private LocalDateTime deleteDate;
 }
