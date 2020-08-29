@@ -1,8 +1,9 @@
 package pl.awkward.shared;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public interface BaseEntity {
+public interface BaseEntity extends Serializable {
 
     // id
     void setId(Long id);

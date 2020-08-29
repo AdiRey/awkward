@@ -9,26 +9,37 @@ import java.util.function.Function;
 
 @Service
 public class BusinessCardUpdateConverter extends BaseConverter<BusinessCard, BusinessCardUpdateDto> {
+
     @Override
     public Function<BusinessCardUpdateDto, BusinessCard> toEntity() {
         return dto -> {
-            BusinessCard businessCard = new BusinessCard();
-            convertIfNotNull(businessCard::setPhoneNumber, dto::getPhoneNumber);
-            convertIfNotNull(businessCard::setFacebookUrl, dto::getFacebookUrl);
-            convertIfNotNull(businessCard::setInstUrl, dto::getInstUrl);
-            convertIfNotNull(businessCard::setSnapName, dto::getSnapName);
-            return businessCard;
+            if (dto == null)
+                return null;
+
+            BusinessCard card = new BusinessCard();
+
+            card.setPhoneNumber(dto.getPhoneNumber());
+            card.setFacebookUrl(dto.getFacebookUrl());
+            card.setInstUrl(dto.getInstUrl());
+            card.setSnapName(dto.getSnapName());
+
+            return card;
         };
     }
 
     @Override
     public Function<BusinessCard, BusinessCardUpdateDto> toDto() {
-        return businessCard -> {
+        return card -> {
+            if (card == null)
+                return null;
+
             BusinessCardUpdateDto dto = new BusinessCardUpdateDto();
-            convertIfNotNull(dto::setPhoneNumber, businessCard::getPhoneNumber);
-            convertIfNotNull(dto::setFacebookUrl, businessCard::getFacebookUrl);
-            convertIfNotNull(dto::setInstUrl, businessCard::getInstUrl);
-            convertIfNotNull(dto::setSnapName, businessCard::getSnapName);
+
+            dto.setPhoneNumber(card.getPhoneNumber());
+            dto.setFacebookUrl(card.getFacebookUrl());
+            dto.setInstUrl(card.getInstUrl());
+            dto.setSnapName(card.getSnapName());
+
             return dto;
         };
     }

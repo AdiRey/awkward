@@ -2,10 +2,8 @@ package pl.awkward.businessCard.dtos;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
-public class BusinessCardDto {
+public class BusinessCardShowDto {
 
     private Long userId;
 
@@ -16,11 +14,5 @@ public class BusinessCardDto {
     private String instUrl;
 
     private String snapName;
-
-    private Boolean active;
-
-    private LocalDateTime addDate;
-
-    private LocalDateTime deleteDate;
 
 }

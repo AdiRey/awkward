@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.awkward.businessCard.dtos.BusinessCardCreateDto;
 import pl.awkward.businessCard.dtos.BusinessCardDto;
+import pl.awkward.businessCard.dtos.BusinessCardShowDto;
 import pl.awkward.businessCard.dtos.BusinessCardUpdateDto;
 import pl.awkward.businessCard.model_repo.BusinessCard;
 import pl.awkward.shared.BaseConverter;
@@ -20,18 +21,21 @@ public class BusinessCardController extends BaseCrudController<BusinessCard> {
     private final BaseConverter<BusinessCard, BusinessCardDto> businessCardConverter;
     private final BaseConverter<BusinessCard, BusinessCardCreateDto> businessCardCreateConverter;
     private final BaseConverter<BusinessCard, BusinessCardUpdateDto> businessCardUpdateConverter;
+    private final BaseConverter<BusinessCard, BusinessCardShowDto> businessCardShowConverter;
     private final BusinessCardService businessCardService;
 
     public BusinessCardController(BaseRepository<BusinessCard> repository,
                                   BaseConverter<BusinessCard, BusinessCardDto> businessCardConverter,
                                   BaseConverter<BusinessCard, BusinessCardCreateDto> businessCardCreateConverter,
                                   BaseConverter<BusinessCard, BusinessCardUpdateDto> businessCardUpdateConverter,
+                                  final BaseConverter<BusinessCard, BusinessCardShowDto> businessCardShowConverter,
                                   BusinessCardService businessCardService) {
         super(repository);
         this.businessCardConverter = businessCardConverter;
         this.businessCardCreateConverter = businessCardCreateConverter;
         this.businessCardUpdateConverter = businessCardUpdateConverter;
         this.businessCardService = businessCardService;
+        this.businessCardShowConverter = businessCardShowConverter;
     }
 
     @GetMapping("")
@@ -43,8 +47,8 @@ public class BusinessCardController extends BaseCrudController<BusinessCard> {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BusinessCardDto> getOne(@PathVariable(name = "id") final Long id) {
-        return super.getOneByActiveTrue(id, businessCardConverter.toDto());
+    public ResponseEntity<BusinessCardShowDto> getOne(@PathVariable(name = "id") final Long id) {
+        return super.getOneByActiveTrue(id, businessCardShowConverter.toDto());
     }
 
     @PostMapping("")

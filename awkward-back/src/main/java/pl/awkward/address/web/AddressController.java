@@ -12,7 +12,6 @@ import pl.awkward.shared.BaseCrudController;
 import pl.awkward.shared.BaseRepository;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 
 @RestController
 @RequestMapping("/api/addresses")
@@ -76,7 +75,6 @@ public class AddressController extends BaseCrudController<Address> {
 
     @PostMapping("")
     public ResponseEntity<Void> create(@RequestBody @Valid final AddressCreateUpdateDto dto) {
-        dto.setAddDate(LocalDateTime.now());
         return super.create(dto, this.addressCreateUpdateConverter.toEntity());
     }
 

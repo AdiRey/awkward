@@ -1,6 +1,9 @@
 package pl.awkward.user.model_repo;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Generated;
@@ -23,7 +26,7 @@ import java.util.Set;
 
 @Entity(name = "user")
 @Table(name = "user")
-@Data
+@Getter @Setter @NoArgsConstructor
 public final class User implements BaseEntity {
 
     @Id

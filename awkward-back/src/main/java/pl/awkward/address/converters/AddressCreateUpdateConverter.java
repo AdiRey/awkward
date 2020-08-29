@@ -9,6 +9,7 @@ import java.util.function.Function;
 
 @Service
 public class AddressCreateUpdateConverter extends BaseConverter<Address, AddressCreateUpdateDto> {
+
     @Override
     public Function<AddressCreateUpdateDto, Address> toEntity() {
         return dto -> {
@@ -19,7 +20,6 @@ public class AddressCreateUpdateConverter extends BaseConverter<Address, Address
 
             address.setCountry(dto.getCountry());
             address.setCity(dto.getCity());
-            address.setAddDate(dto.getAddDate());
 
             return address;
         };
@@ -35,7 +35,6 @@ public class AddressCreateUpdateConverter extends BaseConverter<Address, Address
 
             dto.setCountry(address.getCountry());
             dto.setCity(address.getCity());
-            dto.setAddDate(address.getAddDate());
 
             return dto;
         };

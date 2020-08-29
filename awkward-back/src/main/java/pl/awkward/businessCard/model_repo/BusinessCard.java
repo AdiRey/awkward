@@ -1,33 +1,45 @@
 package pl.awkward.businessCard.model_repo;
 
 import lombok.Data;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import pl.awkward.shared.BaseEntity;
 import pl.awkward.user.model_repo.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity(name = "business_card")
+@Table(name = "business_card")
 @Data
-@Entity
 public class BusinessCard implements BaseEntity {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
-    @Column(length = 9)
-    private String phoneNumber;
-    private String facebookUrl;
-    private String instUrl;
-    @Column(length = 50)
-    private String snapName;
-//    @Column(nullable = false)
-//    private Long userId;
-    @Column(columnDefinition = "boolean default true")
-    private Boolean active;
 
     @OneToOne
+    @JoinColumn(name = "id")
+    @MapsId("id")
     private User user;
 
-    @Column(nullable = true) // @Column(nullable = false)
+    @Column(length = 12)
+    private String phoneNumber;
+
+    private String facebookUrl;
+
+    private String instUrl;
+
+    @Column(length = 50)
+    private String snapName;
+
+    @Column(columnDefinition = "boolean default true")
+    @Generated(GenerationTime.INSERT)
+    private Boolean active;
+
+    @Column(nullable = false)
     private LocalDateTime addDate;
+
     private LocalDateTime deleteDate;
+
 }
