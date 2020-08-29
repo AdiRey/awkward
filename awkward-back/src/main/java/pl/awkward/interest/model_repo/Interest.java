@@ -15,14 +15,18 @@ public class Interest implements BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true, nullable = false, length = 50)
     private String name;
+
     @Column(columnDefinition = "boolean default true")
     private Boolean active;
 
+    @Column(nullable = false)
+    private LocalDateTime addDate;
+
+    private LocalDateTime deleteDate;
+
     @ManyToMany
     private List<User> users;
-    @Column(nullable = true) // @Column(nullable = false)
-    private LocalDateTime addDate;
-    private LocalDateTime deleteDate;
 }

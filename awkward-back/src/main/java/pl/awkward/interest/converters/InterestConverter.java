@@ -12,10 +12,17 @@ public class InterestConverter extends BaseConverter<Interest, InterestDto> {
     @Override
     public Function<InterestDto, Interest> toEntity() {
         return dto -> {
+            if (dto == null)
+                return null;
+
             Interest interest = new Interest();
-            convertIfNotNull(interest::setId, dto::getId);
-            convertIfNotNull(interest::setName, dto::getName);
-            convertIfNotNull(interest::setActive, dto::getActive);
+
+            interest.setId(dto.getId());
+            interest.setName(dto.getName());
+            interest.setActive(dto.getActive());
+            interest.setAddDate(dto.getAddDate());
+            interest.setDeleteDate(dto.getDeleteDate());
+
             return interest;
         };
     }
@@ -23,10 +30,17 @@ public class InterestConverter extends BaseConverter<Interest, InterestDto> {
     @Override
     public Function<Interest, InterestDto> toDto() {
         return interest -> {
+            if (interest == null)
+                return null;
+
             InterestDto dto = new InterestDto();
-            convertIfNotNull(dto::setId, interest::getId);
-            convertIfNotNull(dto::setName, interest::getName);
-            convertIfNotNull(dto::setActive, interest::getActive);
+
+            dto.setId(interest.getId());
+            dto.setName(interest.getName());
+            dto.setActive(interest.getActive());
+            dto.setAddDate(interest.getAddDate());
+            dto.setDeleteDate(interest.getDeleteDate());
+
             return dto;
         };
     }

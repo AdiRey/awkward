@@ -26,7 +26,9 @@ import java.util.Set;
 
 @Entity(name = "user")
 @Table(name = "user")
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
 public final class User implements BaseEntity {
 
     @Id

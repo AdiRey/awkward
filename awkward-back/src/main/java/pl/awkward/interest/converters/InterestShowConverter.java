@@ -1,37 +1,39 @@
 package pl.awkward.interest.converters;
 
 import org.springframework.stereotype.Service;
-import pl.awkward.interest.dtos.InterestCreateUpdateDto;
+import pl.awkward.interest.dtos.InterestShowDto;
 import pl.awkward.interest.model_repo.Interest;
 import pl.awkward.shared.BaseConverter;
 
 import java.util.function.Function;
 
 @Service
-public class InterestCreateUpdateConverter extends BaseConverter<Interest, InterestCreateUpdateDto> {
+public class InterestShowConverter extends BaseConverter<Interest, InterestShowDto> {
 
     @Override
-    public Function<InterestCreateUpdateDto, Interest> toEntity() {
+    public Function<InterestShowDto, Interest> toEntity() {
         return dto -> {
-            if (dto ==  null)
+            if (dto == null)
                 return null;
 
             Interest interest = new Interest();
 
-            interest.setName(interest.getName());
+            interest.setId(dto.getId());
+            interest.setName(dto.getName());
 
             return interest;
         };
     }
 
     @Override
-    public Function<Interest, InterestCreateUpdateDto> toDto() {
+    public Function<Interest, InterestShowDto> toDto() {
         return interest -> {
             if (interest == null)
                 return null;
 
-            InterestCreateUpdateDto dto = new InterestCreateUpdateDto();
+            InterestShowDto dto = new InterestShowDto();
 
+            dto.setId(interest.getId());
             dto.setName(interest.getName());
 
             return dto;
