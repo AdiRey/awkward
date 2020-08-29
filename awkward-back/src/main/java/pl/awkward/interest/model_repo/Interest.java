@@ -1,6 +1,8 @@
 package pl.awkward.interest.model_repo;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import pl.awkward.shared.BaseEntity;
 import pl.awkward.user.model_repo.User;
 
@@ -28,5 +30,6 @@ public class Interest implements BaseEntity {
     private LocalDateTime deleteDate;
 
     @ManyToMany
+    @EqualsAndHashCode.Exclude @ToString.Exclude
     private List<User> users;
 }
