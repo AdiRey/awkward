@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import pl.awkward.exceptions.DuplicateException;
 import pl.awkward.exceptions.OperationNotAllowedException;
 import pl.awkward.gender.GenderRepository;
 import pl.awkward.liked.dtos.LikedCreateDto;
@@ -137,10 +136,10 @@ public class UserController extends BaseCrudController<User> {
 
     @GetMapping("")
     public ResponseEntity<Page<UserShowDto>> getAll(@RequestParam(defaultValue = "0") final int page,
-                                                @RequestParam(defaultValue = "20") final int size,
-                                                @RequestParam(defaultValue = "id") final String column,
-                                                @RequestParam(defaultValue = "ASC") final String direction,
-                                                @RequestParam(defaultValue = "") final String filter) {
+                                                    @RequestParam(defaultValue = "20") final int size,
+                                                    @RequestParam(defaultValue = "id") final String column,
+                                                    @RequestParam(defaultValue = "ASC") final String direction,
+                                                    @RequestParam(defaultValue = "") final String filter) {
         if (filter.equals(""))
             return super.getAll(page, size, column, direction, this.userShowConverter.toDto());
         return ResponseEntity.ok(
@@ -221,22 +220,18 @@ public class UserController extends BaseCrudController<User> {
 
     @PostMapping("/{id}/liked") // TODO: it is possible to like someone who's been already deleted, but: does it matter?
     public ResponseEntity<Void> createLike(@PathVariable final Long id, @RequestBody @Valid final LikedCreateDto dto) {
-        if(id.equals(dto.getSecondUserId()))
+        if (id.equals(dto.getSecondUserId()))
             throw new OperationNotAllowedException("Nie możesz dać sam sobie lajka.");
-        else if (this.likedService.checkFirstIdAndSecondIdExist(id, dto.getSecondUserId()))
-            throw new DuplicateException("Już dałeś tej osobie lajka!");
+
         Liked liked = this.likedCreateConverter.toEntity().apply(dto);
-//        liked.setUserId(id);
-        liked.setDate(LocalDateTime.now());
         final Liked saved = this.likedService.save(liked);
 
-        // Can be couple?
-//        if (this.likedService.checkFirstIdAndSecondIdExist(liked.getSecondUserId(), id)) {
+        if (saved.getFirstStatus() != null && saved.getSecondStatus() != null) {
             RestTemplate restTemplate = new RestTemplate();
             JsonBuilder<String, Long> jsonBuilder = new JsonBuilder<>();
 
             jsonBuilder.put("userIdFirst", id);
-//            jsonBuilder.put("userIdSecond", liked.getSecondUserId());
+            jsonBuilder.put("userIdSecond", liked.getSecondUser().getId());
 
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);
@@ -248,7 +243,8 @@ public class UserController extends BaseCrudController<User> {
                     httpEntity,
                     Object.class
             );
-//        }
+        }
+
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(saved.getId()).toUri();
         return ResponseEntity.created(location).build();
@@ -257,9 +253,8 @@ public class UserController extends BaseCrudController<User> {
     @GetMapping("/{id}/liked")
     public ResponseEntity<Page<LikedDto>> getAllLikes(@PathVariable Long id,
                                                       @RequestParam(defaultValue = "0") final int page,
-                                                      @RequestParam(defaultValue = "20") final int size,
-                                                      @RequestParam(defaultValue = "true") final boolean active) {
-        Page<Liked> pageLikes = this.likedService.getAllPagination(id, page, size, active);
+                                                      @RequestParam(defaultValue = "20") final int size) {
+        Page<Liked> pageLikes = this.likedService.getAllPagination(id, page, size);
         return ResponseEntity.ok(pageLikes.map(likedConverter.toDto()));
     }
 }

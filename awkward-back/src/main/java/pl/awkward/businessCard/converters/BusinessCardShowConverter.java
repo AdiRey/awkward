@@ -2,7 +2,6 @@ package pl.awkward.businessCard.converters;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import pl.awkward.businessCard.dtos.BusinessCardShowDto;
 import pl.awkward.businessCard.model_repo.BusinessCard;
 import pl.awkward.shared.BaseConverter;

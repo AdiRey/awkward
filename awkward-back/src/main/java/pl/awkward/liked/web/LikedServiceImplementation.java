@@ -33,11 +33,11 @@ public class LikedServiceImplementation implements LikedService{
     }
 
     @Override
-    public Page<Liked> getAllPagination(Long firstUserId, Long secondUserId, int page, int size) {
+    public Page<Liked> getAllPagination(Long userId, int page, int size) {
         return this.likedRepository
                 .findAllByFirstUserOrSecondUserId(
-                        firstUserId,
-                        secondUserId,
+                        userId,
+                        userId,
                         PageRequest.of(page, size)
                 );
     }

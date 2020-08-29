@@ -7,6 +7,6 @@ public interface LikedService {
 
     Liked save(Liked liked);
 
-    Page<Liked> getAllPagination(Long firstUserId, Long secondUserId, int page, int size);
+    Page<Liked> getAllPagination(Long userId, int page, int size);
 
 }

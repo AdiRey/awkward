@@ -7,8 +7,8 @@ import javax.persistence.*;
 
 @Entity(name = "liked")
 @Table(indexes = {
-        @Index(columnList = "firstUserId,secondUserId"),
-        @Index(columnList = "secondUserId,firstUserId")
+        @Index(columnList = "first_user_id,second_user_id"),
+        @Index(columnList = "second_user_id,first_user_id")
 })
 @Data
 public class Liked {

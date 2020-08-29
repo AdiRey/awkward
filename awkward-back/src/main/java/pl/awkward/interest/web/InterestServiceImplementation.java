@@ -6,7 +6,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import pl.awkward.exceptions.DuplicateException;
 import pl.awkward.interest.model_repo.Interest;
 import pl.awkward.interest.model_repo.InterestRepository;
 
