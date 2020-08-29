@@ -6,8 +6,17 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class LikedCreateDto {
+
     @NotNull
-    private Byte status;
+    private Long firstUserId;
+
     @NotNull
     private Long secondUserId;
+
+    @NotNull
+    private Byte firstStatus;
+
+    @NotNull
+    private Byte secondStatus;
+
 }

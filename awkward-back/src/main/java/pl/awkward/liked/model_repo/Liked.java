@@ -1,40 +1,37 @@
 package pl.awkward.liked.model_repo;
 
 import lombok.Data;
-import pl.awkward.shared.BaseEntity;
 import pl.awkward.user.model_repo.User;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "liked")
+@Table(indexes = {
+        @Index(columnList = "firstUserId,secondUserId"),
+        @Index(columnList = "secondUserId,firstUserId")
+})
 @Data
-public class Liked implements BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(columnDefinition = "boolean default true")
-    private Byte status;
-    @Column(nullable = false)
-    private LocalDateTime date;
-    @Column(nullable = false)
-    private Boolean active= true;
+public class Liked {
 
-//    @Column(nullable = false)
-//    private Long userId;
-//    @Column(nullable = false)
-//    private Long secondUserId;
+    /* ### ID ### */
+
+    @EmbeddedId
+    private UserIdsKey id = new UserIdsKey();
 
     @ManyToOne
+    @MapsId(value = "firstUserId")
+    @JoinColumn(insertable = false, updatable = false)
     private User firstUser;
+
     @ManyToOne
+    @MapsId(value = "secondUserId")
+    @JoinColumn(insertable = false, updatable = false)
     private User secondUser;
 
-    @Column(nullable = true) // @Column(nullable = false)
-    private LocalDateTime addDate;
-    private LocalDateTime deleteDate;
-
+    /* ### OTHER FIELDS ### */
 
     private Byte firstStatus;
+
     private Byte secondStatus;
+
 }

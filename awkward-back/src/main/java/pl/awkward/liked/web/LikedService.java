@@ -4,7 +4,9 @@ import org.springframework.data.domain.Page;
 import pl.awkward.liked.model_repo.Liked;
 
 public interface LikedService {
+
     Liked save(Liked liked);
-    boolean checkFirstIdAndSecondIdExist(Long firstId, Long secondId);
-    Page<Liked> getAllPagination(Long userId, int page, int size, boolean isActive);
+
+    Page<Liked> getAllPagination(Long firstUserId, Long secondUserId, int page, int size);
+
 }
