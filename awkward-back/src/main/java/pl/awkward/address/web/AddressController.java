@@ -52,7 +52,7 @@ public class AddressController extends BaseCrudController<Address> {
                 );
     }
 
-    @GetMapping("/admin")
+    @GetMapping("/allData")
     public ResponseEntity<Page<AddressDto>> getAllAdmin(@RequestParam(defaultValue = "0") final int page,
                                                        @RequestParam(defaultValue = "20") final int size,
                                                        @RequestParam(defaultValue = "id") final String column,
@@ -71,7 +71,7 @@ public class AddressController extends BaseCrudController<Address> {
         return super.getOneByActiveTrue(id, this.addressShowConverter.toDto());
     }
 
-    @GetMapping("/{id}/admin")
+    @GetMapping("/{id}/allData")
     public ResponseEntity<AddressDto> getOneAdmin(@PathVariable final Long id) {
         return super.getOne(id, this.addressConverter.toDto());
     }

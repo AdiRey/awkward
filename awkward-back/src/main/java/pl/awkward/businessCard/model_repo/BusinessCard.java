@@ -2,7 +2,6 @@ package pl.awkward.businessCard.model_repo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import pl.awkward.shared.BaseEntity;

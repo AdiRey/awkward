@@ -18,7 +18,9 @@ import java.util.stream.Collectors;
 public class GenderController {
 
     private final GenderRepository genderRepository;
+
     private final BaseConverter<Gender, GenderDto> genderConverter;
+
     private final BaseConverter<Gender, GenderShowDto> genderShowConverter;
 
     @GetMapping("")
