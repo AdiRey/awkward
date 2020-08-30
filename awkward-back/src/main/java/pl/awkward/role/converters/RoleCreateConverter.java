@@ -9,12 +9,18 @@ import java.util.function.Function;
 
 @Service
 public class RoleCreateConverter extends BaseConverter<Role, RoleCreateUpdateDto> {
+
     @Override
     public Function<RoleCreateUpdateDto, Role> toEntity() {
         return dto -> {
+            if (dto == null)
+                return null;
+
             Role role = new Role();
-            convertIfNotNull(role::setName, dto::getName);
-            convertIfNotNull(role::setStatus, dto::getStatus);
+
+            role.setName(dto.getName());
+            role.setStatus(dto.getStatus());
+
             return role;
         };
     }
@@ -22,9 +28,14 @@ public class RoleCreateConverter extends BaseConverter<Role, RoleCreateUpdateDto
     @Override
     public Function<Role, RoleCreateUpdateDto> toDto() {
         return role -> {
+            if (role == null)
+                return null;
+
             RoleCreateUpdateDto dto = new RoleCreateUpdateDto();
-            convertIfNotNull(dto::setName, role::getName);
-            convertIfNotNull(dto::setStatus, role::getStatus);
+
+            dto.setName(role.getName());
+            dto.setStatus(role.getStatus());
+
             return dto;
         };
     }

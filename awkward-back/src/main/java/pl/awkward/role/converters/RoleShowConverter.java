@@ -1,17 +1,17 @@
 package pl.awkward.role.converters;
 
 import org.springframework.stereotype.Service;
-import pl.awkward.role.dtos.RoleDto;
+import pl.awkward.role.dtos.RoleShowDto;
 import pl.awkward.role.model_repo.Role;
 import pl.awkward.shared.BaseConverter;
 
 import java.util.function.Function;
 
 @Service
-public class RoleConverter extends BaseConverter<Role, RoleDto> {
+public class RoleShowConverter extends BaseConverter<Role, RoleShowDto> {
 
     @Override
-    public Function<RoleDto, Role> toEntity() {
+    public Function<RoleShowDto, Role> toEntity() {
         return dto -> {
             if (dto == null)
                 return null;
@@ -21,30 +21,25 @@ public class RoleConverter extends BaseConverter<Role, RoleDto> {
             role.setId(dto.getId());
             role.setName(dto.getName());
             role.setStatus(dto.getStatus());
-            role.setActive(dto.getActive());
-            role.setAddDate(dto.getAddDate());
-            role.setDeleteDate(dto.getDeleteDate());
 
             return role;
         };
     }
 
     @Override
-    public Function<Role, RoleDto> toDto() {
+    public Function<Role, RoleShowDto> toDto() {
         return role -> {
             if (role == null)
                 return null;
 
-            RoleDto dto = new RoleDto();
+            RoleShowDto dto = new RoleShowDto();
 
             dto.setId(role.getId());
             dto.setName(role.getName());
             dto.setStatus(role.getStatus());
-            dto.setActive(role.getActive());
-            dto.setAddDate(role.getAddDate());
-            dto.setDeleteDate(role.getDeleteDate());
 
             return dto;
         };
     }
+
 }
