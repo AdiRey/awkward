@@ -9,12 +9,18 @@ import java.util.function.Function;
 
 @Service
 public class UniversityCreateUpdateConverter extends BaseConverter<University, UniversityCreateUpdateDto> {
+
     @Override
     public Function<UniversityCreateUpdateDto, University> toEntity() {
         return dto -> {
+            if (dto == null)
+                return null;
+
             University university = new University();
-            convertIfNotNull(university::setName, dto::getName);
-            convertIfNotNull(university::setAddressId, dto::getAddressId);
+
+            university.setName(dto.getName());
+            university.setAddress(dto.getAddress());
+
             return university;
         };
     }
@@ -22,9 +28,16 @@ public class UniversityCreateUpdateConverter extends BaseConverter<University, U
     @Override
     public Function<University, UniversityCreateUpdateDto> toDto() {
         return university -> {
+            if (university == null)
+                return null;
+
             UniversityCreateUpdateDto dto = new UniversityCreateUpdateDto();
-            convertIfNotNull(dto::setName, university::getName);
-            convertIfNotNull(dto::setAddressId, university::getAddressId);
+
+            dto.setName(university.getName());
+            dto.setAddress(university.getAddress());
+
+            dto.setAddressId(university.getAddress().getId());
+
             return dto;
         };
     }

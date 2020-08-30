@@ -28,24 +28,16 @@ public class UniversityServiceImplementation implements UniversityService {
     }
 
     @Override
-    public void acceptableNameAndAddress(final String name, final Long addressId) {
-        Optional<University> optionalUniversity = this.universityRepository.findByNameAndAddressId(name, addressId);
-        optionalUniversity.ifPresent(
-                u -> {
-                    throw new DuplicateException("There is a university with this name and place: "
-                            + u.getName() + " - " + u.getAddressId());
-                }
-        );
-    }
-
-    @Override
     public boolean update(final Long id, final University updateUniversity) {
         Optional<University> optionalUniversity = this.universityRepository.findById(id);
         if (optionalUniversity.isEmpty())
             return false;
+
         University university = optionalUniversity.get();
+
         university.setName(updateUniversity.getName());
-        university.setAddressId(updateUniversity.getAddressId());
+        university.setAddress(updateUniversity.getAddress());
+
         return true;
     }
 }

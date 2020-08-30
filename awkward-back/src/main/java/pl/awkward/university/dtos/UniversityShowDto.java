@@ -3,21 +3,13 @@ package pl.awkward.university.dtos;
 import lombok.Data;
 import pl.awkward.address.dtos.AddressShowDto;
 
-import java.time.LocalDateTime;
-
 @Data
-public class UniversityDto {
+public class UniversityShowDto {
 
     private Long id;
 
     private String name;
 
     private AddressShowDto address;
-
-    private Boolean active;
-
-    private LocalDateTime addDate;
-
-    private LocalDateTime deleteDate;
 
 }
