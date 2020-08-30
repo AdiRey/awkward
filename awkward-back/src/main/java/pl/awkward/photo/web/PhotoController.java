@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.awkward.photo.dtos.PhotoDto;
+import pl.awkward.photo.dtos.PhotoShowDto;
 import pl.awkward.photo.model_repo.Photo;
 import pl.awkward.shared.BaseConverter;
 import pl.awkward.shared.BaseCrudController;
@@ -14,27 +15,44 @@ import pl.awkward.shared.BaseRepository;
 public class PhotoController extends BaseCrudController<Photo> {
 
     private final BaseConverter<Photo, PhotoDto> photoConverter;
+    private final BaseConverter<Photo, PhotoShowDto> photoShowConverter;
+
     private final PhotoService photoService;
 
-    public PhotoController(BaseRepository<Photo> repository,
-                           BaseConverter<Photo, PhotoDto> photoConverter,
-                           PhotoService photoService) {
+    public PhotoController(final BaseRepository<Photo> repository,
+                           final BaseConverter<Photo, PhotoDto> photoConverter,
+                           final BaseConverter<Photo, PhotoShowDto> photoShowConverter,
+                           final PhotoService photoService) {
         super(repository);
         this.photoConverter = photoConverter;
+        this.photoShowConverter = photoShowConverter;
         this.photoService = photoService;
     }
 
     @GetMapping("")
-    public ResponseEntity<Page<PhotoDto>> getAll(@RequestParam(defaultValue = "0") final int page,
+    public ResponseEntity<Page<PhotoShowDto>> getAll(@RequestParam(defaultValue = "0") final int page,
                                                  @RequestParam(defaultValue = "20") final int size,
                                                  @RequestParam(defaultValue = "id") final String column,
                                                  @RequestParam(defaultValue = "ASC") final String direction) {
-        return super.getAll(page, size, column, direction, this.photoConverter.toDto());
+        return super.getAllByActiveTrue(page, size, column, direction, this.photoShowConverter.toDto());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PhotoDto> getOne(@PathVariable final Long id) {
-        return super.getOneByActiveTrue(id, this.photoConverter.toDto());
+    public ResponseEntity<PhotoShowDto> getOne(@PathVariable final Long id) {
+        return super.getOneByActiveTrue(id, this.photoShowConverter.toDto());
+    }
+
+    @GetMapping("/allData")
+    public ResponseEntity<Page<PhotoDto>> getAllData(@RequestParam(defaultValue = "0") final int page,
+                                                     @RequestParam(defaultValue = "20") final int size,
+                                                     @RequestParam(defaultValue = "id") final String column,
+                                                     @RequestParam(defaultValue = "ASC") final String direction) {
+        return super.getAll(page, size, column, direction, this.photoConverter.toDto());
+    }
+
+    @GetMapping("/{id}/allData")
+    public ResponseEntity<PhotoDto> getOneData(@PathVariable final Long id) {
+        return super.getOne(id, this.photoConverter.toDto());
     }
 
     @DeleteMapping("/{id}")
@@ -43,8 +61,8 @@ public class PhotoController extends BaseCrudController<Photo> {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> updateActive(@PathVariable final Long id, @RequestParam boolean isActive) {
-        if (this.photoService.updateActive(id, isActive))
+    public ResponseEntity<Void> updateArchive(@PathVariable final Long id, @RequestParam boolean isActive) {
+        if (this.photoService.updateArchive(id, isActive))
             return ResponseEntity.noContent().build();
         return ResponseEntity.notFound().build();
     }

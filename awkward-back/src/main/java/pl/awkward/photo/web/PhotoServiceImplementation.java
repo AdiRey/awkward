@@ -1,5 +1,6 @@
 package pl.awkward.photo.web;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -22,14 +23,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class PhotoServiceImplementation implements PhotoService {
 
-    private final PhotoRepository photoRepository;
     private static final String PATH_PATTERN = "awkward-back/user_images/$1/$2";
 
-    public PhotoServiceImplementation(PhotoRepository photoRepository) {
-        this.photoRepository = photoRepository;
-    }
+    private final PhotoRepository photoRepository;
 
 
     @Override
@@ -57,7 +56,7 @@ public class PhotoServiceImplementation implements PhotoService {
     }
 
     @Override
-    public boolean updateActive(final Long photoId, final Boolean archive) {
+    public boolean updateArchive(final Long photoId, final Boolean archive) {
         Optional<Photo> optionalPhoto = this.photoRepository.findById(photoId);
         if (optionalPhoto.isEmpty())
             return false;
