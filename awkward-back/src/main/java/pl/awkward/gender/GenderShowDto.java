@@ -1,12 +1,8 @@
 package pl.awkward.gender;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public class GenderShowDto {
 
     private Long id;

@@ -1,14 +1,10 @@
 package pl.awkward.gender;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public class GenderDto {
 
     private Long id;

@@ -32,7 +32,7 @@ public class GenderShowConverter extends BaseConverter<Gender, GenderShowDto> {
             GenderShowDto dto = new GenderShowDto();
 
             dto.setId(gender.getId());
-            dto.setGender(dto.getGender());
+            dto.setGender(gender.getGender());
 
             return dto;
         };

@@ -23,6 +23,8 @@ public class GenderController {
 
     private final BaseConverter<Gender, GenderShowDto> genderShowConverter;
 
+    /* ### GET ### */
+
     @GetMapping("")
     public ResponseEntity<List<GenderShowDto>> getAll() {
         return ResponseEntity.ok(
