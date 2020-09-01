@@ -1,6 +1,9 @@
 package pl.awkward.user_address.model_repo;
 
 import lombok.Data;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+import pl.awkward.address.model_repo.Address;
 import pl.awkward.shared.BaseEntity;
 import pl.awkward.user.model_repo.User;
 
@@ -8,23 +11,30 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "position"}))
 @Entity
-public class UserAddress implements BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-//    @Column(nullable = false)
-//    private Long userId;
-    @Column(nullable = false)
-    private Long addressId;
-    @Column(columnDefinition = "boolean default true")
-    private Boolean active;
+public class UserAddress {
 
-    @Column(nullable = true) // @Column(nullable = false)
-    private LocalDateTime addDate;
-    private LocalDateTime deleteDate;
+    /* ### ID ### */
+
+    @EmbeddedId
+    private EmbeddedIds embeddedIds = new EmbeddedIds();
 
     @ManyToOne
+    @MapsId("userId")
+    @JoinColumn(insertable = false, updatable = false)
     private User user;
-    private Integer number;
+
+    @ManyToOne
+    @MapsId("addressId")
+    @JoinColumn(insertable = false, updatable = false)
+    private Address address;
+
+    /* ### OTHER FIELDS ### */
+
+    @Column(nullable = false)
+    private Integer position;
+
+    private Integer timeInPercentage;
+
 }

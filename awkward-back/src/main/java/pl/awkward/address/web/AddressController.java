@@ -38,6 +38,8 @@ public class AddressController extends BaseCrudController<Address> {
         this.addressShowConverter = addressShowConverter;
     }
 
+    /* ### GET ### */
+
     @GetMapping("")
     public ResponseEntity<Page<AddressShowDto>> getAll(@RequestParam(defaultValue = "0") final int page,
                                                    @RequestParam(defaultValue = "20") final int size,
@@ -53,7 +55,7 @@ public class AddressController extends BaseCrudController<Address> {
     }
 
     @GetMapping("/allData")
-    public ResponseEntity<Page<AddressDto>> getAllAdmin(@RequestParam(defaultValue = "0") final int page,
+    public ResponseEntity<Page<AddressDto>> getAllData(@RequestParam(defaultValue = "0") final int page,
                                                        @RequestParam(defaultValue = "20") final int size,
                                                        @RequestParam(defaultValue = "id") final String column,
                                                        @RequestParam(defaultValue = "ASC") final String direction,
@@ -72,19 +74,25 @@ public class AddressController extends BaseCrudController<Address> {
     }
 
     @GetMapping("/{id}/allData")
-    public ResponseEntity<AddressDto> getOneAdmin(@PathVariable final Long id) {
+    public ResponseEntity<AddressDto> getOneData(@PathVariable final Long id) {
         return super.getOne(id, this.addressConverter.toDto());
     }
+
+    /* ### POST ### */
 
     @PostMapping("")
     public ResponseEntity<Void> create(@RequestBody @Valid final AddressCreateUpdateDto dto) {
         return super.create(dto, this.addressCreateUpdateConverter.toEntity());
     }
 
+    /* ### DELETE ### */
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable final Long id) {
         return super.delete(id);
     }
+
+    /* ### PUT ### */
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody @Valid final AddressCreateUpdateDto dto) {

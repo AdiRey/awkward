@@ -1,11 +1,17 @@
 package pl.awkward.user_address.dtos;
 
 import lombok.Data;
+import pl.awkward.address.dtos.AddressShowDto;
 
 @Data
 public class UserAddressDto {
-    private Long id;
+
     private Long userId;
-    private Long addressId;
-    private Boolean active;
+
+    private AddressShowDto address;
+
+    private Integer position;
+
+    private Integer timeInPercentage;
+
 }

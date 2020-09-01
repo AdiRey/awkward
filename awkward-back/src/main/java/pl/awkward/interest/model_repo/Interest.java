@@ -29,7 +29,7 @@ public class Interest implements BaseEntity {
 
     private LocalDateTime deleteDate;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "interests")
     @EqualsAndHashCode.Exclude @ToString.Exclude
     private List<User> users;
 }

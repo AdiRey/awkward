@@ -9,12 +9,18 @@ import java.util.function.Function;
 
 @Service
 public class UserAddressCreateConverter extends BaseConverter<UserAddress, UserAddressCreateDto> {
+
     @Override
     public Function<UserAddressCreateDto, UserAddress> toEntity() {
         return dto -> {
+            if (dto == null)
+                return null;
+
             UserAddress userAddress = new UserAddress();
-//            convertIfNotNull(userAddress::setUserId, dto::getUserId);
-            convertIfNotNull(userAddress::setAddressId, dto::getAddressId);
+
+            userAddress.getEmbeddedIds().setUserId(dto.getUserId());
+            userAddress.getEmbeddedIds().setAddressId(dto.getAddressId());
+
             return userAddress;
         };
     }
@@ -22,9 +28,14 @@ public class UserAddressCreateConverter extends BaseConverter<UserAddress, UserA
     @Override
     public Function<UserAddress, UserAddressCreateDto> toDto() {
         return userAddress -> {
+            if (userAddress == null)
+                return null;
+
             UserAddressCreateDto dto = new UserAddressCreateDto();
-//            convertIfNotNull(dto::setUserId, userAddress::getUserId);
-            convertIfNotNull(dto::setAddressId, userAddress::getAddressId);
+
+            dto.setUserId(userAddress.getEmbeddedIds().getUserId());
+            dto.setAddressId(userAddress.getEmbeddedIds().getAddressId());
+
             return dto;
         };
     }

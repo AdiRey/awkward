@@ -257,4 +257,17 @@ public class UserController extends BaseCrudController<User> {
         Page<Liked> pageLikes = this.likedService.getAllPagination(id, page, size);
         return ResponseEntity.ok(pageLikes.map(likedConverter.toDto()));
     }
+
+    /* addresses */
+
+    @GetMapping("/{id}/addresses")
+    public ResponseEntity<Page<PhotoDto>> getAllAddresses(@PathVariable final Long id,
+                                                       @RequestParam(defaultValue = "0") final int page,
+                                                       @RequestParam(defaultValue = "20") final int size,
+                                                       @RequestParam(defaultValue = "true") final boolean active) {
+        Page<Photo> allByUserId = this.photoService.getAllByUserId(id, page, size, active);
+        return ResponseEntity.ok(allByUserId.map(this.photoConverter.toDto()));
+    }
+
+
 }
