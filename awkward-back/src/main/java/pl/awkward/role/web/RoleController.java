@@ -38,6 +38,7 @@ public class RoleController extends BaseCrudController<Role> {
         this.roleService = roleService;
     }
 
+    /* ### GET ### */
 
     @GetMapping("")
     public ResponseEntity<Page<RoleShowDto>> getAll(@RequestParam(defaultValue = "0") final int page,
@@ -45,11 +46,6 @@ public class RoleController extends BaseCrudController<Role> {
                                                    @RequestParam(defaultValue = "id") final String column,
                                                    @RequestParam(defaultValue = "ASC") final String direction) {
         return super.getAllByActiveTrue(page, size, column, direction, this.roleShowConverter.toDto());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<RoleShowDto> getOne(@PathVariable final Long id) {
-        return super.getOneByActiveTrue(id, this.roleShowConverter.toDto());
     }
 
     @GetMapping("/allData")
@@ -60,20 +56,31 @@ public class RoleController extends BaseCrudController<Role> {
         return super.getAll(page, size, column, direction, this.roleConverter.toDto());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<RoleShowDto> getOne(@PathVariable final Long id) {
+        return super.getOneByActiveTrue(id, this.roleShowConverter.toDto());
+    }
+
     @GetMapping("/{id}/allData")
     public ResponseEntity<RoleDto> getOneData(@PathVariable final Long id) {
         return super.getOne(id, this.roleConverter.toDto());
     }
+
+    /* ### POST ### */
 
     @PostMapping("")
     public ResponseEntity<Void> create(@RequestBody @Valid final RoleCreateUpdateDto dto) {
         return super.create(dto, this.roleCreateConverter.toEntity());
     }
 
+    /* ### DELETE ### */
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable final Long id) {
         return super.delete(id);
     }
+
+    /* ### PUT ### */
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody @Valid final RoleCreateUpdateDto dto) {

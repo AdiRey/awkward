@@ -40,18 +40,18 @@ INSERT INTO interest(name, add_date) VALUES
 ('tenis ziemny', '2020-07-15 12:48:50.637901000'),
 ('gra w szachy', '2020-07-15 12:49:50.637901000');
 
-# /*
-#
-# /*                  ########## ROLES ##########                 */
-#
-# INSERT INTO role(name, status) VALUES
-# ('OWNER', 0),
-# ('ADMIN', 1),
-# ('MODERATOR', 2),
-# ('USER', 100);
-#
-#
-#
+/*
+
+/*                  ########## ROLES ##########                 */
+
+INSERT INTO role(name, status, add_date) VALUES
+('OWNER', 0, '2020-07-15 12:49:50.637901000'),
+('ADMIN', 1, '2020-07-15 12:49:50.637901000'),
+('MODERATOR', 2, '2020-07-15 12:49:50.637901000'),
+('USER', 100, '2020-07-15 12:49:50.637901000');
+
+
+
 # /*                  ########## UNIVERSITIES ##########                 */
 #
 # INSERT INTO university(name, address_id) VALUES
