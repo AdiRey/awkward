@@ -37,8 +37,10 @@ public class InterestController extends BaseCrudController<Interest> {
         this.interestService = interestService;
     }
 
-    @GetMapping("")
-    public ResponseEntity<Page<InterestDto>> getAll(@RequestParam(defaultValue = "0") final int page,
+    /* ### GET ### */
+
+    @GetMapping("/allData")
+    public ResponseEntity<Page<InterestDto>> getAllData(@RequestParam(defaultValue = "0") final int page,
                                                     @RequestParam(defaultValue = "20") final int size,
                                                     @RequestParam(defaultValue = "id") final String column,
                                                     @RequestParam(defaultValue = "ASC") final String direction,
@@ -51,39 +53,45 @@ public class InterestController extends BaseCrudController<Interest> {
         );
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<InterestShowDto> getOne(@PathVariable final Long id) {
-        return super.getOneByActiveTrue(id, this.interestShowConverter.toDto());
-    }
-
-    @GetMapping("/allData")
-    public ResponseEntity<Page<InterestShowDto>> getAllData(@RequestParam(defaultValue = "0") final int page,
+    @GetMapping("")
+    public ResponseEntity<Page<InterestShowDto>> getAll(@RequestParam(defaultValue = "0") final int page,
                                                     @RequestParam(defaultValue = "20") final int size,
                                                     @RequestParam(defaultValue = "id") final String column,
                                                     @RequestParam(defaultValue = "ASC") final String direction,
                                                     @RequestParam(defaultValue = "") final String filter) {
         if (filter.equals(""))
-            return super.getAll(page, size, column, direction, this.interestShowConverter.toDto());
+            return super.getAllByActiveTrue(page, size, column, direction, this.interestShowConverter.toDto());
         return ResponseEntity.ok(
-                this.interestService.getAllWithFilter(page, size, column, direction, filter)
+                this.interestService.getAllWithFilterByActiveIsTrue(page, size, column, direction, filter)
                         .map(this.interestShowConverter.toDto())
         );
     }
 
     @GetMapping("/{id}/allData")
     public ResponseEntity<InterestDto> getOneData(@PathVariable final Long id) {
-        return super.getOneByActiveTrue(id, this.interestConverter.toDto());
+        return super.getOne(id, this.interestConverter.toDto());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<InterestShowDto> getOne(@PathVariable final Long id) {
+        return super.getOneByActiveTrue(id, this.interestShowConverter.toDto());
+    }
+
+    /* ### POST ### */
 
     @PostMapping("")
     public ResponseEntity<Void> create(@RequestBody @Valid final InterestCreateUpdateDto dto) {
         return super.create(dto, this.interestCreateUpdateConverter.toEntity());
     }
 
+    /* ### DELETE ### */
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable final Long id) {
         return super.delete(id);
     }
+
+    /* ### PUT ### */
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody @Valid final InterestCreateUpdateDto dto) {

@@ -26,20 +26,20 @@ INSERT INTO gender(gender, add_date) VALUES
 
 /*                  ########## INTERESTS ##########                 */
 
-# INSERT INTO interest(name) VALUES
-# ('pływanie'),
-# ('piłka nożna'),
-# ('jazda na nartach'),
-# ('jazda na dekorolce'),
-# ('przejażdżki rowerowe'),
-# ('jazda autem'),
-# ('gotowanie'),
-# ('czytanie książek'),
-# ('skakanie na bungee'),
-# ('tenis stołowy'),
-# ('tenis ziemny'),
-# ('gra w szachy');
-#
+INSERT INTO interest(name, add_date) VALUES
+('pływanie', '2020-07-15 12:38:50.637901000'),
+('piłka nożna', '2020-07-15 12:39:50.637901000'),
+('jazda na nartach', '2020-07-15 12:40:50.637901000'),
+('jazda na dekorolce', '2020-07-15 12:41:50.637901000'),
+('przejażdżki rowerowe', '2020-07-15 12:42:50.637901000'),
+('jazda autem', '2020-07-15 12:43:50.637901000'),
+('gotowanie', '2020-07-15 12:44:50.637901000'),
+('czytanie książek', '2020-07-15 12:45:50.637901000'),
+('skakanie na bungee', '2020-07-15 12:46:50.637901000'),
+('tenis stołowy', '2020-07-15 12:47:50.637901000'),
+('tenis ziemny', '2020-07-15 12:48:50.637901000'),
+('gra w szachy', '2020-07-15 12:49:50.637901000');
+
 # /*
 #
 # /*                  ########## ROLES ##########                 */

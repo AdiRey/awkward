@@ -7,6 +7,8 @@ public interface InterestService {
 
     Page<Interest> getAllWithFilter(int page, int size, String column, String direction, String filter);
 
+    Page<Interest> getAllWithFilterByActiveIsTrue(int page, int size, String column, String direction, String filter);
+
     boolean update(Long id, Interest updateInterest);
 
 }

@@ -28,6 +28,14 @@ public class InterestServiceImplementation implements InterestService{
     }
 
     @Override
+    public Page<Interest> getAllWithFilterByActiveIsTrue(int page, int size, String column, String direction, String filter) {
+        Sort.Direction sortDir = direction.equals("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort sort = Sort.by(new Sort.Order(sortDir, column));
+        return this.interestRepository
+                .findAllByNameContainingIgnoreCaseAndActiveIsTrue(filter, PageRequest.of(page, size, sort));
+    }
+
+    @Override
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public boolean update(final Long id, final Interest updateInterest) {
         Optional<Interest> optionalInterest = this.interestRepository.findById(id);

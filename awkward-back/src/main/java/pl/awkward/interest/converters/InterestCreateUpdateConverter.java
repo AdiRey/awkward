@@ -18,7 +18,7 @@ public class InterestCreateUpdateConverter extends BaseConverter<Interest, Inter
 
             Interest interest = new Interest();
 
-            interest.setName(interest.getName());
+            interest.setName(dto.getName());
 
             return interest;
         };

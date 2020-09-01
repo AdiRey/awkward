@@ -3,6 +3,8 @@ package pl.awkward.interest.model_repo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import pl.awkward.shared.BaseEntity;
 import pl.awkward.user.model_repo.User;
 
@@ -22,6 +24,7 @@ public class Interest implements BaseEntity {
     private String name;
 
     @Column(columnDefinition = "boolean default true")
+    @Generated(GenerationTime.INSERT)
     private Boolean active;
 
     @Column(nullable = false)
@@ -29,7 +32,8 @@ public class Interest implements BaseEntity {
 
     private LocalDateTime deleteDate;
 
-    @ManyToMany(mappedBy = "interests")
-    @EqualsAndHashCode.Exclude @ToString.Exclude
+    @ManyToMany(mappedBy = "interests", fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<User> users;
 }
