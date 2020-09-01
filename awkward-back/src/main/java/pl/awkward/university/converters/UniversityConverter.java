@@ -6,7 +6,6 @@ import pl.awkward.address.dtos.AddressShowDto;
 import pl.awkward.address.model_repo.Address;
 import pl.awkward.shared.BaseConverter;
 import pl.awkward.university.dtos.UniversityDto;
-import pl.awkward.university.dtos.UniversityShowDto;
 import pl.awkward.university.model_repo.University;
 
 import java.util.function.Function;

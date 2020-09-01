@@ -2,11 +2,8 @@ package pl.awkward.user_address.web;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.awkward.exceptions.DuplicateException;
 import pl.awkward.user_address.model_repo.UserAddress;
 import pl.awkward.user_address.model_repo.UserAddressRepository;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import pl.awkward.exceptions.DuplicateException;
 import pl.awkward.university.model_repo.University;
 import pl.awkward.university.model_repo.UniversityRepository;
 

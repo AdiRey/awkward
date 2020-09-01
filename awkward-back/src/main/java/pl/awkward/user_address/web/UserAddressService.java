@@ -1,6 +1,5 @@
 package pl.awkward.user_address.web;
 
-import org.springframework.data.domain.Page;
 import pl.awkward.user_address.model_repo.UserAddress;
 
 public interface UserAddressService {
