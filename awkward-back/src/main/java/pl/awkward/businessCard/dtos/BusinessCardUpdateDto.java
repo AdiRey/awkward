@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 @Data
 public class BusinessCardUpdateDto {
 
-    @Size(min = 9, max = 9)
+    @Size(min = 12, max = 12)
     private String phoneNumber;
 
     private String facebookUrl;

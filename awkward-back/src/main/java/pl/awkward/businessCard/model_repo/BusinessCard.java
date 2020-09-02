@@ -2,6 +2,7 @@ package pl.awkward.businessCard.model_repo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import pl.awkward.shared.BaseEntity;
@@ -22,6 +23,7 @@ public class BusinessCard implements BaseEntity {
     @JoinColumn(name = "id")
     @MapsId("id")
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private User user;
 
     @Column(length = 12)

@@ -1,6 +1,8 @@
 package pl.awkward.businessCard.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import pl.awkward.user.model_repo.User;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,5 +22,8 @@ public class BusinessCardCreateDto {
 
     @NotNull
     private Long userId;
+
+    @JsonIgnore
+    private User user;
 
 }
