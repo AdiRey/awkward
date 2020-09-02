@@ -2,14 +2,14 @@ package pl.awkward.user_address.web;
 
 import pl.awkward.user_address.model_repo.UserAddress;
 
+import java.util.List;
+
 public interface UserAddressService {
 
-    boolean update(Long id, UserAddress updateUserAddress);
+    boolean update(Long userId, Long addressId, UserAddress updateUserAddress);
 
-//    Page<UserAddress> getAll();
+    List<UserAddress> getAllByUserId(Long userId);
 
-//    UserAddress getOne();
-
-//    boolean delete(Long userId, Long addressId);
+    boolean delete(Long userId, Long addressId);
 
 }

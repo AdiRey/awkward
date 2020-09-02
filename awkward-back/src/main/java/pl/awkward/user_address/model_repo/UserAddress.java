@@ -14,14 +14,14 @@ public class UserAddress {
     /* ### ID ### */
 
     @EmbeddedId
-    private EmbeddedIds embeddedIds = new EmbeddedIds();
+    private EmbeddedIds embeddedIds;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @MapsId("userId")
     @JoinColumn(insertable = false, updatable = false)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @MapsId("addressId")
     @JoinColumn(insertable = false, updatable = false)
     private Address address;

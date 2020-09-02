@@ -20,6 +20,8 @@ public class UserAddressCreateConverter extends BaseConverter<UserAddress, UserA
 
             userAddress.getEmbeddedIds().setUserId(dto.getUserId());
             userAddress.getEmbeddedIds().setAddressId(dto.getAddressId());
+            userAddress.setPosition(dto.getPosition());
+            userAddress.setTimeInPercentage(dto.getTimeInPercentage());
 
             return userAddress;
         };
@@ -35,6 +37,8 @@ public class UserAddressCreateConverter extends BaseConverter<UserAddress, UserA
 
             dto.setUserId(userAddress.getEmbeddedIds().getUserId());
             dto.setAddressId(userAddress.getEmbeddedIds().getAddressId());
+            dto.setPosition(userAddress.getPosition());
+            dto.setTimeInPercentage(userAddress.getTimeInPercentage());
 
             return dto;
         };
