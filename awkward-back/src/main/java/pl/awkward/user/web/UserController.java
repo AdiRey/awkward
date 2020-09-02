@@ -240,7 +240,7 @@ public class UserController extends BaseCrudController<User> {
             RestTemplate restTemplate = new RestTemplate();
             JsonBuilder<String, Long> jsonBuilder = new JsonBuilder<>();
 
-            jsonBuilder.put("userIdFirst", id);
+            jsonBuilder.put("userIdFirst", liked.getFirstUser().getId());
             jsonBuilder.put("userIdSecond", liked.getSecondUser().getId());
 
             HttpHeaders httpHeaders = new HttpHeaders();

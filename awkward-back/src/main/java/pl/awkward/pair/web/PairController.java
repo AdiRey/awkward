@@ -14,18 +14,17 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/pairs")
-public class PairController extends BaseCrudController<Pair> {
+public class PairController{
 
     private final BaseConverter<Pair, PairDto> pairConverter;
     private final BaseConverter<Pair, PairCreateDto> pairCreateConverter;
     private final PairService pairService;
 
 
-    public PairController(BaseRepository<Pair> repository,
+    public PairController(
                           BaseConverter<Pair, PairDto> pairConverter,
                           BaseConverter<Pair, PairCreateDto> pairCreateConverter,
                           PairService pairService) {
-        super(repository);
         this.pairConverter = pairConverter;
         this.pairCreateConverter = pairCreateConverter;
         this.pairService = pairService;
@@ -36,23 +35,27 @@ public class PairController extends BaseCrudController<Pair> {
                                                 @RequestParam(defaultValue = "20") final int size,
                                                 @RequestParam(defaultValue = "id") final String column,
                                                 @RequestParam(defaultValue = "ASC") final String direction) {
-        return super.getAll(page, size, column, direction, this.pairConverter.toDto());
+//        return super.getAll(page, size, column, direction, this.pairConverter.toDto());
+        return null;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PairDto> getOne(@PathVariable final Long id) {
-        return super.getOneByActiveTrue(id, this.pairConverter.toDto());
+//        return super.getOneByActiveTrue(id, this.pairConverter.toDto());
+        return null;
     }
 
     @PostMapping("")
     public ResponseEntity<Void> create(@RequestBody @Valid PairCreateDto dto) {
-        this.pairService.acceptableIds(dto.getUserIdFirst(), dto.getUserIdSecond());
-        return super.create(dto, this.pairCreateConverter.toEntity());
+//        this.pairService.acceptableIds(dto.getUserIdFirst(), dto.getUserIdSecond());
+//        return super.create(dto, this.pairCreateConverter.toEntity());
+        return null;
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable final Long id) {
-        return super.delete(id);
+//        return super.delete(id);
+        return null;
     }
 
 }

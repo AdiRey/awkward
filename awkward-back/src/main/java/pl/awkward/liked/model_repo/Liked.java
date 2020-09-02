@@ -16,7 +16,7 @@ public class Liked {
     /* ### ID ### */
 
     @EmbeddedId
-    private UserIdsKey id = new UserIdsKey();
+    private UserIdsKey id;
 
     @ManyToOne
     @MapsId(value = "firstUserId")

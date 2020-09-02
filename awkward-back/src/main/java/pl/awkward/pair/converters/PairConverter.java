@@ -1,6 +1,7 @@
 package pl.awkward.pair.converters;
 
 import org.springframework.stereotype.Service;
+import pl.awkward.liked.model_repo.UserIdsKey;
 import pl.awkward.pair.dtos.PairDto;
 import pl.awkward.pair.model_repo.Pair;
 import pl.awkward.shared.BaseConverter;
@@ -12,11 +13,21 @@ public class PairConverter extends BaseConverter<Pair, PairDto> {
     @Override
     public Function<PairDto, Pair> toEntity() {
         return dto -> {
+            if (dto == null)
+                return null;
+
             Pair pair = new Pair();
-            convertIfNotNull(pair::setId, dto::getId);
-            convertIfNotNull(pair::setUserIdFirst, dto::getUserIdFirst);
-            convertIfNotNull(pair::setUserIdSecond, dto::getUserIdSecond);
-            convertIfNotNull(pair::setActive, dto::getActive);
+
+            UserIdsKey id = new UserIdsKey();
+
+            id.setFirstUserId(dto.getFirstUserId());
+            id.setSecondUserId(dto.getSecondUserId());
+
+            pair.setId(id);
+            pair.setTopic(dto.getTopic());
+            pair.setAddDate(dto.getAddDate());
+
+
             return pair;
         };
     }
@@ -24,11 +35,16 @@ public class PairConverter extends BaseConverter<Pair, PairDto> {
     @Override
     public Function<Pair, PairDto> toDto() {
         return pair -> {
+            if (pair == null)
+                return null;
+
             PairDto dto = new PairDto();
-            convertIfNotNull(dto::setId, pair::getId);
-            convertIfNotNull(dto::setUserIdFirst, pair::getUserIdFirst);
-            convertIfNotNull(dto::setUserIdSecond, pair::getUserIdSecond);
-            convertIfNotNull(dto::setActive, pair::getActive);
+
+            dto.setFirstUserId(pair.getId().getFirstUserId());
+            dto.setSecondUserId(pair.getId().getSecondUserId());
+            dto.setTopic(pair.getTopic());
+            dto.setAddDate(pair.getAddDate());
+
             return dto;
         };
     }

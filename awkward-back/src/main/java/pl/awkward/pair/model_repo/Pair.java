@@ -1,25 +1,31 @@
 package pl.awkward.pair.model_repo;
 
 import lombok.Data;
+import pl.awkward.liked.model_repo.Liked;
+import pl.awkward.liked.model_repo.UserIdsKey;
 import pl.awkward.shared.BaseEntity;
+import pl.awkward.user.model_repo.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-public class Pair implements BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(nullable = false)
-    private Long userIdFirst;
-    @Column(nullable = false)
-    private Long userIdSecond;
-    @Column(columnDefinition = "boolean default true")
-    private Boolean active;
+public class Pair {
 
-    @Column(nullable = true) // @Column(nullable = false)
+    @EmbeddedId
+    private UserIdsKey id;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "first_user_id", referencedColumnName = "first_user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "second_user_id", referencedColumnName = "second_user_id", insertable = false, updatable = false)
+    private Liked liked;
+
+    @Column(nullable = false)
     private LocalDateTime addDate;
-    private LocalDateTime deleteDate;
+
+    @Column(nullable = false, unique = true)
+    private String topic;
+
 }

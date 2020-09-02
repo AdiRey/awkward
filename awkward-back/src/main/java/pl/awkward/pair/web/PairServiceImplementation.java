@@ -21,10 +21,10 @@ public class PairServiceImplementation implements PairService {
     @Override
     @Transactional
     public void acceptableIds(Long firstId, Long secondId) {
-        Optional<Pair> optionalFirst = this.pairRepository.findByUserIdFirstAndUserIdSecond(firstId, secondId);
-        Optional<Pair> optionalSecond = this.pairRepository.findByUserIdFirstAndUserIdSecond(secondId, firstId);
+//        Optional<Pair> optionalFirst = this.pairRepository.findByUserIdFirstAndUserIdSecond(firstId, secondId);
+//        Optional<Pair> optionalSecond = this.pairRepository.findByUserIdFirstAndUserIdSecond(secondId, firstId);
 
-        if (optionalFirst.isPresent() || optionalSecond.isPresent())
-            throw new DuplicateException("This pair is already exists");
+//        if (optionalFirst.isPresent() || optionalSecond.isPresent())
+//            throw new DuplicateException("This pair is already exists");
     }
 }

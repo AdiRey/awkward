@@ -2,10 +2,17 @@ package pl.awkward.pair.dtos;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class PairDto {
-    private Long id;
-    private Long userIdFirst;
-    private Long userIdSecond;
-    private Boolean active;
+
+    private Long firstUserId;
+
+    private Long secondUserId;
+
+    private LocalDateTime addDate;
+
+    private String topic;
+
 }

@@ -6,8 +6,11 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class PairCreateDto {
+
     @NotNull
-    private Long userIdFirst;
+    private Long firstUserId;
+
     @NotNull
-    private Long userIdSecond;
+    private Long secondUserId;
+
 }
