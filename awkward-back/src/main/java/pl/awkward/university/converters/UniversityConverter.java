@@ -2,7 +2,7 @@ package pl.awkward.university.converters;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.awkward.address.dtos.AddressShowDto;
+import pl.awkward.address.dtos.AddressDto;
 import pl.awkward.address.model_repo.Address;
 import pl.awkward.shared.BaseConverter;
 import pl.awkward.university.dtos.UniversityDto;
@@ -14,7 +14,7 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class UniversityConverter extends BaseConverter<University, UniversityDto> {
 
-    private final BaseConverter<Address, AddressShowDto> addressShowConverter;
+    private final BaseConverter<Address, AddressDto> addressDto;
 
     @Override
     public Function<UniversityDto, University> toEntity() {
@@ -26,7 +26,7 @@ public class UniversityConverter extends BaseConverter<University, UniversityDto
 
             university.setId(dto.getId());
             university.setName(dto.getName());
-            university.setAddress(this.addressShowConverter.toEntity().apply(dto.getAddress()));
+            university.setAddress(this.addressDto.toEntity().apply(dto.getAddress()));
             university.setAddDate(dto.getAddDate());
             university.setDeleteDate(dto.getDeleteDate());
             university.setActive(dto.getActive());
@@ -45,7 +45,7 @@ public class UniversityConverter extends BaseConverter<University, UniversityDto
 
             dto.setId(university.getId());
             dto.setName(university.getName());
-            dto.setAddress(this.addressShowConverter.toDto().apply(university.getAddress()));
+            dto.setAddress(this.addressDto.toDto().apply(university.getAddress()));
             dto.setAddDate(university.getAddDate());
             dto.setDeleteDate(university.getDeleteDate());
             dto.setActive(university.getActive());

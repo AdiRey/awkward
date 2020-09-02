@@ -27,6 +27,14 @@ public class UniversityServiceImplementation implements UniversityService {
     }
 
     @Override
+    public Page<University> getAllWithFilterByActiveTrue(int page, int size, String column, String direction, String filter) {
+        Sort.Direction sortDir = direction.equals("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort sort = Sort.by(new Sort.Order(sortDir, column));
+        return this.universityRepository
+                .findAllByNameContainingIgnoreCaseAndActiveIsTrue(filter, PageRequest.of(page, size, sort));
+    }
+
+    @Override
     public boolean update(final Long id, final University updateUniversity) {
         Optional<University> optionalUniversity = this.universityRepository.findById(id);
         if (optionalUniversity.isEmpty())

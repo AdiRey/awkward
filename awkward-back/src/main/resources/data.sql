@@ -52,20 +52,20 @@ INSERT INTO role(name, status, add_date) VALUES
 
 
 
-# /*                  ########## UNIVERSITIES ##########                 */
-#
-# INSERT INTO university(name, address_id) VALUES
-# ('Politechnika Rzeszowska im. Ignacego Łukasiewicza', 1),
-# ('Państwowa Wyższa Szkoła Techniczno-Ekonomiczna', 2),
-# ('Politechnika Wrocławska', 12),
-# ('Państwowa Wyższa Szkoła Zawodowa', 3),
-# ('Akademia Górniczo-Hutnicza im. Stanisława Staszica', 10),
-# ('Politechnika Krakowska im. Tadeusza Kościuszki', 10),
-# ('Szkoła Główna Handlowa', 5),
-# ('Uniwersytet Medyczny im. Karola Marcinkowskiego', 6);
-#
-#
-#
+/*                  ########## UNIVERSITIES ##########                 */
+
+INSERT INTO university(name, address_id, add_date) VALUES
+('Politechnika Rzeszowska im. Ignacego Łukasiewicza', 1, '2020-07-15 12:49:50.637901000'),
+('Państwowa Wyższa Szkoła Techniczno-Ekonomiczna', 2, '2020-07-15 12:49:50.637901000'),
+('Politechnika Wrocławska', 12, '2020-07-15 12:49:50.637901000'),
+('Państwowa Wyższa Szkoła Zawodowa', 3, '2020-07-15 12:49:50.637901000'),
+('Akademia Górniczo-Hutnicza im. Stanisława Staszica', 10, '2020-07-15 12:49:50.637901000'),
+('Politechnika Krakowska im. Tadeusza Kościuszki', 10, '2020-07-15 12:49:50.637901000'),
+('Szkoła Główna Handlowa', 5, '2020-07-15 12:49:50.637901000'),
+('Uniwersytet Medyczny im. Karola Marcinkowskiego', 6, '2020-07-15 12:49:50.637901000');
+
+
+
 # /*                  ########## USERS ##########                 */
 #
 # INSERT INTO user(EMAIL, USERNAME, NAME, SURNAME, DATE_OF_BIRTH, AGE, DESCRIPTION, PASSWORD, GENDER_ID, ROLE_ID, UNIVERSITY_ID, active)
