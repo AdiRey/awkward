@@ -7,9 +7,9 @@ import pl.awkward.user.model_repo.User;
 
 public interface PhotoService {
 
-    Page<Photo> getAllByUserId(Long userId, int page, int size, boolean isActive);
+    Page<Photo> getAllByUserId(Long userId, int page, int size, boolean isArchive);
 
-    Photo save(User user, Integer position, MultipartFile file);
+    Photo save(Long userId, Integer position, MultipartFile file);
 
     boolean updateArchive(Long photoId, Boolean archive);
 

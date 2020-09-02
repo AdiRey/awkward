@@ -202,12 +202,13 @@ public class UserController extends BaseCrudController<User> {
     public ResponseEntity<Void> createPhoto(@PathVariable final Long id,
                                             @RequestParam("imageFile") final MultipartFile imageFile,
                                             @RequestParam("position") final Integer position) {
-
-
         final String content = imageFile.getContentType();
+
         if (content == null || (!content.equals("image/jpg") && !content.equals("image/png") && !content.equals("image/jpeg")))
             throw new IllegalArgumentException("Unrecognized image format.");
-        final Photo photo = this.photoService.save(this.userRepository.findById(id).get(), position, imageFile);
+
+        final Photo photo = this.photoService.save(id, position, imageFile);
+
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{fileName}")
                 .buildAndExpand(photo.getPath().split("/")[2]).toUri();
         return ResponseEntity.created(location).contentType(MediaType.parseMediaType(content)).build();

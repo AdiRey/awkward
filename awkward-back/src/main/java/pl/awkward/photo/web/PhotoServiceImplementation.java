@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import pl.awkward.photo.model_repo.Photo;
 import pl.awkward.photo.model_repo.PhotoRepository;
 import pl.awkward.user.model_repo.User;
+import pl.awkward.user.model_repo.UserRepository;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,38 +31,56 @@ public class PhotoServiceImplementation implements PhotoService {
 
     private final PhotoRepository photoRepository;
 
+    private final UserRepository userRepository;
+
 
     @Override
-    public Page<Photo> getAllByUserId(final Long userId, final int page, final int size, final boolean isActive) {
-        return this.photoRepository.findAllByUserIdAndArchiveOrderByAddDateDesc(userId, isActive, PageRequest.of(page, size));
+    public Page<Photo> getAllByUserId(final Long userId, final int page, final int size, final boolean isArchive) {
+        return this.photoRepository.findAllByUserIdAndArchiveOrderByAddDateDesc(userId, isArchive, PageRequest.of(page, size));
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Photo save(User user, Integer position, MultipartFile file) {
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
+    public Photo save(Long userId, Integer position, MultipartFile file) {
         Photo photo = new Photo();
+        Optional<User> optionalUser = this.userRepository.findById(userId);
+
+        if (optionalUser.isEmpty())
+            throw new IllegalArgumentException("Użytkownik z tym id nie istenieje");
+
+        User user = optionalUser.get();
+
         photo.setAddDate(LocalDateTime.now());
+
         try (final InputStream inputStream = file.getInputStream()) {
-            final String final_path = PATH_PATTERN.replace("$1", String.valueOf(user))
+            final String final_path = PATH_PATTERN.replace("$1", String.valueOf(userId))
                     .replace("$2", UUID.randomUUID().toString().replace("-",""))
                     + "." + Objects.requireNonNull(file.getContentType()).substring(6);
 
             Files.copy(inputStream, Paths.get(final_path), StandardCopyOption.REPLACE_EXISTING);
+
             photo.setPath(final_path);
             photo.setUser(user);
+
         } catch (IOException | InvalidPathException | NullPointerException e) {
             throw new IllegalArgumentException("There is unexpected error, please contact us.");
         }
+
         return this.photoRepository.save(photo);
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public boolean updateArchive(final Long photoId, final Boolean archive) {
         Optional<Photo> optionalPhoto = this.photoRepository.findById(photoId);
+
         if (optionalPhoto.isEmpty())
             return false;
+
         Photo photo = optionalPhoto.get();
+
         photo.setArchive(archive);
+
         return true;
     }
 }

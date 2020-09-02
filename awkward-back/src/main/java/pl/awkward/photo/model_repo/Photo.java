@@ -1,6 +1,8 @@
 package pl.awkward.photo.model_repo;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import pl.awkward.address.model_repo.Address;
@@ -11,7 +13,10 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "position"})})
+@Table(
+        name = "photo",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "position"})},
+        indexes = {@Index(name = "user_position_index", columnList = "user_id,position")})
 @Data
 public class Photo implements BaseEntity {
 
@@ -42,10 +47,13 @@ public class Photo implements BaseEntity {
     /* ### RELATIONS ### */
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.DETACH})
+    @JoinColumn(name = "address_id")
     private Address address;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private User user;
 
 }
