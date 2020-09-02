@@ -10,7 +10,9 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "address_id"})})
+@Table(uniqueConstraints =
+            {@UniqueConstraint(columnNames = {"name", "address_id"})},
+        indexes = {@Index(name = "name_address_index", columnList = "name,address_id")})
 @Data
 public class University implements BaseEntity {
 
