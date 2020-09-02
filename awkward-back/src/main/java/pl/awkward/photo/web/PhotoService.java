@@ -9,7 +9,7 @@ public interface PhotoService {
 
     Page<Photo> getAllByUserId(Long userId, int page, int size, boolean isArchive);
 
-    Photo save(Long userId, Integer position, MultipartFile file);
+    Photo save(Long userId, MultipartFile file);
 
     boolean updateArchive(Long photoId, Boolean archive);
 

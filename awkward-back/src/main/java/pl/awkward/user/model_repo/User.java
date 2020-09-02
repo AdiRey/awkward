@@ -1,5 +1,6 @@
 package pl.awkward.user.model_repo;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,9 +26,7 @@ import java.util.Set;
 
 @Entity(name = "user")
 @Table(name = "user")
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public final class User implements BaseEntity {
 
     @Id
@@ -88,7 +87,7 @@ public final class User implements BaseEntity {
     private Role role;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private University university;
 
 
@@ -99,7 +98,7 @@ public final class User implements BaseEntity {
 
     @OneToMany(mappedBy = "user",
             fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @OrderBy("number asc")
+    @OrderBy("position asc")
     private List<UserAddress> userAddresses;
 
 

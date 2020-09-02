@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public interface UserRepository extends BaseRepository <User> {
     Optional<User> findFirstByEmailOrUsername(String email, String username);
+
     @Query(
             value = "SELECT u.* FROM user u " +
                     "WHERE (LOWER(u.name) LIKE CONCAT('%',LOWER(:name),'%') OR LOWER(u.surname) LIKE CONCAT('%',LOWER(:surname),'%'))" +
@@ -20,6 +21,16 @@ public interface UserRepository extends BaseRepository <User> {
             nativeQuery = true
     )
     Page<User> findAllByNameOrSurnameContainsAndActiveIsTrue(@Param("name") String name, @Param("surname") String surname, Pageable pageable);
+
+    @Query(
+            value = "SELECT u.* FROM user u " +
+                    "WHERE (LOWER(u.name) LIKE CONCAT('%',LOWER(:name),'%') OR LOWER(u.surname) LIKE CONCAT('%',LOWER(:surname),'%'))",
+            countQuery = "SELECT COUNT(*) FROM user u " +
+                    "WHERE (LOWER(u.name) LIKE CONCAT('%',LOWER(:name),'%') OR LOWER(u.surname) LIKE CONCAT('%',LOWER(:surname),'%'))",
+            nativeQuery = true
+    )
+    Page<User> findAllByNameOrSurnameContains(@Param("name") String name, @Param("surname") String surname, Pageable pageable);
+
 
     @Query(
             value = "SELECT COUNT(*) FROM User",

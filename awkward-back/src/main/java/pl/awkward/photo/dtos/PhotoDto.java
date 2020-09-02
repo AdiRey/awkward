@@ -17,8 +17,6 @@ public class PhotoDto {
 
     private LocalDateTime addDate;
 
-    private Integer position;
-
     private Long addressId;
 
     @JsonIgnore

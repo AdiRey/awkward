@@ -1,9 +1,9 @@
 package pl.awkward.user.dtos;
 
 import lombok.Data;
-import pl.awkward.gender.GenderDto;
-import pl.awkward.role.dtos.RoleDto;
-import pl.awkward.university.dtos.UniversityDto;
+import pl.awkward.gender.GenderShowDto;
+import pl.awkward.role.dtos.RoleShowDto;
+import pl.awkward.university.dtos.UniversityShowDto;
 import pl.awkward.user_address.dtos.UserAddressDto;
 
 import java.util.List;
@@ -19,9 +19,9 @@ public class UserShowDto {
     private Integer age;
     private String description;
 
-    private GenderDto gender;
-    private RoleDto role;
-    private UniversityDto university;
+    private GenderShowDto gender;
+    private RoleShowDto role;
+    private UniversityShowDto university;
     private List<UserAddressDto> userAddresses;
 
 }

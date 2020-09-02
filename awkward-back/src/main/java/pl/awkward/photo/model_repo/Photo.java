@@ -15,8 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(
         name = "photo",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "position"})},
-        indexes = {@Index(name = "user_position_index", columnList = "user_id,position")})
+        indexes = {@Index(name = "user_index", columnList = "user_id,address_id")})
 @Data
 public class Photo implements BaseEntity {
 
@@ -39,9 +38,6 @@ public class Photo implements BaseEntity {
     private LocalDateTime addDate;
 
     private LocalDateTime deleteDate;
-
-    @Column(nullable = false)
-    private Integer position;
 
 
     /* ### RELATIONS ### */

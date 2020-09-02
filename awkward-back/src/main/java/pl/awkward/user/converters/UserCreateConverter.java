@@ -25,7 +25,6 @@ public class UserCreateConverter extends BaseConverter<User, UserCreateDto> {
             user.setPassword(dto.getPassword());
             user.setGender(dto.getGender());
             user.setRole(dto.getRole());
-            user.setAddDate(dto.getAddDate());
             user.setAge(dto.getAge());
 
             return user;
@@ -48,7 +47,6 @@ public class UserCreateConverter extends BaseConverter<User, UserCreateDto> {
             dto.setPassword(user.getPassword());
             dto.setGender(user.getGender());
             dto.setRole(user.getRole());
-            dto.setAddDate(user.getAddDate());
             dto.setAge(user.getAge());
 
             return dto;

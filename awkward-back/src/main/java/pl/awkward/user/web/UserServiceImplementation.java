@@ -31,8 +31,24 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
 
     @Override
     public Page<User> getAllWithFilter(int page, int size, String column, String direction, String filter) {
+
         Sort.Direction sortDir = direction.equals("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Sort sort = Sort.by(new Sort.Order(sortDir, column));
+
+        return this.userRepository
+                .findAllByNameOrSurnameContains(
+                        filter,
+                        filter,
+                        PageRequest.of(page, size, sort)
+                );
+    }
+
+    @Override
+    public Page<User> getAllWithFilterByActiveTrue(int page, int size, String column, String direction, String filter) {
+
+        Sort.Direction sortDir = direction.equals("DESC") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort sort = Sort.by(new Sort.Order(sortDir, column));
+
         return this.userRepository
                 .findAllByNameOrSurnameContainsAndActiveIsTrue(
                         filter,
@@ -44,7 +60,9 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
     @Override
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public boolean update(final Long id, final User updateUser) {
+
         Optional<User> optionalUser = this.userRepository.findById(id);
+
         if (optionalUser.isEmpty())
             return false;
 
@@ -57,7 +75,7 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
         user.setSurname(updateUser.getSurname());
 
         user.setDateOfBirth(updateUser.getDateOfBirth());
-        user.setAge(updateUser.getAge()); //TODO ?
+        user.setAge(updateUser.getAge());
         user.setDescription(updateUser.getDescription());
 
         user.setGender(updateUser.getGender());
@@ -69,35 +87,45 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
     @Override
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public boolean updatePassword(final Long id, User user) {
+
         Optional<User> userById = this.userRepository.findById(id);
+
         if (userById.isPresent()) {
             userById.get().setPassword(user.getPassword());
             return true;
         }
+
         return false;
     }
 
     @Override
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public boolean updateRole(Long id, User userRole) {
+
         Optional<User> userById = this.userRepository.findById(id);
+
         if (userById.isPresent()) {
             userById.get().setRole(userRole.getRole());
             return true;
         }
+
         return false;
     }
 
     @Override
     public void createFolderViaId(final Long id) {
         final File file = new File(PATH_TO_USER_DIR + id);
-        file.mkdir();
+
+        if (!file.exists())
+            file.mkdir();
     }
 
     @Override
-    @Transactional
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public void refreshUsersAge() {
+
         List<User> all = this.userRepository.findAll();
+
         all
                 .parallelStream()
                 .forEach(u -> {

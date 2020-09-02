@@ -30,7 +30,6 @@ public class PhotoShowConverter extends BaseConverter<Photo, PhotoShowDto> {
             photo.setActive(dto.getActive());
             photo.setAddDate(dto.getAddDate());
             photo.setDeleteDate(dto.getDeleteDate());
-            photo.setPosition(dto.getPosition());
             photo.setAddress(this.addressShowConverter.toEntity().apply(dto.getAddress()));
 
             return photo;
@@ -51,7 +50,6 @@ public class PhotoShowConverter extends BaseConverter<Photo, PhotoShowDto> {
             dto.setActive(photo.getActive());
             dto.setAddDate(photo.getAddDate());
             dto.setDeleteDate(photo.getDeleteDate());
-            dto.setPosition(photo.getPosition());
             dto.setAddress(this.addressShowConverter.toDto().apply(photo.getAddress()));
 
             return dto;

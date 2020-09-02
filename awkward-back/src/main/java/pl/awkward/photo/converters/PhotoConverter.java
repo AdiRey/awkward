@@ -21,7 +21,6 @@ public class PhotoConverter extends BaseConverter<Photo, PhotoDto> {
             photo.setPath(dto.getPath());
             photo.setArchive(dto.getArchive());
             photo.setAddDate(dto.getAddDate());
-            photo.setPosition(dto.getPosition());
             photo.setAddress(dto.getAddress());
 
             return photo;
@@ -40,7 +39,6 @@ public class PhotoConverter extends BaseConverter<Photo, PhotoDto> {
             dto.setPath(photo.getPath());
             dto.setArchive(photo.getArchive());
             dto.setAddDate(photo.getAddDate());
-            dto.setPosition(photo.getPosition());
             dto.setAddress(photo.getAddress());
 
             dto.setAddressId(photo.getAddress().getId());

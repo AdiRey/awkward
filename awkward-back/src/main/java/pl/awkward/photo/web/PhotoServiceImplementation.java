@@ -41,7 +41,7 @@ public class PhotoServiceImplementation implements PhotoService {
 
     @Override
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
-    public Photo save(Long userId, Integer position, MultipartFile file) {
+    public Photo save(Long userId, MultipartFile file) {
         Photo photo = new Photo();
         Optional<User> optionalUser = this.userRepository.findById(userId);
 

@@ -50,9 +50,6 @@ public class UserCreateDto {
     private Role role;
 
     @JsonIgnore
-    private LocalDateTime addDate;
-
-    @JsonIgnore
     private Integer age;
 
 }

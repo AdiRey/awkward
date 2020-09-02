@@ -20,8 +20,6 @@ public class PhotoShowDto {
 
     private LocalDateTime deleteDate;
 
-    private Integer position;
-
     private AddressShowDto address;
 
 }

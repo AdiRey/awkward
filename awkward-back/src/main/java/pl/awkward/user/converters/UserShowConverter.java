@@ -2,10 +2,10 @@ package pl.awkward.user.converters;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.awkward.gender.GenderConverter;
-import pl.awkward.role.converters.RoleConverter;
+import pl.awkward.gender.GenderShowConverter;
+import pl.awkward.role.converters.RoleShowConverter;
 import pl.awkward.shared.BaseConverter;
-import pl.awkward.university.converters.UniversityConverter;
+import pl.awkward.university.converters.UniversityShowConverter;
 import pl.awkward.user.dtos.UserShowDto;
 import pl.awkward.user.model_repo.User;
 import pl.awkward.user_address.converters.UserAddressConverter;
@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserShowConverter extends BaseConverter<User, UserShowDto> {
 
-    private final RoleConverter roleConverter;
-    private final GenderConverter genderConverter;
-    private final UniversityConverter universityConverter;
+    private final RoleShowConverter roleConverter;
+    private final GenderShowConverter genderConverter;
+    private final UniversityShowConverter universityConverter;
     private final UserAddressConverter userAddressConverter;
 
     @Override
@@ -39,8 +39,8 @@ public class UserShowConverter extends BaseConverter<User, UserShowDto> {
             user.setAge(dto.getAge());
             user.setDescription(dto.getDescription());
 
-            user.setRole(this.roleConverter.toEntity().apply(dto.getRole()));
             user.setGender(this.genderConverter.toEntity().apply(dto.getGender()));
+            user.setRole(this.roleConverter.toEntity().apply(dto.getRole()));
             user.setUniversity(this.universityConverter.toEntity().apply(dto.getUniversity()));
             user.setUserAddresses(
                     dto.getUserAddresses()

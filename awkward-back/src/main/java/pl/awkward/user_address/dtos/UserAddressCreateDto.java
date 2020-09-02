@@ -20,7 +20,7 @@ public class UserAddressCreateDto {
     private Integer position;
 
     @NotNull
-    @Max(1)
+    @Max(100)
     @Min(0)
     private Integer timeInPercentage;
 
