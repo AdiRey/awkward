@@ -7,8 +7,14 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class MessageCreateDto {
+
+    @NotBlank
+    private String topic;
+
     @NotBlank
     private String message;
+
     @NotNull
     private Long fromUserId;
+
 }

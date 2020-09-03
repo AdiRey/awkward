@@ -13,7 +13,7 @@ public class MessageCreateConverter extends BaseConverter<Message, MessageCreate
     public Function<MessageCreateDto, Message> toEntity() {
         return dto -> {
             Message message = new Message();
-            convertIfNotNull(message::setFromUserId, dto::getFromUserId);
+//            convertIfNotNull(message::setFromUserId, dto::getFromUserId);
             convertIfNotNull(message::setMessage, dto::getMessage);
             return message;
         };
@@ -23,7 +23,7 @@ public class MessageCreateConverter extends BaseConverter<Message, MessageCreate
     public Function<Message, MessageCreateDto> toDto() {
         return message -> {
             MessageCreateDto dto = new MessageCreateDto();
-            convertIfNotNull(dto::setFromUserId, message::getFromUserId);
+//            convertIfNotNull(dto::setFromUserId, message::getFromUserId);
             convertIfNotNull(dto::setMessage, message::getMessage);
             return dto;
         };

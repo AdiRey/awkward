@@ -78,13 +78,12 @@ public class BusinessCardController extends BaseCrudController<BusinessCard> {
 
     @GetMapping("/{id}/allData")
     public ResponseEntity<BusinessCardDto> getOneData(@PathVariable(name = "id") final Long id) {
-        return super.getOneByActiveTrue(id, this.businessCardConverter.toDto());
+        return super.getOne(id, this.businessCardConverter.toDto());
     }
 
     /* ### POST ### */
 
     @PostMapping("")
-    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public ResponseEntity<Void> create(@RequestBody @Valid final BusinessCardCreateDto dto) {
         Optional<User> optional = this.userRepository.findById(dto.getUserId());
 

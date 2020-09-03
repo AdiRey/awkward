@@ -111,8 +111,7 @@ public final class User implements BaseEntity {
     private List<Interest> interests;
 
 
-    @OneToOne(mappedBy = "user",
-            fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     private BusinessCard card;
 
 

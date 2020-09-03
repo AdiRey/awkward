@@ -1,6 +1,7 @@
 package pl.awkward.pair.converters;
 
 import org.springframework.stereotype.Service;
+import pl.awkward.liked.model_repo.Liked;
 import pl.awkward.liked.model_repo.UserIdsKey;
 import pl.awkward.pair.dtos.PairCreateDto;
 import pl.awkward.pair.model_repo.Pair;
@@ -18,12 +19,6 @@ public class PairCreateConverter extends BaseConverter<Pair, PairCreateDto> {
 
             Pair pair = new Pair();
 
-            UserIdsKey id = new UserIdsKey();
-
-            id.setFirstUserId(dto.getFirstUserId());
-            id.setSecondUserId(dto.getSecondUserId());
-
-            pair.setId(id);
             pair.setStatus(dto.getStatus());
 
             return pair;
@@ -38,8 +33,8 @@ public class PairCreateConverter extends BaseConverter<Pair, PairCreateDto> {
 
             PairCreateDto dto = new PairCreateDto();
 
-            dto.setFirstUserId(pair.getId().getFirstUserId());
-            dto.setSecondUserId(pair.getId().getSecondUserId());
+            dto.setFirstUserId(pair.getLiked().getFirstUser().getId());
+            dto.setSecondUserId(pair.getLiked().getSecondUser().getId());
             dto.setStatus(pair.getStatus());
 
             return dto;

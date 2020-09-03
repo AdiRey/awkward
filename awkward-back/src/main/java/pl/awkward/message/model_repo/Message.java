@@ -1,32 +1,38 @@
 package pl.awkward.message.model_repo;
 
 import lombok.Data;
+import pl.awkward.pair.model_repo.Pair;
 import pl.awkward.shared.BaseEntity;
+import pl.awkward.user.model_repo.User;
 
 import javax.persistence.*;
+import java.sql.Blob;
 import java.time.LocalDateTime;
 
 @Entity
 @Data
-public class Message implements BaseEntity {
+public class Message {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "topic")
+    private Pair pair;
+
+    @Column
     @Lob
     private String message;
-    @Column(nullable = false)
-    private Long pairId;
-    @Column(nullable = false)
-    private Long fromUserId;
+
+    @ManyToOne(optional = false)
+    private User user;
+
+    @Lob
+    @Column(columnDefinition="BLOB")
+    private byte[] attachment;
+
     @Column(nullable = false)
     private LocalDateTime addTime;
-    @Column(nullable = false)
-    private Boolean active = true;
-    @Column(nullable = false)
-    private Boolean activeReceiver = true;
 
-    @Column(nullable = true) // @Column(nullable = false)
-    private LocalDateTime addDate;
-    private LocalDateTime deleteDate;
 }

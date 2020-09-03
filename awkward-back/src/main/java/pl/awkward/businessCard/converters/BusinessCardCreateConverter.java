@@ -23,6 +23,7 @@ public class BusinessCardCreateConverter extends BaseConverter<BusinessCard, Bus
             card.setInstUrl(dto.getInstUrl());
             card.setSnapName(dto.getSnapName());
             card.setUser(dto.getUser());
+            card.setId(dto.getUser().getId());
 
             return card;
         };

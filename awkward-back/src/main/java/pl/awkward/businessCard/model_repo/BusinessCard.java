@@ -19,11 +19,12 @@ public class BusinessCard implements BaseEntity {
     @Id
     private Long id;
 
-    @OneToOne
+    @OneToOne(optional = false, mappedBy = "card")
     @JoinColumn(name = "id")
     @MapsId("id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
+    @Transient
     private User user;
 
     @Column(length = 12)

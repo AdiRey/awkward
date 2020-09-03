@@ -14,7 +14,7 @@ public class MessageConverter extends BaseConverter<Message, MessageDto> {
         return dto -> {
             Message message = new Message();
             convertIfNotNull(message::setId, dto::getId);
-            convertIfNotNull(message::setFromUserId, dto::getFromUserId);
+//            convertIfNotNull(message::setFromUserId, dto::getFromUserId);
             convertIfNotNull(message::setAddTime, dto::getAddTime);
             convertIfNotNull(message::setMessage, dto::getMessage);
             return message;
@@ -26,7 +26,7 @@ public class MessageConverter extends BaseConverter<Message, MessageDto> {
         return message -> {
             MessageDto dto = new MessageDto();
             convertIfNotNull(dto::setId, message::getId);
-            convertIfNotNull(dto::setFromUserId, message::getFromUserId);
+//            convertIfNotNull(dto::setFromUserId, message::getFromUserId);
             convertIfNotNull(dto::setAddTime, message::getAddTime);
             convertIfNotNull(dto::setMessage, message::getMessage);
             return dto;

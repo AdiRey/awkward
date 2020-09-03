@@ -23,7 +23,7 @@ public class PairConverter extends BaseConverter<Pair, PairDto> {
             id.setFirstUserId(dto.getFirstUserId());
             id.setSecondUserId(dto.getSecondUserId());
 
-            pair.setId(id);
+//            pair.setId(id);
             pair.setTopic(dto.getTopic());
             pair.setAddDate(dto.getAddDate());
             pair.setStatus(dto.getStatus());
@@ -40,8 +40,8 @@ public class PairConverter extends BaseConverter<Pair, PairDto> {
 
             PairDto dto = new PairDto();
 
-            dto.setFirstUserId(pair.getId().getFirstUserId());
-            dto.setSecondUserId(pair.getId().getSecondUserId());
+//            dto.setFirstUserId(pair.getId().getFirstUserId());
+//            dto.setSecondUserId(pair.getId().getSecondUserId());
             dto.setTopic(pair.getTopic());
             dto.setAddDate(pair.getAddDate());
             dto.setStatus(pair.getStatus());

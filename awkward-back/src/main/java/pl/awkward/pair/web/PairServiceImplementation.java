@@ -23,7 +23,7 @@ public class PairServiceImplementation implements PairService {
 
     @Override
     public Page<Pair> getAllByUserId(Long userId, int page, int size) {
-        return this.pairRepository.findAllById_FirstUserIdOrId_SecondUserId(userId, userId, PageRequest.of(page, size));
+        return this.pairRepository.findAllByLiked_FirstUserIdOrLiked_SecondUserId(userId, userId, PageRequest.of(page, size));
     }
 
     @Override

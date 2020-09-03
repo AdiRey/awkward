@@ -80,8 +80,8 @@ public class PairController{
 
         Pair pair = this.pairCreateConverter.toEntity().apply(dto);
 
-        pair.setAddDate(LocalDateTime.now());
         pair.setTopic(UUID.randomUUID().toString());
+        pair.setAddDate(LocalDateTime.now());
         pair.setLiked(liked);
 
         Pair saved = this.pairService.save(pair);

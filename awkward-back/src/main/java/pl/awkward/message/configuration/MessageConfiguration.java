@@ -13,6 +13,8 @@ import org.springframework.web.socket.server.standard.ServletServerContainerFact
 @EnableWebSocketMessageBroker
 public class MessageConfiguration implements WebSocketMessageBrokerConfigurer {
 
+
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry
@@ -24,7 +26,7 @@ public class MessageConfiguration implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
         registry
-                .setApplicationDestinationPrefixes("/wss")
+                .setApplicationDestinationPrefixes("/ws")
                 .enableSimpleBroker("/t", "/q");
     }
 

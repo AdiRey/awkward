@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface PairRepository extends JpaRepository<Pair, UserIdsKey> {
 
-    Page<Pair> findAllById_FirstUserIdOrId_SecondUserId(Long firstUserId, Long secondUserId, Pageable pageable);
+    Page<Pair> findAllByLiked_FirstUserIdOrLiked_SecondUserId(Long firstUserId, Long secondUserId, Pageable pageable);
 
     Optional<Pair> findByTopic(String topic);
 

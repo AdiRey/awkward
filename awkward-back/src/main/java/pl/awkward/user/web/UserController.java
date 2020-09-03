@@ -18,6 +18,7 @@ import pl.awkward.liked.dtos.LikedDto;
 import pl.awkward.liked.model_repo.Liked;
 import pl.awkward.liked.web.LikedService;
 import pl.awkward.photo.dtos.PhotoDto;
+import pl.awkward.photo.dtos.PhotoShowDto;
 import pl.awkward.photo.model_repo.Photo;
 import pl.awkward.photo.web.PhotoService;
 import pl.awkward.role.model_repo.Role;
@@ -60,7 +61,7 @@ public class UserController extends BaseCrudController<User> {
 
     private final PhotoService photoService;
 
-    private final BaseConverter<Photo, PhotoDto> photoConverter;
+    private final BaseConverter<Photo, PhotoShowDto> photoShowConverter;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -88,7 +89,7 @@ public class UserController extends BaseCrudController<User> {
                           final BaseConverter<User, UserRoleDto> userRoleConverter,
                           final UserService userService,
                           final PhotoService photoService,
-                          final BaseConverter<Photo, PhotoDto> photoConverter,
+                          final BaseConverter<Photo, PhotoShowDto> photoShowConverter,
                           final PasswordEncoder passwordEncoder,
                           final BaseConverter<Liked, LikedDto> likedConverter,
                           final BaseConverter<Liked, LikedCreateDto> likedCreateConverter,
@@ -106,7 +107,7 @@ public class UserController extends BaseCrudController<User> {
         this.userRoleConverter = userRoleConverter;
         this.userService = userService;
         this.photoService = photoService;
-        this.photoConverter = photoConverter;
+        this.photoShowConverter = photoShowConverter;
         this.passwordEncoder = passwordEncoder;
         this.likedConverter = likedConverter;
         this.likedCreateConverter = likedCreateConverter;
@@ -166,13 +167,13 @@ public class UserController extends BaseCrudController<User> {
         );
     }
 
-    @GetMapping("/{id}/photos") // TODO finish with photoDto and photoCreateDto
-    public ResponseEntity<Page<PhotoDto>> getAllPhotos(@PathVariable final Long id,
-                                                       @RequestParam(defaultValue = "0") final int page,
-                                                       @RequestParam(defaultValue = "20") final int size,
-                                                       @RequestParam(defaultValue = "true") final boolean archive) {
+    @GetMapping("/{id}/photos")
+    public ResponseEntity<Page<PhotoShowDto>> getAllPhotos(@PathVariable final Long id,
+                                                           @RequestParam(defaultValue = "0") final int page,
+                                                           @RequestParam(defaultValue = "20") final int size,
+                                                           @RequestParam(defaultValue = "true") final boolean archive) {
         Page<Photo> allByUserId = this.photoService.getAllByUserId(id, page, size, archive);
-        return ResponseEntity.ok(allByUserId.map(this.photoConverter.toDto()));
+        return ResponseEntity.ok(allByUserId.map(this.photoShowConverter.toDto()));
     }
 
     @GetMapping("/{id}/likes")

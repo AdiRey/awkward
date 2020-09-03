@@ -11,20 +11,16 @@ import java.time.LocalDateTime;
 @Entity
 public class Pair {
 
-    @EmbeddedId
-    private UserIdsKey id = new UserIdsKey();
+    @Id
+    private String topic;
 
     @OneToOne
-    @MapsId
     @JoinColumn(name = "first_user_id", referencedColumnName = "first_user_id")
     @JoinColumn(name = "second_user_id", referencedColumnName = "second_user_id")
     private Liked liked;
 
     @Column(nullable = false)
     private LocalDateTime addDate;
-
-    @Column(nullable = false, unique = true)
-    private String topic;
 
     @Column(nullable = false)
     private Byte status;
