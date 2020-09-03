@@ -3,8 +3,6 @@ package pl.awkward.pair.model_repo;
 import lombok.Data;
 import pl.awkward.liked.model_repo.Liked;
 import pl.awkward.liked.model_repo.UserIdsKey;
-import pl.awkward.shared.BaseEntity;
-import pl.awkward.user.model_repo.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

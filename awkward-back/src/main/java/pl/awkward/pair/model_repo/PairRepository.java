@@ -1,11 +1,16 @@
 package pl.awkward.pair.model_repo;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.awkward.liked.model_repo.UserIdsKey;
-import pl.awkward.shared.BaseRepository;
 
 import java.util.Optional;
 
 public interface PairRepository extends JpaRepository<Pair, UserIdsKey> {
-//    Optional<Pair> findByUserIdFirstAndUserIdSecond(Long userIdFirst, Long userIdSecond);
+
+    Page<Pair> findAllById_FirstUserIdOrId_SecondUserId(Long firstUserId, Long secondUserId, Pageable pageable);
+
+    Optional<Pair> findByTopic(String topic);
+
 }
