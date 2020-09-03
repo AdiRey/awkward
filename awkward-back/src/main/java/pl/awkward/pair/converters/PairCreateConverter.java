@@ -24,6 +24,7 @@ public class PairCreateConverter extends BaseConverter<Pair, PairCreateDto> {
             id.setSecondUserId(dto.getSecondUserId());
 
             pair.setId(id);
+            pair.setStatus(dto.getStatus());
 
             return pair;
         };
@@ -39,6 +40,7 @@ public class PairCreateConverter extends BaseConverter<Pair, PairCreateDto> {
 
             dto.setFirstUserId(pair.getId().getFirstUserId());
             dto.setSecondUserId(pair.getId().getSecondUserId());
+            dto.setStatus(pair.getStatus());
 
             return dto;
         };

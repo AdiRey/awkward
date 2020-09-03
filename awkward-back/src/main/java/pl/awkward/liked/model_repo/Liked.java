@@ -16,16 +16,16 @@ public class Liked {
     /* ### ID ### */
 
     @EmbeddedId
-    private UserIdsKey id;
+    private UserIdsKey id = new UserIdsKey();
 
     @ManyToOne
     @MapsId(value = "firstUserId")
-    @JoinColumn(insertable = false, updatable = false)
+//    @JoinColumn(insertable = false, updatable = false)
     private User firstUser;
 
     @ManyToOne
     @MapsId(value = "secondUserId")
-    @JoinColumn(insertable = false, updatable = false)
+//    @JoinColumn(insertable = false, updatable = false)
     private User secondUser;
 
     /* ### OTHER FIELDS ### */

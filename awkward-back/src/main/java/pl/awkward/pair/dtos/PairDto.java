@@ -15,4 +15,6 @@ public class PairDto {
 
     private String topic;
 
+    private Byte status;
+
 }

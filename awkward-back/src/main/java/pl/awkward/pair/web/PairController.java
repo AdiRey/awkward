@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.awkward.liked.model_repo.Liked;
+import pl.awkward.liked.model_repo.LikedRepository;
 import pl.awkward.pair.dtos.PairCreateDto;
 import pl.awkward.pair.dtos.PairDto;
 import pl.awkward.pair.model_repo.Pair;
@@ -30,6 +32,8 @@ public class PairController{
     private final BaseConverter<Pair, PairCreateDto> pairCreateConverter;
 
     private final PairService pairService;
+
+    private final LikedRepository likedRepository;
 
 
     /* ### GET ### */
@@ -61,12 +65,24 @@ public class PairController{
 
 
     @PostMapping("")
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public ResponseEntity<Void> create(@RequestBody @Valid PairCreateDto dto) {
+        Optional<Liked> optionalLiked =
+                this.likedRepository.findById_FirstUserIdAndId_SecondUserId(dto.getFirstUserId(), dto.getSecondUserId());
+
+        if (optionalLiked.isEmpty())
+            throw new IllegalArgumentException("Nie można utworzyć pary bez lajków");
+
+        Liked liked = optionalLiked.get();
+
+        if (liked.getFirstStatus() == null || liked.getSecondStatus() == null)
+            throw new IllegalArgumentException("Brak relacji dwustronnej.");
 
         Pair pair = this.pairCreateConverter.toEntity().apply(dto);
 
         pair.setAddDate(LocalDateTime.now());
         pair.setTopic(UUID.randomUUID().toString());
+        pair.setLiked(liked);
 
         Pair saved = this.pairService.save(pair);
 

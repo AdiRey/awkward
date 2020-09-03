@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 public class Pair {
 
     @EmbeddedId
-    private UserIdsKey id;
+    private UserIdsKey id = new UserIdsKey();
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "first_user_id", referencedColumnName = "first_user_id", insertable = false, updatable = false)
-    @JoinColumn(name = "second_user_id", referencedColumnName = "second_user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "first_user_id", referencedColumnName = "first_user_id")
+    @JoinColumn(name = "second_user_id", referencedColumnName = "second_user_id")
     private Liked liked;
 
     @Column(nullable = false)
@@ -25,5 +25,8 @@ public class Pair {
 
     @Column(nullable = false, unique = true)
     private String topic;
+
+    @Column(nullable = false)
+    private Byte status;
 
 }

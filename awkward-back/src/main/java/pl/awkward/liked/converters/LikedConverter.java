@@ -1,20 +1,14 @@
 package pl.awkward.liked.converters;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.awkward.liked.dtos.LikedDto;
 import pl.awkward.liked.model_repo.Liked;
 import pl.awkward.shared.BaseConverter;
-import pl.awkward.user.model_repo.User;
 
-import javax.persistence.EntityManager;
 import java.util.function.Function;
 
 @Service
-@RequiredArgsConstructor
 public class LikedConverter extends BaseConverter<Liked, LikedDto> {
-
-    private final EntityManager entityManager;
 
     @Override
     public Function<LikedDto, Liked> toEntity() {
@@ -24,8 +18,8 @@ public class LikedConverter extends BaseConverter<Liked, LikedDto> {
 
             Liked liked = new Liked();
 
-            liked.setFirstUser(this.entityManager.getReference(User.class, dto.getFirstUserId()));
-            liked.setSecondUser(this.entityManager.getReference(User.class, dto.getSecondUserId()));
+            liked.setFirstUser(dto.getFirstUser());
+            liked.setSecondUser(dto.getFirstUser());
 
             liked.setFirstStatus(dto.getFirstStatus());
             liked.setSecondStatus(dto.getSecondStatus());

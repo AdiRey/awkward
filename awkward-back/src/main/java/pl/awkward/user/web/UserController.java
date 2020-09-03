@@ -228,20 +228,39 @@ public class UserController extends BaseCrudController<User> {
         return ResponseEntity.created(location).contentType(MediaType.parseMediaType(content)).build();
     }
 
-    @PostMapping("/{id}/liked") // TODO: it is possible to like someone who's been already deleted, but: does it matter?
-    public ResponseEntity<Void> createLike(@PathVariable final Long id, @RequestBody @Valid final LikedCreateDto dto) {
-        if (id.equals(dto.getSecondUserId()))
+    @PostMapping("/liked") // TODO: it is possible to like someone who's been already deleted, but: does it matter?
+    public ResponseEntity<Void> createLike(@RequestBody @Valid final LikedCreateDto dto) {
+        if (dto.getFirstUserId().equals(dto.getSecondUserId()))
             throw new OperationNotAllowedException("Nie możesz dać sam sobie lajka.");
 
+        final Optional<User> first = this.userRepository.findById(dto.getFirstUserId());
+        final Optional<User> second = this.userRepository.findById(dto.getSecondUserId());
+
+        if (first.isEmpty() || second.isEmpty()) {
+            throw new IllegalArgumentException("Userzy nie istnieja.");
+        }
+
+        dto.setFirstUser(first.get());
+        dto.setSecondUser(second.get());
+
         Liked liked = this.likedCreateConverter.toEntity().apply(dto);
-        final Liked saved = this.likedService.save(liked);
+        final Liked saved;
+
+        if (!this.likedService.exists(liked))
+            saved = this.likedService.save(liked);
+        else
+            saved = this.likedService.update(liked);
+
+
 
         if (saved.getFirstStatus() != null && saved.getSecondStatus() != null) {
-            RestTemplate restTemplate = new RestTemplate();
-            JsonBuilder<String, Long> jsonBuilder = new JsonBuilder<>();
+            final RestTemplate restTemplate = new RestTemplate();
+            final JsonBuilder<String, Number> jsonBuilder = new JsonBuilder<>();
+            final Byte status = (saved.getFirstStatus() > saved.getSecondStatus())? saved.getSecondStatus() : saved.getFirstStatus();
 
-            jsonBuilder.put("userIdFirst", liked.getFirstUser().getId());
-            jsonBuilder.put("userIdSecond", liked.getSecondUser().getId());
+            jsonBuilder.put("firstUserId", saved.getFirstUser().getId());
+            jsonBuilder.put("secondUserId", saved.getSecondUser().getId());
+            jsonBuilder.put("status", status);
 
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.setContentType(MediaType.APPLICATION_JSON);

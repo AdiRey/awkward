@@ -1,6 +1,8 @@
 package pl.awkward.liked.dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import pl.awkward.user.model_repo.User;
 
 import javax.validation.constraints.NotNull;
 
@@ -14,9 +16,15 @@ public class LikedCreateDto {
     private Long secondUserId;
 
     @NotNull
-    private Byte firstStatus;
+    private Byte status;
 
-    @NotNull
+    @JsonIgnore
     private Byte secondStatus;
+
+    @JsonIgnore
+    private User firstUser;
+
+    @JsonIgnore
+    private User secondUser;
 
 }
