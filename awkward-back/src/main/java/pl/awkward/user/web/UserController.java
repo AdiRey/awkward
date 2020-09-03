@@ -175,7 +175,7 @@ public class UserController extends BaseCrudController<User> {
         return ResponseEntity.ok(allByUserId.map(this.photoConverter.toDto()));
     }
 
-    @GetMapping("/{id}/liked") // TODO likes
+    @GetMapping("/{id}/likes")
     public ResponseEntity<Page<LikedDto>> getAllLikes(@PathVariable Long id,
                                                       @RequestParam(defaultValue = "0") final int page,
                                                       @RequestParam(defaultValue = "20") final int size) {
@@ -228,7 +228,7 @@ public class UserController extends BaseCrudController<User> {
         return ResponseEntity.created(location).contentType(MediaType.parseMediaType(content)).build();
     }
 
-    @PostMapping("/liked") // TODO: it is possible to like someone who's been already deleted, but: does it matter?
+    @PostMapping("/liked") //it is possible to like someone who's been already deleted, but: does it matter?
     public ResponseEntity<Void> createLike(@RequestBody @Valid final LikedCreateDto dto) {
         if (dto.getFirstUserId().equals(dto.getSecondUserId()))
             throw new OperationNotAllowedException("Nie możesz dać sam sobie lajka.");
