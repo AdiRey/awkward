@@ -1,5 +1,5 @@
 div.container-fluid {
-  background-image: url("src/assets/reg1.jpg");
+  background-image: url("src/assets/tlo6.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -9,12 +9,11 @@ div.container-fluid {
 
 #main-container {
   min-height: 70vh;
-  /*background-color: rgb(100, 100, 100);*/
-  background-color: rgb(70, 100, 160);
+  background-color: rgba(2, 25, 40, 0.7);
   border-radius: 1.1rem;
-  -webkit-box-shadow: 0 0 30px 6px rgba(255,255,255,1);
-  -moz-box-shadow: 0 0 30px 6px rgba(255,255,255,1);
-  box-shadow: 0 0 30px 6px rgba(255,255,255,1);
+  -webkit-box-shadow: 0 0 30px 4px rgba(255,255,255,1);
+  -moz-box-shadow: 0 0 30px 4px rgba(255,255,255,1);
+  box-shadow: 0 0 30px 4px rgba(255,255,255,1);
 }
 
 .col-12 {
@@ -24,9 +23,177 @@ div.container-fluid {
 @media (max-width: 767px) {
   #main-container {
     border-radius: 0;
-    height: 100vh;
     box-shadow: none;
     -moz-box-shadow: none;
     -webkit-box-shadow: none;
+    min-height: 100vh;
+    background-color: rgba(2, 25, 40, 1);
   }
+}
+
+form {
+  width: 60%;
+  margin: 0 auto;
+}
+
+.form-label-group {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.form-label-group input,
+.form-label-group label {
+  height: 3.125rem;
+  padding: .75rem;
+  border-radius: 10px;
+}
+
+.form-label-group label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 100%;
+  margin-bottom: 0; /* Override default `<label>` margin */
+  line-height: 1.5;
+  color: #495057;
+  pointer-events: none;
+  cursor: text; /* Match the input under the label */
+  border: 1px solid transparent;
+  border-radius: .25rem;
+  transition: all .1s ease-in-out;
+}
+
+.form-label-group input::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-moz-placeholder {
+  color: transparent;
+}
+
+.form-label-group input:-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::-ms-input-placeholder {
+  color: transparent;
+}
+
+.form-label-group input::placeholder {
+  color: transparent;
+}
+
+.form-label-group input:not(:-moz-placeholder) {
+  padding-top: 1.25rem;
+  padding-bottom: .25rem;
+}
+
+.form-label-group input:not(:-ms-input-placeholder) {
+  padding-top: 1.25rem;
+  padding-bottom: .25rem;
+}
+
+.form-label-group input:not(:placeholder-shown) {
+  padding-top: 1.25rem;
+  padding-bottom: .25rem;
+}
+
+.form-label-group input:not(:-moz-placeholder) ~ label {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  font-size: 12px;
+  color: #777;
+}
+
+.form-label-group input:not(:-ms-input-placeholder) ~ label {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  font-size: 12px;
+  color: #777;
+}
+
+.form-label-group input:not(:placeholder-shown) ~ label {
+  padding-top: .25rem;
+  padding-bottom: .25rem;
+  font-size: 12px;
+  color: #777;
+}
+
+/* Fallback for Edge
+-------------------------------------------------- */
+@supports (-ms-ime-align: auto) {
+  .form-label-group {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column-reverse;
+    flex-direction: column-reverse;
+  }
+
+  .form-label-group label {
+    position: static;
+  }
+
+  .form-label-group input::-ms-input-placeholder {
+    color: #777;
+  }
+}
+
+p.font-italic {
+  font-size: 1.5rem;
+}
+
+.border-danger-shadow {
+  border: 1px solid #dc3545 !important;
+  box-shadow: 0 0 0 0.2rem rgba(256, 0, 0, 0.8);
+}
+
+.border-danger-shadow:focus {
+  box-shadow: 0 0 0 0.2rem rgba(256, 0, 0, 0.8);
+}
+
+.main-link a{
+  font-size: 1.25rem;
+  font-style: oblique;
+  text-decoration: none;
+}
+
+.main-link a:focus {
+  text-decoration: none;
+}
+
+.btn-outline-primary {
+  border-radius: 5em;
+}
+
+.btn-primary {
+  border-radius: 3em;
+}
+
+.end-text a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.end-text a:hover {
+  color: #005cff;
+}
+
+.form-control:focus{
+  color: #495057;
+  background-color: #fff;
+  border-color: #80bdff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.75);
+}
+
+.btn-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+}
+
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  background-color: #0062cc;
+  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.35);
 }

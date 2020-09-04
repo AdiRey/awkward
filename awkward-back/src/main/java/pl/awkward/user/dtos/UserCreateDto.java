@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class UserCreateDto {
 
     @NotBlank(message = "Login cannot be blank.")
-    @Size(min = 5, max = 20, message = "Login should have 5 or more characters but less than or equals to 20.")
+    @Size(min = 5, max = 20, message = "Username should have 5 or more characters but less than or equals to 20.")
     private String username;
 
     @Email(message = "Email has to be correct.")
