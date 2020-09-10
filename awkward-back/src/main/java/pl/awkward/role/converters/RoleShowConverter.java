@@ -3,7 +3,7 @@ package pl.awkward.role.converters;
 import org.springframework.stereotype.Service;
 import pl.awkward.role.dtos.RoleShowDto;
 import pl.awkward.role.model_repo.Role;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 
 import java.util.function.Function;
 

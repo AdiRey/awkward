@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.awkward.address.dtos.AddressShowDto;
 import pl.awkward.address.model_repo.Address;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 import pl.awkward.university.dtos.UniversityShowDto;
 import pl.awkward.university.model_repo.University;
 

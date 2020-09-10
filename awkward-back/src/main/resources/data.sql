@@ -68,15 +68,15 @@ INSERT INTO university(name, address_id, add_date) VALUES
 
 /*                  ########## USERS ##########                 */
 
-INSERT INTO user(EMAIL, USERNAME, NAME, SURNAME, DATE_OF_BIRTH, AGE, DESCRIPTION, PASSWORD, GENDER_ID, ROLE_ID, UNIVERSITY_ID)
+INSERT INTO user(EMAIL, USERNAME, NAME, SURNAME, DATE_OF_BIRTH, AGE, DESCRIPTION, PASSWORD, GENDER_ID, ROLE_ID, UNIVERSITY_ID, add_date)
 VALUES
-('kadrian13@o2.pl', 'AdiRey', 'Adrian', 'Kowal', '1999/01/06', 22, 'Pogramuje w Javie od dawna.', 'TODO123', 1, 1, 1),
-('kassa1@gmail.com', 'AdiRey3', 'Adrian1', 'Kowal5', '1999/01/04', 21, 'Pogramuje w C# od dawna', 'TODO123', 1, 2, 1),
-('kassa2@gmail.com', 'AdiRey1', 'Adrianna2', 'Kowals2', '1999/01/02', 231, 'Pogramuje w JS od dawna', 'TODO123', 2, 4, 1),
-('kassa3@gmail.com', 'AdiRey5', 'Adrian5', 'Kowal1', '1999/01/05', 22, 'Pogramuje w RoR od dawna', 'TODO123', 1, 4, 1),
-('kassa4@gmail.com', 'AdiRey4', 'Adrian4', 'Kowal3', '1999/01/07', 21, 'Pogramuje w Django od dawna', 'TODO123', 1, 3, 1),
-('kassa5@gmail.com', 'AdiRey2', 'Adriana3', 'Kowala6', '1999/02/01', 11, 'Pogramuje w AngularCLI od dawna', 'TODO123', 2, 4, 1),
-('kassa6@gmail.com', 'AdiRey6', 'Adrian4', 'Kowal4', '2000/01/06', 20, 'Pogramuje w TypeScript od dawna', 'TODO123', 1, 4, 3);
+('kadrian13@o2.pl', 'AdiRey', 'Adrian', 'Kowal', '1999/01/06', 22, 'Pogramuje w Javie od dawna.', 'TODO123', 1, 1, 1, '2020-07-15 12:49:50.637901000'),
+('kassa1@gmail.com', 'AdiRey3', 'Adrian1', 'Kowal5', '1999/01/04', 21, 'Pogramuje w C# od dawna', 'TODO123', 1, 2, 1, '2020-07-15 12:49:50.637901000'),
+('kassa2@gmail.com', 'AdiRey1', 'Adrianna2', 'Kowals2', '1999/01/02', 231, 'Pogramuje w JS od dawna', 'TODO123', 2, 4, 1, '2020-07-15 12:49:50.637901000'),
+('kassa3@gmail.com', 'AdiRey5', 'Adrian5', 'Kowal1', '1999/01/05', 22, 'Pogramuje w RoR od dawna', 'TODO123', 1, 4, 1, '2020-07-15 12:49:50.637901000'),
+('kassa4@gmail.com', 'AdiRey4', 'Adrian4', 'Kowal3', '1999/01/07', 21, 'Pogramuje w Django od dawna', 'TODO123', 1, 3, 1, '2020-07-15 12:49:50.637901000'),
+('kassa5@gmail.com', 'AdiRey2', 'Adriana3', 'Kowala6', '1999/02/01', 11, 'Pogramuje w AngularCLI od dawna', 'TODO123', 2, 4, 1, '2020-07-15 12:49:50.637901000'),
+('kassa6@gmail.com', 'AdiRey6', 'Adrian4', 'Kowal4', '2000/01/06', 20, 'Pogramuje w TypeScript od dawna', 'TODO123', 1, 4, 3, '2020-07-15 12:49:50.637901000');
 
 
 

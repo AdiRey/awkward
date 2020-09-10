@@ -7,9 +7,9 @@ import pl.awkward.address.dtos.AddressCreateUpdateDto;
 import pl.awkward.address.dtos.AddressDto;
 import pl.awkward.address.dtos.AddressShowDto;
 import pl.awkward.address.model_repo.Address;
-import pl.awkward.shared.BaseConverter;
-import pl.awkward.shared.BaseCrudController;
-import pl.awkward.shared.BaseRepository;
+import pl.awkward.shared.baseStuff.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseCrudController;
+import pl.awkward.shared.baseStuff.BaseRepository;
 
 import javax.validation.Valid;
 

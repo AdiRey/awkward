@@ -7,9 +7,9 @@ import pl.awkward.role.dtos.RoleCreateUpdateDto;
 import pl.awkward.role.dtos.RoleDto;
 import pl.awkward.role.dtos.RoleShowDto;
 import pl.awkward.role.model_repo.Role;
-import pl.awkward.shared.BaseConverter;
-import pl.awkward.shared.BaseCrudController;
-import pl.awkward.shared.BaseRepository;
+import pl.awkward.shared.baseStuff.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseCrudController;
+import pl.awkward.shared.baseStuff.BaseRepository;
 
 import javax.validation.Valid;
 

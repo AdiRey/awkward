@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import pl.awkward.photo.dtos.PhotoDto;
 import pl.awkward.photo.dtos.PhotoShowDto;
 import pl.awkward.photo.model_repo.Photo;
-import pl.awkward.shared.BaseConverter;
-import pl.awkward.shared.BaseCrudController;
-import pl.awkward.shared.BaseRepository;
+import pl.awkward.shared.baseStuff.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseCrudController;
+import pl.awkward.shared.baseStuff.BaseRepository;
 
 @RestController
 @RequestMapping("/api/photos")

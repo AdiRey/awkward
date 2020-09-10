@@ -2,11 +2,9 @@ package pl.awkward.message.model_repo;
 
 import lombok.Data;
 import pl.awkward.pair.model_repo.Pair;
-import pl.awkward.shared.BaseEntity;
 import pl.awkward.user.model_repo.User;
 
 import javax.persistence.*;
-import java.sql.Blob;
 import java.time.LocalDateTime;
 
 @Entity

@@ -3,7 +3,7 @@ package pl.awkward.businessCard.converters;
 import org.springframework.stereotype.Service;
 import pl.awkward.businessCard.dtos.BusinessCardShowDto;
 import pl.awkward.businessCard.model_repo.BusinessCard;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 
 import java.util.function.Function;
 

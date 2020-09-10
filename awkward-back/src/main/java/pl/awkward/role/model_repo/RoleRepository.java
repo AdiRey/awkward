@@ -1,6 +1,6 @@
 package pl.awkward.role.model_repo;
 
-import pl.awkward.shared.BaseRepository;
+import pl.awkward.shared.baseStuff.BaseRepository;
 
 import java.util.Optional;
 

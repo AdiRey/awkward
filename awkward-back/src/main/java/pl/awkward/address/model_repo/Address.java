@@ -1,9 +1,11 @@
 package pl.awkward.address.model_repo;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
-import pl.awkward.shared.BaseEntity;
+import pl.awkward.shared.baseStuff.BaseEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,25 +19,14 @@ import java.time.LocalDateTime;
             @Index(columnList = "country,city")
         })
 @Data
-public class Address implements BaseEntity {
+@EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
+@ToString(callSuper = true, doNotUseGetters = true)
+public class Address extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false, length = 80)
+    @Column(name = "country", nullable = false, length = 80)
     private String country;
 
-    @Column(nullable = false, length = 80)
+    @Column(name = "city", nullable = false, length = 80)
     private String city;
-
-    @Column(columnDefinition = "boolean default true")
-    @Generated(GenerationTime.INSERT)
-    private Boolean active;
-
-    @Column(nullable = false)
-    private LocalDateTime addDate;
-
-    private LocalDateTime deleteDate;
 
 }

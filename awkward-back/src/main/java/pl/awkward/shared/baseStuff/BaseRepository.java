@@ -1,4 +1,4 @@
-package pl.awkward.shared;
+package pl.awkward.shared.baseStuff;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

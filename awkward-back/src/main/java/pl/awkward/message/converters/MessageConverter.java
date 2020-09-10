@@ -3,7 +3,7 @@ package pl.awkward.message.converters;
 import org.springframework.stereotype.Service;
 import pl.awkward.message.dtos.MessageDto;
 import pl.awkward.message.model_repo.Message;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 
 import java.util.function.Function;
 

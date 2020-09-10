@@ -1,4 +1,4 @@
-package pl.awkward.shared;
+package pl.awkward.shared.baseStuff;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

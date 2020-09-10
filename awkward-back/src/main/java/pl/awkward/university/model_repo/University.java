@@ -1,10 +1,12 @@
 package pl.awkward.university.model_repo;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import pl.awkward.address.model_repo.Address;
-import pl.awkward.shared.BaseEntity;
+import pl.awkward.shared.baseStuff.BaseEntity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,23 +16,12 @@ import java.time.LocalDateTime;
             {@UniqueConstraint(columnNames = {"name", "address_id"})},
         indexes = {@Index(name = "name_address_index", columnList = "name,address_id")})
 @Data
-public class University implements BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
+@ToString(callSuper = true, doNotUseGetters = true)
+public class University extends BaseEntity {
 
     @Column(nullable = false, length = 100)
     private String name;
-
-    @Column(columnDefinition = "boolean default true")
-    @Generated(GenerationTime.INSERT)
-    private Boolean active;
-
-    @Column(nullable = false)
-    private LocalDateTime addDate;
-
-    private LocalDateTime deleteDate;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = {CascadeType.PERSIST, CascadeType.DETACH})
     @JoinColumn(name = "address_id")

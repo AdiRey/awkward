@@ -1,11 +1,9 @@
 package pl.awkward.pair.converters;
 
 import org.springframework.stereotype.Service;
-import pl.awkward.liked.model_repo.Liked;
-import pl.awkward.liked.model_repo.UserIdsKey;
 import pl.awkward.pair.dtos.PairCreateDto;
 import pl.awkward.pair.model_repo.Pair;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 
 import java.util.function.Function;
 

@@ -1,7 +1,7 @@
 package pl.awkward.user.converters;
 
 import org.springframework.stereotype.Service;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 import pl.awkward.user.dtos.UserUpdateDto;
 import pl.awkward.user.model_repo.User;
 

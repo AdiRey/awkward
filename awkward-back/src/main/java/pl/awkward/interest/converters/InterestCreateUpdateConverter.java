@@ -3,7 +3,7 @@ package pl.awkward.interest.converters;
 import org.springframework.stereotype.Service;
 import pl.awkward.interest.dtos.InterestCreateUpdateDto;
 import pl.awkward.interest.model_repo.Interest;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 
 import java.util.function.Function;
 

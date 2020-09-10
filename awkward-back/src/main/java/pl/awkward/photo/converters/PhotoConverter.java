@@ -3,7 +3,7 @@ package pl.awkward.photo.converters;
 import org.springframework.stereotype.Service;
 import pl.awkward.photo.dtos.PhotoDto;
 import pl.awkward.photo.model_repo.Photo;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 
 import java.util.function.Function;
 

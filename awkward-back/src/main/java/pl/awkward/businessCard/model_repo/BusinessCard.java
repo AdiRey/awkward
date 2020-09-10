@@ -5,7 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
-import pl.awkward.shared.BaseEntity;
+import pl.awkward.shared.baseStuff.BaseEntity;
 import pl.awkward.user.model_repo.User;
 
 import javax.persistence.*;
@@ -14,9 +14,12 @@ import java.time.LocalDateTime;
 @Entity(name = "business_card")
 @Table(name = "business_card")
 @Data
-public class BusinessCard implements BaseEntity {
+@EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
+@ToString(callSuper = true, doNotUseGetters = true)
+public class BusinessCard extends BaseEntity {
 
     @Id
+    @AttributeOverride(name = "id", column = @Column(name = "id"))
     private Long id;
 
     @OneToOne(optional = false, mappedBy = "card")
@@ -27,23 +30,16 @@ public class BusinessCard implements BaseEntity {
     @Transient
     private User user;
 
-    @Column(length = 12)
+    @Column(name = "phone_number", length = 12)
     private String phoneNumber;
 
+    @Column(name = "facebook_url")
     private String facebookUrl;
 
+    @Column(name = "inst_url")
     private String instUrl;
 
-    @Column(length = 50)
+    @Column(name = "snap_name", length = 50)
     private String snapName;
-
-    @Column(columnDefinition = "boolean default true")
-    @Generated(GenerationTime.INSERT)
-    private Boolean active;
-
-    @Column(nullable = false)
-    private LocalDateTime addDate;
-
-    private LocalDateTime deleteDate;
 
 }

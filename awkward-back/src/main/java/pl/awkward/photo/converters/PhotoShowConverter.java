@@ -6,7 +6,7 @@ import pl.awkward.address.dtos.AddressShowDto;
 import pl.awkward.address.model_repo.Address;
 import pl.awkward.photo.dtos.PhotoShowDto;
 import pl.awkward.photo.model_repo.Photo;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 
 import java.util.function.Function;
 

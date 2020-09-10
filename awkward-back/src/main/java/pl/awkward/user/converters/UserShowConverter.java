@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.awkward.gender.GenderShowConverter;
 import pl.awkward.role.converters.RoleShowConverter;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 import pl.awkward.university.converters.UniversityShowConverter;
 import pl.awkward.user.dtos.UserShowDto;
 import pl.awkward.user.model_repo.User;

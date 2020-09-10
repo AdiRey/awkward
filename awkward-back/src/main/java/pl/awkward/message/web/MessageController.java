@@ -1,8 +1,6 @@
 package pl.awkward.message.web;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
@@ -13,7 +11,7 @@ import pl.awkward.message.dtos.MessageDto;
 import pl.awkward.message.model_repo.Message;
 import pl.awkward.message.model_repo.MessageRepository;
 import pl.awkward.pair.model_repo.PairRepository;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 
 import javax.validation.Valid;
 import java.io.IOException;

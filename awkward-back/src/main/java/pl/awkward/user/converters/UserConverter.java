@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.awkward.businessCard.converters.BusinessCardConverter;
 import pl.awkward.gender.GenderConverter;
 import pl.awkward.role.converters.RoleConverter;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 import pl.awkward.university.converters.UniversityConverter;
 import pl.awkward.user.dtos.UserDto;
 import pl.awkward.user.model_repo.User;

@@ -6,7 +6,7 @@ import lombok.ToString;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import pl.awkward.address.model_repo.Address;
-import pl.awkward.shared.BaseEntity;
+import pl.awkward.shared.baseStuff.BaseEntity;
 import pl.awkward.user.model_repo.User;
 
 import javax.persistence.*;
@@ -17,11 +17,9 @@ import java.time.LocalDateTime;
         name = "photo",
         indexes = {@Index(name = "user_index", columnList = "user_id,address_id")})
 @Data
-public class Photo implements BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
+@ToString(callSuper = true, doNotUseGetters = true)
+public class Photo extends BaseEntity {
 
     @Column(unique = true, nullable = false)
     private String path;
@@ -29,15 +27,6 @@ public class Photo implements BaseEntity {
     @Column(columnDefinition = "boolean default false")
     @Generated(GenerationTime.INSERT)
     private Boolean archive;
-
-    @Column(columnDefinition = "boolean default true")
-    @Generated(GenerationTime.INSERT)
-    private Boolean active;
-
-    @Column(nullable = false)
-    private LocalDateTime addDate;
-
-    private LocalDateTime deleteDate;
 
 
     /* ### RELATIONS ### */

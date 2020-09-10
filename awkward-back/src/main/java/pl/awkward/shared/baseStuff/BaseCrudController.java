@@ -1,4 +1,4 @@
-package pl.awkward.shared;
+package pl.awkward.shared.baseStuff;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

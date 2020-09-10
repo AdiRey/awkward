@@ -3,7 +3,7 @@ package pl.awkward.liked.converters;
 import org.springframework.stereotype.Service;
 import pl.awkward.liked.dtos.LikedCreateDto;
 import pl.awkward.liked.model_repo.Liked;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 
 import java.util.function.Function;
 

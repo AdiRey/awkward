@@ -7,9 +7,9 @@ import pl.awkward.interest.dtos.InterestCreateUpdateDto;
 import pl.awkward.interest.dtos.InterestDto;
 import pl.awkward.interest.dtos.InterestShowDto;
 import pl.awkward.interest.model_repo.Interest;
-import pl.awkward.shared.BaseConverter;
-import pl.awkward.shared.BaseCrudController;
-import pl.awkward.shared.BaseRepository;
+import pl.awkward.shared.baseStuff.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseCrudController;
+import pl.awkward.shared.baseStuff.BaseRepository;
 
 import javax.validation.Valid;
 

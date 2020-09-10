@@ -2,9 +2,7 @@ package pl.awkward.university.model_repo;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import pl.awkward.shared.BaseRepository;
-
-import java.util.Optional;
+import pl.awkward.shared.baseStuff.BaseRepository;
 
 public interface UniversityRepository extends BaseRepository<University> {
 

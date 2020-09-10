@@ -1,8 +1,6 @@
 package pl.awkward.pair.web;
 
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.jni.Local;
-import org.hibernate.id.GUIDGenerator;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Isolation;
@@ -14,7 +12,7 @@ import pl.awkward.liked.model_repo.LikedRepository;
 import pl.awkward.pair.dtos.PairCreateDto;
 import pl.awkward.pair.dtos.PairDto;
 import pl.awkward.pair.model_repo.Pair;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 
 import javax.validation.Valid;
 import java.net.URI;

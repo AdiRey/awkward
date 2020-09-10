@@ -3,7 +3,7 @@ package pl.awkward.address.converters;
 import org.springframework.stereotype.Service;
 import pl.awkward.address.dtos.AddressShowDto;
 import pl.awkward.address.model_repo.Address;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 
 import java.util.function.Function;
 

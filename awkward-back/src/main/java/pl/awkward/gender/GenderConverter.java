@@ -1,7 +1,7 @@
 package pl.awkward.gender;
 
 import org.springframework.stereotype.Service;
-import pl.awkward.shared.BaseConverter;
+import pl.awkward.shared.baseStuff.BaseConverter;
 
 import java.util.function.Function;
 

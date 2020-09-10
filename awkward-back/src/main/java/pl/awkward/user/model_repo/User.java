@@ -1,9 +1,8 @@
 package pl.awkward.user.model_repo;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Generated;
@@ -14,7 +13,7 @@ import pl.awkward.interest.model_repo.Interest;
 import pl.awkward.liked.model_repo.Liked;
 import pl.awkward.photo.model_repo.Photo;
 import pl.awkward.role.model_repo.Role;
-import pl.awkward.shared.BaseEntity;
+import pl.awkward.shared.baseStuff.BaseEntity;
 import pl.awkward.university.model_repo.University;
 import pl.awkward.user_address.model_repo.UserAddress;
 
@@ -27,12 +26,8 @@ import java.util.Set;
 @Entity(name = "user")
 @Table(name = "user")
 @Data
-public final class User implements BaseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@EqualsAndHashCode(callSuper = true)
+public final class User extends BaseEntity {
 
     @Column(unique = true, nullable = false, length = 20)
     private String username;
@@ -50,11 +45,6 @@ public final class User implements BaseEntity {
 
     @Column(nullable = false)
     private LocalDate dateOfBirth;
-
-    @Column(nullable = true) // @Column(nullable = false)
-    private LocalDateTime addDate;
-
-    private LocalDateTime deleteDate;
 
 
     @Column(nullable = false)
