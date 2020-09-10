@@ -1,8 +1,24 @@
+.shadow-right {
+  -webkit-box-shadow: 5px 0 11px 0 rgba(0,0,0,0.75);
+  -moz-box-shadow: 5px 0 11px 0 rgba(0,0,0,0.75);
+  box-shadow: 5px 0 11px 0 rgba(0,0,0,0.75);
+  z-index: 3;
+}
+
+@media (max-width: 991px) {
+  .shadow-right {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    z-index: 0;
+  }
+}
+
 #img-container {
   width: auto;
   height: 100%;
   min-height: 100vh;
-  background-image: url("src/assets/tlo2.jpg");
+  background-image: url("src/assets/tlo7.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -10,7 +26,7 @@
 
 .join-us {
   font-style: italic;
-  background: -webkit-linear-gradient(#eee, #333);
+  background: -webkit-linear-gradient(#eee, #888);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: bolder;
@@ -20,7 +36,8 @@
 }
 
 #logo {
-  background-color: rgba(0,0,0, 0.2);
+  background-color: rgba(0,0,0, 0.25);
+  width: 20% !important;
   border-radius: 3rem;
   -webkit-box-shadow: 0 0 16px 0 rgba(256,256,2,0.75);
   -moz-box-shadow: 0 0 16px 0 rgba(256,256,256,0.75);
@@ -31,9 +48,8 @@ footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 7%;
-  min-height: 7vh;
-  /*line-height: 2rem;*/
+  height: 5%;
+  min-height: 5vh;
   padding-right: 3rem;
   background-color: transparent;
 }
@@ -41,9 +57,16 @@ footer {
 footer a {
   color: white;
   font-style: oblique;
-  font-size: 1rem;
+  font-size: 1.2rem;
   text-decoration: none;
+  -webkit-text-stroke: 0.025rem black;
 }
 footer a:hover {
   color: lightgray;
+}
+
+span.text-white {
+  font-size: 1.2rem;
+  -webkit-text-stroke: 0.025rem black;
+  font-style: oblique;
 }

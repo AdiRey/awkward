@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { LoginRegisterService } from '../login-service.service';
-import {LoginForm} from '../login-form';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {UserService} from '../../sevices/user.service';
 import {Router} from '@angular/router';
 
 @Component({
@@ -14,9 +12,8 @@ export class LoginPageFormComponent implements OnInit {
   profileForm: FormGroup;
 
   constructor(
-    private readonly http: HttpClient,
     private readonly fb: FormBuilder,
-    private readonly loginRegisterService: LoginRegisterService,
+    private readonly userService: UserService,
     private readonly router: Router
   ) { }
 
@@ -29,8 +26,8 @@ export class LoginPageFormComponent implements OnInit {
 
   onSubmit(): void {
     console.log(this.profileForm.value);
-    let loginForm: LoginForm = {login: this.profileForm.value.login, password: this.profileForm.value.password};
-    this.loginRegisterService.login(loginForm)
+
+    this.userService.login(this.profileForm.value)
       .subscribe(
         response => {
           console.log(response);

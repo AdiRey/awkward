@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DESCRIPTION_REGEX, EMAIL_REGEX, NAME_AND_SURNAME_REGEX, PASSWORD_REGEX, USERNAME_REGEX} from './validators';
+import {DESCRIPTION_REGEX, EMAIL_REGEX, NAME_AND_SURNAME_REGEX, PASSWORD_REGEX, USERNAME_REGEX} from '../validator/validators';
+import {UserService} from '../sevices/user.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-layout-register-page',
@@ -13,7 +15,9 @@ export class LayoutRegisterPageComponent implements OnInit {
   private json: any;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private userService: UserService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -34,12 +38,22 @@ export class LayoutRegisterPageComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // console.log(this.profileForm.value);
     this.json = this.profileForm.value;
     this.json.name = this.profileForm.value.nameAndSurname.split(' ')[0];
     this.json.surname = this.profileForm.value.nameAndSurname.split(' ')[1];
     delete this.json.nameAndSurname;
     console.log(this.json);
+    this.userService.register(this.json)
+      .subscribe(
+        response => {
+          console.log(response);
+          this.router.navigate(['/start/login'])
+            .then(r => console.log(r))
+        },
+        err => {
+          console.error(err)
+        }
+      )
   }
 
 }

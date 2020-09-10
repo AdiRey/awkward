@@ -43,6 +43,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/users")
+@CrossOrigin
 public class UserController extends BaseCrudController<User> {
 
     private final static String USER = "USER";
