@@ -1,24 +1,18 @@
 package pl.awkward.university.web;
 
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import pl.awkward.address.model_repo.Address;
-import pl.awkward.address.model_repo.AddressRepository;
 import pl.awkward.shared.baseStuff.BaseConverter;
 import pl.awkward.shared.baseStuff.BaseCrudController;
 import pl.awkward.shared.baseStuff.BaseRepository;
-import pl.awkward.university.dtos.UniversityCreateUpdateDto;
 import pl.awkward.university.dtos.UniversityDto;
 import pl.awkward.university.dtos.UniversityShowDto;
 import pl.awkward.university.model_repo.University;
 
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/universities")
@@ -28,24 +22,16 @@ public class UniversityController extends BaseCrudController<University> {
 
     private final BaseConverter<University, UniversityShowDto> universityShowConverter;
 
-    private final BaseConverter<University, UniversityCreateUpdateDto> universityCreateUpdateConverter;
-
-    private final AddressRepository addressRepository;
-
     private final UniversityService universityService;
 
 
     public UniversityController(final BaseRepository<University> universityRepository,
                                 final BaseConverter<University, UniversityDto> universityConverter,
                                 final BaseConverter<University, UniversityShowDto> universityShowConverter,
-                                final BaseConverter<University, UniversityCreateUpdateDto> universityCreateUpdateConverter,
-                                final AddressRepository addressRepository,
                                 final UniversityService universityService) {
         super(universityRepository);
         this.universityConverter = universityConverter;
         this.universityShowConverter = universityShowConverter;
-        this.universityCreateUpdateConverter = universityCreateUpdateConverter;
-        this.addressRepository = addressRepository;
         this.universityService = universityService;
     }
 
@@ -93,15 +79,8 @@ public class UniversityController extends BaseCrudController<University> {
 
     @PostMapping("")
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
-    public ResponseEntity<Void> create(@RequestBody @Valid final UniversityCreateUpdateDto dto) {
-        Optional<Address> optional = this.addressRepository.findById(dto.getAddressId());
-
-        if (optional.isEmpty())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Adres nie istnieje.");
-
-        dto.setAddress(optional.get());
-
-        return super.create(dto, this.universityCreateUpdateConverter.toEntity());
+    public ResponseEntity<Void> create(@RequestBody @Valid final University university) {
+        return super.create(university);
     }
 
     /* ### DELETE ### */
@@ -114,16 +93,8 @@ public class UniversityController extends BaseCrudController<University> {
     /* ### PUT ### */
 
     @PutMapping("/{id}")
-    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
-    public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody @Valid final UniversityCreateUpdateDto dto) {
-        Optional<Address> optional = this.addressRepository.findById(dto.getAddressId());
-
-        if (optional.isEmpty())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Adres nie istnieje.");
-
-        dto.setAddress(optional.get());
-
-        boolean status = this.universityService.update(id, this.universityCreateUpdateConverter.toEntity().apply(dto));
+    public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody @Valid final University university) {
+        boolean status = this.universityService.update(id, university);
         return super.update(status);
     }
 }

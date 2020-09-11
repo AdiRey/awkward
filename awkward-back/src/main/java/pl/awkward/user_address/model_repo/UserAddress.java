@@ -14,16 +14,16 @@ public class UserAddress {
     /* ### ID ### */
 
     @EmbeddedId
-    private EmbeddedIds embeddedIds;
+    private EmbeddedIds embeddedIds = new EmbeddedIds();
 
     @ManyToOne(optional = false)
     @MapsId("userId")
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
     @ManyToOne(optional = false)
     @MapsId("addressId")
-    @JoinColumn(insertable = false, updatable = false)
+    @JoinColumn(name = "address_id" ,insertable = false, updatable = false)
     private Address address;
 
     /* ### OTHER FIELDS ### */

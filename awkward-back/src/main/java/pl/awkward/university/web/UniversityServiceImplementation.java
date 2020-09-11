@@ -4,6 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 import pl.awkward.university.model_repo.University;
 import pl.awkward.university.model_repo.UniversityRepository;
 
@@ -35,6 +37,7 @@ public class UniversityServiceImplementation implements UniversityService {
     }
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public boolean update(final Long id, final University updateUniversity) {
         Optional<University> optionalUniversity = this.universityRepository.findById(id);
         if (optionalUniversity.isEmpty())

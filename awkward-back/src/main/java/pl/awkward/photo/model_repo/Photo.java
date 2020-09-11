@@ -10,15 +10,17 @@ import pl.awkward.shared.baseStuff.BaseEntity;
 import pl.awkward.user.model_repo.User;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
-@Entity
-@Table(
-        name = "photo",
-        indexes = {@Index(name = "user_index", columnList = "user_id,address_id")})
+
 @Data
 @EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @ToString(callSuper = true, doNotUseGetters = true)
+@Entity(name = "photo")
+@Table(
+        name = "photo",
+        indexes = {
+                @Index(name = "user_index", columnList = "user_id,address_id")
+        })
 public class Photo extends BaseEntity {
 
     @Column(unique = true, nullable = false)

@@ -2,7 +2,6 @@ package pl.awkward.university.dtos;
 
 import lombok.Data;
 import pl.awkward.address.dtos.AddressDto;
-import pl.awkward.address.dtos.AddressShowDto;
 
 import java.time.LocalDateTime;
 

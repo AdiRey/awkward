@@ -33,7 +33,6 @@ public class UserRoleConverter extends BaseConverter<User, UserRoleDto> {
             UserRoleDto dto = new UserRoleDto();
 
             dto.setRole(user.getRole());
-            dto.setRoleId(user.getRole().getId());
 
             return dto;
         };

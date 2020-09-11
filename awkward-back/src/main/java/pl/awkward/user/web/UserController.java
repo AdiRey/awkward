@@ -13,19 +13,16 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.awkward.exceptions.OperationNotAllowedException;
 import pl.awkward.gender.Gender;
 import pl.awkward.gender.GenderRepository;
-import pl.awkward.liked.dtos.LikedCreateDto;
 import pl.awkward.liked.dtos.LikedDto;
 import pl.awkward.liked.model_repo.Liked;
 import pl.awkward.liked.web.LikedService;
 import pl.awkward.photo.dtos.PhotoShowDto;
 import pl.awkward.photo.model_repo.Photo;
 import pl.awkward.photo.web.PhotoService;
-import pl.awkward.role.model_repo.Role;
-import pl.awkward.role.model_repo.RoleRepository;
 import pl.awkward.shared.ApiList;
+import pl.awkward.shared.JsonBuilder;
 import pl.awkward.shared.baseStuff.BaseConverter;
 import pl.awkward.shared.baseStuff.BaseCrudController;
-import pl.awkward.shared.JsonBuilder;
 import pl.awkward.university.model_repo.University;
 import pl.awkward.university.model_repo.UniversityRepository;
 import pl.awkward.user.dtos.*;
@@ -48,8 +45,6 @@ public class UserController extends BaseCrudController<User> {
 
     private final BaseConverter<User, UserDto> userConverter;
 
-    private final BaseConverter<User, UserCreateDto> userCreateConverter;
-
     private final BaseConverter<User, UserUpdateDto> userUpdateConverter;
 
     private final BaseConverter<User, UserPasswordDto> userPasswordConverter;
@@ -66,23 +61,16 @@ public class UserController extends BaseCrudController<User> {
 
     private final BaseConverter<Liked, LikedDto> likedConverter;
 
-    private final BaseConverter<Liked, LikedCreateDto> likedCreateConverter;
-
     private final LikedService likedService;
 
     private final BaseConverter<User, UserShowDto> userShowConverter;
-
-    private final RoleRepository roleRepository;
 
     private final GenderRepository genderRepository;
 
     private final UniversityRepository universityRepository;
 
-    private final UserRepository userRepository;
-
     public UserController(final UserRepository userRepository,
                           final BaseConverter<User, UserDto> userConverter,
-                          final BaseConverter<User, UserCreateDto> userCreateConverter,
                           final BaseConverter<User, UserUpdateDto> userUpdateConverter,
                           final BaseConverter<User, UserPasswordDto> userPasswordConverter,
                           final BaseConverter<User, UserRoleDto> userRoleConverter,
@@ -91,16 +79,12 @@ public class UserController extends BaseCrudController<User> {
                           final BaseConverter<Photo, PhotoShowDto> photoShowConverter,
                           final PasswordEncoder passwordEncoder,
                           final BaseConverter<Liked, LikedDto> likedConverter,
-                          final BaseConverter<Liked, LikedCreateDto> likedCreateConverter,
                           final LikedService likedService,
                           final BaseConverter<User, UserShowDto> userShowConverter,
-                          final RoleRepository roleRepository,
                           final UniversityRepository universityRepository,
                           final GenderRepository genderRepository) {
         super(userRepository);
-        this.userRepository = userRepository;
         this.userConverter = userConverter;
-        this.userCreateConverter = userCreateConverter;
         this.userUpdateConverter = userUpdateConverter;
         this.userPasswordConverter = userPasswordConverter;
         this.userRoleConverter = userRoleConverter;
@@ -109,10 +93,8 @@ public class UserController extends BaseCrudController<User> {
         this.photoShowConverter = photoShowConverter;
         this.passwordEncoder = passwordEncoder;
         this.likedConverter = likedConverter;
-        this.likedCreateConverter = likedCreateConverter;
         this.likedService = likedService;
         this.userShowConverter = userShowConverter;
-        this.roleRepository = roleRepository;
         this.genderRepository = genderRepository;
         this.universityRepository = universityRepository;
     }
@@ -188,21 +170,12 @@ public class UserController extends BaseCrudController<User> {
 
 
     @PostMapping("")
-    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
-    public ResponseEntity<Void> create(@RequestBody @Valid UserCreateDto dto) {
+    public ResponseEntity<Void> create(@RequestBody @Valid User user) {
 
-        Optional<Role> optionalRole = this.roleRepository.findByName(USER);
-        Optional<Gender> optionalGender = this.genderRepository.findById(dto.getGenderId());
+        user.setAge(Period.between(user.getDateOfBirth(), LocalDate.now()).getYears());
+        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 
-        if (optionalGender.isEmpty() || optionalRole.isEmpty())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Rola albo płeć z takim id nie istnieje.");
-
-        dto.setAge(Period.between(dto.getDateOfBirth(), LocalDate.now()).getYears());
-        dto.setPassword(this.passwordEncoder.encode(dto.getPassword()));
-        dto.setGender(optionalGender.get());
-        dto.setRole(optionalRole.get());
-
-        ResponseEntity<Void> voidResponseEntity = super.create(dto, this.userCreateConverter.toEntity());
+        ResponseEntity<Void> voidResponseEntity = super.create(user);
 
         try {
             String[] split = Objects.requireNonNull(voidResponseEntity.getHeaders().getLocation()).getPath().split("/");
@@ -229,29 +202,16 @@ public class UserController extends BaseCrudController<User> {
     }
 
     @PostMapping("/liked") //it is possible to like someone who's been already deleted, but: does it matter?
-    public ResponseEntity<Void> createLike(@RequestBody @Valid final LikedCreateDto dto) {
-        if (dto.getFirstUserId().equals(dto.getSecondUserId()))
+    public ResponseEntity<Void> createLike(@RequestBody @Valid final Liked liked) {
+        if (liked.getFirstUser().getId().equals(liked.getSecondUser().getId()))
             throw new OperationNotAllowedException("Nie możesz dać sam sobie lajka.");
 
-        final Optional<User> first = this.userRepository.findById(dto.getFirstUserId());
-        final Optional<User> second = this.userRepository.findById(dto.getSecondUserId());
-
-        if (first.isEmpty() || second.isEmpty()) {
-            throw new IllegalArgumentException("Userzy nie istnieja.");
-        }
-
-        dto.setFirstUser(first.get());
-        dto.setSecondUser(second.get());
-
-        Liked liked = this.likedCreateConverter.toEntity().apply(dto);
         final Liked saved;
 
         if (!this.likedService.exists(liked))
             saved = this.likedService.save(liked);
         else
             saved = this.likedService.update(liked);
-
-
 
         if (saved.getFirstStatus() != null && saved.getSecondStatus() != null) {
             final RestTemplate restTemplate = new RestTemplate();
@@ -276,6 +236,7 @@ public class UserController extends BaseCrudController<User> {
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(saved.getId()).toUri();
+
         return ResponseEntity.created(location).build();
     }
 
@@ -316,14 +277,6 @@ public class UserController extends BaseCrudController<User> {
 
     @PatchMapping("/{id}/role")
     public ResponseEntity<Void> updateRole(@PathVariable final Long id, @RequestBody @Valid final UserRoleDto dto) {
-
-        Optional<Role> optionalRole = this.roleRepository.findById(dto.getRoleId());
-
-        if (optionalRole.isEmpty())
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Rola z takim id nie istnieje.");
-
-        dto.setRole(optionalRole.get());
-
         if (this.userService.updateRole(id, this.userRoleConverter.toEntity().apply(dto)))
             return ResponseEntity.noContent().build();
         return ResponseEntity.notFound().build();

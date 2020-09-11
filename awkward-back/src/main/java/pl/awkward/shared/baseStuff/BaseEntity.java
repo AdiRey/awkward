@@ -1,6 +1,8 @@
 package pl.awkward.shared.baseStuff;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
@@ -9,11 +11,10 @@ import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-@MappedSuperclass
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode(doNotUseGetters = true)
 @ToString(doNotUseGetters = true)
+@MappedSuperclass
 public class BaseEntity implements Serializable {
 
     @Id

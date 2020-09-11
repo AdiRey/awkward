@@ -3,26 +3,23 @@ package pl.awkward.address.model_repo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
 import pl.awkward.shared.baseStuff.BaseEntity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
 
-@Entity(name = "address")
-@Table(name = "address",
-        uniqueConstraints = {
-            @UniqueConstraint(columnNames = {"country", "city"})
-        },
-        indexes = {
-            @Index(columnList = "country,city")
-        })
 @Data
 @EqualsAndHashCode(callSuper = true, doNotUseGetters = true)
 @ToString(callSuper = true, doNotUseGetters = true)
+@Entity(name = "address")
+@Table(name = "address",
+        indexes = {
+                @Index(name = "address_country_city_index", columnList = "country,city", unique = true)
+        })
 public class Address extends BaseEntity {
 
     @Column(name = "country", nullable = false, length = 80)

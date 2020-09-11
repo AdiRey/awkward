@@ -2,7 +2,7 @@ package pl.awkward.user.model_repo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.Generated;
@@ -18,46 +18,55 @@ import pl.awkward.university.model_repo.University;
 import pl.awkward.user_address.model_repo.UserAddress;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
-@Entity(name = "user")
-@Table(name = "user")
 @Data
 @EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
+@Entity(name = "user")
+@Table(name = "user",
+        indexes = {
+            @Index(name = "user_username_index", columnList = "username"),
+            @Index(name = "user_email_index", columnList = "email")
+        })
 public final class User extends BaseEntity {
 
-    @Column(unique = true, nullable = false, length = 20)
+    @Column(name = "username", unique = true, nullable = false, length = 20)
     private String username;
 
-    @Column(unique = true, nullable = false, length = 150)
+    @Column(name = "email", unique = true, nullable = false, length = 150)
     private String email;
 
 
-    @Column(nullable = false, length = 50)
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @Column(nullable = false, length = 70)
+    @Column(name = "surname", nullable = false, length = 70)
     private String surname;
 
 
-    @Column(nullable = false)
+    @Column(name = "date_of_birth", nullable = false)
     private LocalDate dateOfBirth;
 
 
-    @Column(nullable = false)
+    @Column(name = "age", nullable = false)
     private Integer age;
 
+    @Column(name = "description")
     @Lob
     private String description;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
+    @Pattern(regexp = "(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%#*?&])[A-Za-z\\d@$!%#*?&]{8,}$",
+            message = "Password should have: Minimum eight characters, at least one uppercase letter, one " +
+                    "lowercase letter, one number and one special character.")
     private String password;
 
 
-    @Column(columnDefinition = "boolean default true")
+    @Column(name = "active", columnDefinition = "boolean default true")
     @Generated(GenerationTime.INSERT)
     private Boolean active;
 
@@ -70,24 +79,26 @@ public final class User extends BaseEntity {
 
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "gender_id", insertable = false, updatable = false)
     private Gender gender;
 
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "role_id", insertable = false, updatable = false)
     private Role role;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.DETACH})
     private University university;
 
 
-    @OneToMany(mappedBy = "user",
-            fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Photo> photos;
 
 
     @OneToMany(mappedBy = "user",
-            fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+            fetch = FetchType.EAGER, cascade = CascadeType.ALL,
+            orphanRemoval = true)
     @OrderBy("position asc")
     private List<UserAddress> userAddresses;
 
@@ -96,7 +107,7 @@ public final class User extends BaseEntity {
     @JoinTable(name = "user_interest",
             joinColumns = {@JoinColumn(name = "id_user", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "id_interest", referencedColumnName = "id")},
-            indexes = {@Index(name = "user_interest_index", unique = true, columnList = "id_user,id_interest")})
+            indexes = {@Index(name = "user_interest_index", columnList = "id_user,id_interest", unique = true)})
     @Fetch(FetchMode.SELECT)
     private List<Interest> interests;
 
@@ -113,5 +124,10 @@ public final class User extends BaseEntity {
     @OneToMany(mappedBy = "secondUser",
             fetch = FetchType.LAZY)
     private List<Liked> secondLikes;
+
+
+    public User(Long id) {
+        super.setId(id);
+    }
 
 }

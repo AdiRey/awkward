@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.awkward.liked.model_repo.Liked;
 import pl.awkward.liked.model_repo.LikedRepository;
-import pl.awkward.pair.dtos.PairCreateDto;
 import pl.awkward.pair.dtos.PairDto;
 import pl.awkward.pair.model_repo.Pair;
 import pl.awkward.shared.baseStuff.BaseConverter;
@@ -23,11 +22,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/pairs")
 @RequiredArgsConstructor
-public class PairController{
+public class PairController {
 
     private final BaseConverter<Pair, PairDto> pairConverter;
-
-    private final BaseConverter<Pair, PairCreateDto> pairCreateConverter;
 
     private final PairService pairService;
 
@@ -53,8 +50,8 @@ public class PairController{
 
     @GetMapping("/{userId}/all")
     public ResponseEntity<Page<PairDto>> getAllByUserId(@PathVariable final Long userId,
-                                          @RequestParam(defaultValue = "0") final int page,
-                                          @RequestParam(defaultValue = "20") final int size) {
+                                                        @RequestParam(defaultValue = "0") final int page,
+                                                        @RequestParam(defaultValue = "20") final int size) {
         return ResponseEntity.ok(this.pairService.getAllByUserId(userId, page, size).map(this.pairConverter.toDto()));
     }
 
@@ -64,23 +61,22 @@ public class PairController{
 
     @PostMapping("")
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
-    public ResponseEntity<Void> create(@RequestBody @Valid PairCreateDto dto) {
-        Optional<Liked> optionalLiked =
-                this.likedRepository.findById_FirstUserIdAndId_SecondUserId(dto.getFirstUserId(), dto.getSecondUserId());
+    public ResponseEntity<Void> create(@RequestBody @Valid Pair pair) {
+        Optional<Liked> optional = this.likedRepository.findById_FirstUserIdAndId_SecondUserId(
+                pair.getLiked().getFirstUser().getId(),
+                pair.getLiked().getSecondUser().getId()
+        );
 
-        if (optionalLiked.isEmpty())
-            throw new IllegalArgumentException("Nie można utworzyć pary bez lajków");
+        if (optional.isEmpty())
+            throw new IllegalArgumentException("Między tymi użytkownikami nie relacji");
 
-        Liked liked = optionalLiked.get();
+        Liked liked = optional.get();
 
         if (liked.getFirstStatus() == null || liked.getSecondStatus() == null)
             throw new IllegalArgumentException("Brak relacji dwustronnej.");
 
-        Pair pair = this.pairCreateConverter.toEntity().apply(dto);
-
         pair.setTopic(UUID.randomUUID().toString());
         pair.setAddDate(LocalDateTime.now());
-        pair.setLiked(liked);
 
         Pair saved = this.pairService.save(pair);
 

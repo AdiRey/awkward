@@ -68,6 +68,8 @@ public class UserServiceImplementation implements pl.awkward.user.web.UserServic
 
         User user = optionalUser.get();
 
+        user.setAge(Period.between(user.getDateOfBirth(), LocalDate.now()).getYears());
+
         user.setEmail(updateUser.getEmail());
         user.setUsername(updateUser.getUsername());
 

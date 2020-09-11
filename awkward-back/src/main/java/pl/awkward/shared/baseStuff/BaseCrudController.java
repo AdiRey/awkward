@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -55,7 +56,7 @@ public abstract class BaseCrudController<E extends BaseEntity> {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @Transactional
+//    @Transactional
     protected <T> ResponseEntity<Void> create(final E e) {
         e.setAddDate(LocalDateTime.now());
         E saved = this.repository.save(e);
@@ -68,7 +69,7 @@ public abstract class BaseCrudController<E extends BaseEntity> {
         return status ? ResponseEntity.ok().build() : ResponseEntity.notFound().build();
     }
 
-    @Transactional
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     protected ResponseEntity<Void> delete(final Long id) {
         Optional<E> optional = this.repository.findById(id);
 

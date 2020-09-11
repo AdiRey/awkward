@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 
-public interface LikedRepository extends JpaRepository<Liked, Long> {
+public interface LikedRepository extends JpaRepository<Liked, UserIdsKey> {
 
     Page<Liked> findAllById_FirstUserIdOrId_SecondUserId(Long firstUserId, Long secondUserId, Pageable pageable);
 

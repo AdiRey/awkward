@@ -43,12 +43,10 @@ public class PhotoServiceImplementation implements PhotoService {
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public Photo save(Long userId, MultipartFile file) {
         Photo photo = new Photo();
-        Optional<User> optionalUser = this.userRepository.findById(userId);
+        Optional<User> optionalUser = this.userRepository.findById(userId); // todo is it necessary?
 
         if (optionalUser.isEmpty())
-            throw new IllegalArgumentException("Użytkownik z tym id nie istenieje");
-
-        User user = optionalUser.get();
+            throw new IllegalArgumentException("Użytkownik z tym id nie istenieje"); // to here
 
         photo.setAddDate(LocalDateTime.now());
 
@@ -60,7 +58,6 @@ public class PhotoServiceImplementation implements PhotoService {
             Files.copy(inputStream, Paths.get(final_path), StandardCopyOption.REPLACE_EXISTING);
 
             photo.setPath(final_path);
-            photo.setUser(user);
 
         } catch (IOException | InvalidPathException | NullPointerException e) {
             throw new IllegalArgumentException("There is unexpected error, please contact us.");

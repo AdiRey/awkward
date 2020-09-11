@@ -71,4 +71,5 @@ public class PhotoController extends BaseCrudController<Photo> {
     public ResponseEntity<Void> updateArchive(@PathVariable final Long id, @RequestParam boolean isActive) {
         return super.update(this.photoService.updateArchive(id, isActive));
     }
+
 }
