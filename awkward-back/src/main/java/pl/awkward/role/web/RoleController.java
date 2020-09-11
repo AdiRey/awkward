@@ -3,7 +3,6 @@ package pl.awkward.role.web;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.awkward.role.dtos.RoleCreateUpdateDto;
 import pl.awkward.role.dtos.RoleDto;
 import pl.awkward.role.dtos.RoleShowDto;
 import pl.awkward.role.model_repo.Role;
@@ -21,20 +20,16 @@ public class RoleController extends BaseCrudController<Role> {
 
     private final BaseConverter<Role, RoleShowDto> roleShowConverter;
 
-    private final BaseConverter<Role, RoleCreateUpdateDto> roleCreateConverter;
-
     private final RoleService roleService;
 
 
     public RoleController(final BaseRepository<Role> roleRepository,
                           final BaseConverter<Role, RoleDto> roleConverter,
                           final BaseConverter<Role, RoleShowDto> roleShowConverter,
-                          final BaseConverter<Role, RoleCreateUpdateDto> roleCreateConverter,
                           final RoleService roleService) {
         super(roleRepository);
         this.roleConverter = roleConverter;
         this.roleShowConverter = roleShowConverter;
-        this.roleCreateConverter = roleCreateConverter;
         this.roleService = roleService;
     }
 
@@ -69,8 +64,8 @@ public class RoleController extends BaseCrudController<Role> {
     /* ### POST ### */
 
     @PostMapping("")
-    public ResponseEntity<Void> create(@RequestBody @Valid final RoleCreateUpdateDto dto) {
-        return super.create(dto, this.roleCreateConverter.toEntity());
+    public ResponseEntity<Void> create(@RequestBody @Valid final Role role) {
+        return super.create(role);
     }
 
     /* ### DELETE ### */
@@ -83,8 +78,8 @@ public class RoleController extends BaseCrudController<Role> {
     /* ### PUT ### */
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody @Valid final RoleCreateUpdateDto dto) {
-        boolean status = this.roleService.update(id, this.roleCreateConverter.toEntity().apply(dto));
+    public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody @Valid final Role role) {
+        boolean status = this.roleService.update(id, role);
         return super.update(status);
     }
 }

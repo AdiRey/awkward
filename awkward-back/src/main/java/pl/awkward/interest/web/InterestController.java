@@ -3,7 +3,6 @@ package pl.awkward.interest.web;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.awkward.interest.dtos.InterestCreateUpdateDto;
 import pl.awkward.interest.dtos.InterestDto;
 import pl.awkward.interest.dtos.InterestShowDto;
 import pl.awkward.interest.model_repo.Interest;
@@ -19,20 +18,16 @@ public class InterestController extends BaseCrudController<Interest> {
 
     private final BaseConverter<Interest, InterestDto> interestConverter;
 
-    private final BaseConverter<Interest, InterestCreateUpdateDto> interestCreateUpdateConverter;
-
     private final BaseConverter<Interest, InterestShowDto> interestShowConverter;
 
     private final InterestService interestService;
 
     public InterestController(final BaseRepository<Interest> repository,
                               final BaseConverter<Interest, InterestDto> interestConverter,
-                              final BaseConverter<Interest, InterestCreateUpdateDto> interestCreateUpdateConverter,
                               final BaseConverter<Interest, InterestShowDto> interestShowConverter,
                               final InterestService interestService) {
         super(repository);
         this.interestConverter = interestConverter;
-        this.interestCreateUpdateConverter = interestCreateUpdateConverter;
         this.interestShowConverter = interestShowConverter;
         this.interestService = interestService;
     }
@@ -80,8 +75,8 @@ public class InterestController extends BaseCrudController<Interest> {
     /* ### POST ### */
 
     @PostMapping("")
-    public ResponseEntity<Void> create(@RequestBody @Valid final InterestCreateUpdateDto dto) {
-        return super.create(dto, this.interestCreateUpdateConverter.toEntity());
+    public ResponseEntity<Void> create(@RequestBody @Valid final Interest interest) {
+        return super.create(interest);
     }
 
     /* ### DELETE ### */
@@ -94,8 +89,8 @@ public class InterestController extends BaseCrudController<Interest> {
     /* ### PUT ### */
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody @Valid final InterestCreateUpdateDto dto) {
-        boolean status = this.interestService.update(id, interestCreateUpdateConverter.toEntity().apply(dto));
+    public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody @Valid final Interest interest) {
+        boolean status = this.interestService.update(id, interest);
         return super.update(status);
     }
 }

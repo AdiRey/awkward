@@ -56,8 +56,7 @@ public abstract class BaseCrudController<E extends BaseEntity> {
     }
 
     @Transactional
-    protected <T> ResponseEntity<Void> create(final T t, Function<T, E> converter) {
-        E e = converter.apply(t);
+    protected <T> ResponseEntity<Void> create(final E e) {
         e.setAddDate(LocalDateTime.now());
         E saved = this.repository.save(e);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")

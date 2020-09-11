@@ -3,7 +3,6 @@ package pl.awkward.address.web;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.awkward.address.dtos.AddressCreateUpdateDto;
 import pl.awkward.address.dtos.AddressDto;
 import pl.awkward.address.dtos.AddressShowDto;
 import pl.awkward.address.model_repo.Address;
@@ -19,8 +18,6 @@ public class AddressController extends BaseCrudController<Address> {
 
     private final BaseConverter<Address, AddressDto> addressConverter;
 
-    private final BaseConverter<Address, AddressCreateUpdateDto> addressCreateUpdateConverter;
-
     private final BaseConverter<Address, AddressShowDto> addressShowConverter;
 
     private final AddressService addressService;
@@ -28,12 +25,10 @@ public class AddressController extends BaseCrudController<Address> {
 
     public AddressController(final BaseRepository<Address> repository,
                              final BaseConverter<Address, AddressDto> addressConverter,
-                             final BaseConverter<Address, AddressCreateUpdateDto> addressCreateUpdateConverter,
                              final BaseConverter<Address, AddressShowDto> addressShowConverter,
                              final AddressService addressService) {
         super(repository);
         this.addressConverter = addressConverter;
-        this.addressCreateUpdateConverter = addressCreateUpdateConverter;
         this.addressService = addressService;
         this.addressShowConverter = addressShowConverter;
     }
@@ -81,8 +76,8 @@ public class AddressController extends BaseCrudController<Address> {
     /* ### POST ### */
 
     @PostMapping("")
-    public ResponseEntity<Void> create(@RequestBody @Valid final AddressCreateUpdateDto dto) {
-        return super.create(dto, this.addressCreateUpdateConverter.toEntity());
+    public ResponseEntity<Void> create(@RequestBody @Valid final Address address) {
+        return super.create(address);
     }
 
     /* ### DELETE ### */
@@ -95,8 +90,8 @@ public class AddressController extends BaseCrudController<Address> {
     /* ### PUT ### */
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody @Valid final AddressCreateUpdateDto dto) {
-        boolean status = this.addressService.update(id, this.addressCreateUpdateConverter.toEntity().apply(dto));
+    public ResponseEntity<Void> update(@PathVariable final Long id, @RequestBody @Valid final Address address) {
+        boolean status = this.addressService.update(id, address);
         return super.update(status);
     }
 

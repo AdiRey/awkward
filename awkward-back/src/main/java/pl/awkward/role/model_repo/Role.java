@@ -8,6 +8,10 @@ import org.hibernate.annotations.GenerationTime;
 import pl.awkward.shared.baseStuff.BaseEntity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,9 +21,13 @@ import java.time.LocalDateTime;
 public class Role extends BaseEntity {
 
     @Column(unique = true, nullable = false, length = 20)
+    @NotBlank
+    @Size(min = 2, max = 20, message = "Property: name; Min chars: 2; Max chars: 20")
     private String name;
 
     @Column(nullable = false)
+    @NotNull
+    @Min(value = 0, message = "Property: status; Min value: 0")
     private Integer status;
 
 }
