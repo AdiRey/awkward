@@ -18,7 +18,7 @@ import pl.awkward.university.model_repo.University;
 import pl.awkward.user_address.model_repo.UserAddress;
 
 import javax.persistence.*;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -35,24 +35,35 @@ import java.util.Set;
 public final class User extends BaseEntity {
 
     @Column(name = "username", unique = true, nullable = false, length = 20)
+    @NotBlank(message = "Username cannot be blank.")
+    @Size(min = 5, max = 20, message = "Username should have 5 or more characters but less than or equals to 20.")
     private String username;
 
     @Column(name = "email", unique = true, nullable = false, length = 150)
+    @Email(message = "Email has to be correct.")
     private String email;
 
 
     @Column(name = "name", nullable = false, length = 50)
+    @NotBlank(message = "Name should not be blank.")
+    @Size(max = 50, message = "Name cannot be longer than 50 characters.")
+    @Size(min = 2, message = "Name cannot be shorter than 2 characters.")
     private String name;
 
     @Column(name = "surname", nullable = false, length = 70)
+    @NotBlank(message = "Surname should not be blank.")
+    @Size(max = 70, message = "Surname cannot be longer than 70 characters.")
+    @Size(min = 2, message = "Surname cannot be shorter than 2 characters.")
     private String surname;
 
 
     @Column(name = "date_of_birth", nullable = false)
+    @NotNull(message = "Date of birth cannot be null.")
     private LocalDate dateOfBirth;
 
 
     @Column(name = "age", nullable = false)
+    @Size(max = 1000, message = "Description cannot be longer than 1000 characters.")
     private Integer age;
 
     @Column(name = "description")

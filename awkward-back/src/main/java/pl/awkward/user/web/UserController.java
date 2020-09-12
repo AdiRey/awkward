@@ -41,8 +41,6 @@ import java.util.Optional;
 @CrossOrigin
 public class UserController extends BaseCrudController<User> {
 
-    private final static String USER = "USER";
-
     private final BaseConverter<User, UserDto> userConverter;
 
     private final BaseConverter<User, UserUpdateDto> userUpdateConverter;

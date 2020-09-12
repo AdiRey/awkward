@@ -30,12 +30,12 @@ public class MessageConfiguration implements WebSocketMessageBrokerConfigurer {
                 .enableSimpleBroker("/t", "/q");
     }
 
-    @Bean
-    public ServletServerContainerFactoryBean createWebSocketContainer() {
-        ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
-        container.setMaxTextMessageBufferSize(8192);
-        container.setMaxBinaryMessageBufferSize(8192);
-        return container;
-    }
+//    @Bean
+//    public ServletServerContainerFactoryBean createWebSocketContainer() {
+//        ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
+//        container.setMaxTextMessageBufferSize(8192);
+//        container.setMaxBinaryMessageBufferSize(8192);
+//        return container;
+//    }
 
 }
