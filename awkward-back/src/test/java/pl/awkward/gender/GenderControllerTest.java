@@ -1,7 +1,6 @@
 package pl.awkward.gender;
 
 import org.assertj.core.util.Lists;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -73,10 +72,6 @@ class GenderControllerTest {
         when(this.genderRepository.findById(1L)).thenReturn(Optional.of(man));
         when(this.genderRepository.findById(2L)).thenReturn(Optional.of(woman));
 
-    }
-
-    @AfterEach
-    void tearDown() {
     }
 
     @Test
